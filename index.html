@@ -3,116 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shikara Loading Bar</title>
+  <title>Premium Shikara Loading Bar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <main class="page-loader" id="pageLoader">
-    <section class="loader-box" aria-label="Kashmir tours loading animation">
-      <div class="loading-track" id="track">
+  <main class="loader-screen" id="loaderScreen">
+    <section class="loader-card" aria-label="Kashmir Shikara loading bar">
+      <div class="bar-wrap" id="barWrap">
 
-        <div class="water-fill" id="waterFill">
-          <svg class="wave wave-back" viewBox="0 0 900 44" preserveAspectRatio="none">
-            <path d="M0 24 C45 8, 90 40, 135 24 S225 8, 270 24 S360 40, 405 24 S495 8, 540 24 S630 40, 675 24 S765 8, 810 24 S900 40, 945 24 L945 44 L0 44 Z"/>
-          </svg>
+        <div class="track">
+          <div class="water-fill" id="waterFill">
+            <svg class="wave wave-back" viewBox="0 0 900 80" preserveAspectRatio="none">
+              <path d="M0 44 C55 18, 110 70, 165 44 S275 18, 330 44 S440 70, 495 44 S605 18, 660 44 S770 70, 825 44 S935 18, 990 44 L990 80 L0 80 Z"/>
+            </svg>
 
-          <svg class="wave wave-front" viewBox="0 0 900 44" preserveAspectRatio="none">
-            <path d="M0 22 C45 10, 90 34, 135 22 S225 10, 270 22 S360 34, 405 22 S495 10, 540 22 S630 34, 675 22 S765 10, 810 22 S900 34, 945 22 L945 44 L0 44 Z"/>
+            <svg class="wave wave-front" viewBox="0 0 900 80" preserveAspectRatio="none">
+              <path d="M0 39 C50 22, 100 56, 150 39 S250 22, 300 39 S400 56, 450 39 S550 22, 600 39 S700 56, 750 39 S850 22, 900 39 L900 80 L0 80 Z"/>
+            </svg>
+
+            <div class="foam-layer"></div>
+          </div>
+
+          <div class="bar-gloss" id="barGloss"></div>
+        </div>
+
+        <div class="boat-holder" id="boatHolder">
+          <img
+            src="assets/premium-shikara-rower.png"
+            alt="Premium Kashmir shikara with rower"
+            class="shikara-img"
+            draggable="false"
+          />
+
+          <svg class="animated-oar" id="animatedOar" viewBox="0 0 120 90" aria-hidden="true">
+            <path class="oar-stick" d="M20 46 L92 18" />
+            <path class="oar-blade" d="M92 18 C105 12 116 15 122 25 C107 29 98 27 92 18 Z" />
           </svg>
         </div>
 
-        <div class="water-shine" id="waterShine"></div>
-
-        <div class="boat-wrap" id="boatWrap">
-          <svg class="boat-svg" viewBox="0 0 260 130" aria-label="Side view Kashmir shikara with rower">
-            <defs>
-              <linearGradient id="hullGradient" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#F7D66A"/>
-                <stop offset="42%" stop-color="#D4AF37"/>
-                <stop offset="100%" stop-color="#7A4E16"/>
-              </linearGradient>
-
-              <linearGradient id="woodGradient" x1="0" x2="1">
-                <stop offset="0%" stop-color="#3A2210"/>
-                <stop offset="45%" stop-color="#A26A24"/>
-                <stop offset="100%" stop-color="#2A1609"/>
-              </linearGradient>
-
-              <linearGradient id="canopyGradient" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#FFF2B7"/>
-                <stop offset="52%" stop-color="#D4AF37"/>
-                <stop offset="100%" stop-color="#7A4E16"/>
-              </linearGradient>
-
-              <filter id="boatShadow" x="-20%" y="-20%" width="140%" height="150%">
-                <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity=".28"/>
-              </filter>
-            </defs>
-
-            <g class="boat-float" filter="url(#boatShadow)">
-              <!-- Real side-view shikara hull: long, slim, pointed nose, raised carved back -->
-              <path class="hull-main"
-                d="M18 82
-                   C55 82 94 75 135 75
-                   C180 75 216 67 250 52
-                   C241 72 221 88 186 99
-                   C132 116 62 105 18 82 Z" />
-
-              <path class="hull-line" d="M18 82 C6 78 1 70 0 61 C14 70 30 75 51 78"/>
-              <path class="hull-line" d="M250 52 C259 40 262 25 255 13 C250 31 239 46 220 58"/>
-              <path class="hull-rim" d="M22 81 C76 64 178 73 250 52"/>
-              <path class="wood-panel" d="M46 86 C88 99 167 101 214 84 C173 92 91 91 46 86 Z"/>
-
-              <!-- Shikara canopy -->
-              <path class="post" d="M75 76 L75 34"/>
-              <path class="post" d="M105 73 L105 28"/>
-              <path class="post" d="M170 70 L170 28"/>
-              <path class="post" d="M200 64 L200 34"/>
-
-              <path class="canopy"
-                d="M68 35 C95 16 175 16 207 35
-                   C197 46 180 51 160 52
-                   C128 45 102 45 78 52
-                   C72 46 69 40 68 35 Z" />
-
-              <path class="canopy-line" d="M68 35 C95 16 175 16 207 35"/>
-              <path class="canopy-line" d="M78 52 C102 45 128 45 160 52 C180 51 197 46 207 35"/>
-
-              <!-- Curtains and cushions -->
-              <path class="curtain" d="M74 36 C82 24 99 24 105 28 L105 73 C94 69 84 70 75 76 Z"/>
-              <path class="curtain rear" d="M170 28 C183 22 199 26 207 35 L200 64 C188 61 179 64 170 70 Z"/>
-              <path class="pattern" d="M84 43 C90 49 96 38 102 43"/>
-              <path class="pattern" d="M178 43 C184 49 192 39 199 45"/>
-
-              <path class="seat" d="M88 76 C111 65 158 64 182 74 L170 84 C140 79 112 80 94 86 Z"/>
-
-              <!-- Rower -->
-              <g class="rower" id="rower">
-                <circle class="rower-head" cx="212" cy="60" r="5.5"/>
-                <path class="rower-body" d="M210 67 C203 75 203 83 211 91"/>
-                <path class="rower-arm arm-left" d="M210 72 C221 75 228 80 234 87"/>
-                <path class="rower-arm arm-right" d="M208 72 C218 65 226 59 237 54"/>
-
-                <g class="oar" id="oar">
-                  <path class="oar-stick" d="M224 76 L270 45"/>
-                  <path class="oar-blade" d="M270 45 C279 40 289 42 296 50 C284 54 276 52 270 45 Z"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
+        <div class="wake" id="wake"></div>
       </div>
 
-      <p class="loader-text">Curating your Kashmir journey</p>
+      <p class="loader-text">CURATING YOUR JOURNEY...</p>
     </section>
   </main>
 
-  <section class="demo-content">
-    <h1>Welcome to Kashmir</h1>
+  <section class="page-preview">
+    <h1>Kashmir Awaits</h1>
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
