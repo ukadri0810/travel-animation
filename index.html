@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Shikara Loading Bar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="loader-screen" id="loaderScreen">
+    <section class="loader-card" aria-label="Kashmir Shikara loading bar">
+      <div class="bar-wrap" id="barWrap">
+
+        <div class="track">
+          <div class="water-fill" id="waterFill">
+            <svg class="wave wave-back" viewBox="0 0 900 80" preserveAspectRatio="none">
+              <path d="M0 44 C55 18, 110 70, 165 44 S275 18, 330 44 S440 70, 495 44 S605 18, 660 44 S770 70, 825 44 S935 18, 990 44 L990 80 L0 80 Z"/>
+            </svg>
+
+            <svg class="wave wave-front" viewBox="0 0 900 80" preserveAspectRatio="none">
+              <path d="M0 39 C50 22, 100 56, 150 39 S250 22, 300 39 S400 56, 450 39 S550 22, 600 39 S700 56, 750 39 S850 22, 900 39 L900 80 L0 80 Z"/>
+            </svg>
+
+            <div class="foam-layer"></div>
+          </div>
+
+          <div class="bar-gloss" id="barGloss"></div>
+        </div>
+
+        <div class="boat-holder" id="boatHolder">
+          <img
+            src="assets/premium-shikara-rower.png"
+            alt="Premium Kashmir shikara with rower"
+            class="shikara-img"
+            draggable="false"
+          />
+
+          <svg class="animated-oar" id="animatedOar" viewBox="0 0 120 90" aria-hidden="true">
+            <path class="oar-stick" d="M20 46 L92 18" />
+            <path class="oar-blade" d="M92 18 C105 12 116 15 122 25 C107 29 98 27 92 18 Z" />
+          </svg>
+        </div>
+
+        <div class="wake" id="wake"></div>
+      </div>
+
+      <p class="loader-text">CURATING YOUR JOURNEY...</p>
+    </section>
+  </main>
+
+  <section class="page-preview">
+    <h1>Kashmir Awaits</h1>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
