@@ -1,12 +1,12 @@
 :root {
-  --midnight: #0B132B;
-  --midnight-deep: #050A17;
-  --gold: #D4AF37;
-  --gold-light: #FFE6A0;
-  --white: #FAFAFA;
-  --water: #0E8FC7;
-  --water-light: #59C7EE;
-  --water-deep: #063D68;
+  --cream: #FFFDF7;
+  --cream-2: #F7F1E6;
+  --gold: #C8942F;
+  --gold-dark: #9B6B1F;
+  --water: #27AEEA;
+  --water-deep: #0876B5;
+  --water-soft: #83D9FF;
+  --ink: #1A2430;
 }
 
 * {
@@ -21,20 +21,19 @@ body {
 
 body {
   font-family: Inter, Montserrat, system-ui, sans-serif;
-  background: var(--midnight);
   overflow: hidden;
+  background: var(--cream);
 }
 
 .loader-screen {
   position: fixed;
   inset: 0;
+  z-index: 20;
   display: grid;
   place-items: center;
-  z-index: 20;
   background:
-    radial-gradient(circle at 50% 42%, rgba(212,175,55,.08), transparent 28%),
-    radial-gradient(circle at 50% 64%, rgba(14,143,199,.07), transparent 22%),
-    linear-gradient(180deg, #111B35 0%, var(--midnight) 64%, var(--midnight-deep) 100%);
+    radial-gradient(circle at 50% 42%, rgba(200,148,47,.10), transparent 30%),
+    linear-gradient(180deg, #fffdf7 0%, #f5eee2 100%);
   transition: opacity 1s ease, visibility 1s ease;
 }
 
@@ -44,276 +43,312 @@ body {
 }
 
 .loader-card {
-  width: min(92vw, 460px);
+  width: min(92vw, 820px);
   display: grid;
   place-items: center;
-  gap: 30px;
+  gap: 34px;
 }
 
-.bar-wrap {
-  width: min(88vw, 430px);
-  height: 112px;
+.bar-stage {
+  width: min(88vw, 710px);
+  height: 170px;
   position: relative;
 }
 
-.track {
+.progress-track {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 22px;
-  height: 34px;
+  bottom: 34px;
+  height: 48px;
   border-radius: 999px;
-  border: 1.5px solid rgba(212,175,55,.85);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)),
-    rgba(255,255,255,.035);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.04),
-    inset 0 1px 0 rgba(255,255,255,.12),
-    inset 0 -10px 18px rgba(0,0,0,.28),
-    0 26px 65px rgba(0,0,0,.34),
-    0 0 32px rgba(212,175,55,.08);
+  border: 2px solid rgba(200,148,47,.88);
+  background: rgba(255,255,255,.62);
   overflow: hidden;
-}
-
-.track::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.06) 45%, transparent 100%);
-  pointer-events: none;
-  z-index: 5;
+  box-shadow:
+    0 24px 55px rgba(86, 56, 21, .16),
+    inset 0 1px 0 rgba(255,255,255,.75),
+    inset 0 -12px 22px rgba(123, 88, 34, .06);
 }
 
 .water-fill {
   position: absolute;
   left: 0;
   top: 0;
-  width: 0%;
   height: 100%;
-  border-radius: inherit;
+  width: 0%;
   overflow: hidden;
+  border-radius: inherit;
   background:
-    linear-gradient(180deg, rgba(89,199,238,.28), rgba(6,61,104,.86));
+    linear-gradient(180deg, rgba(131,217,255,.78), rgba(8,118,181,.92));
   box-shadow:
-    inset 0 2px 0 rgba(255,255,255,.22),
-    inset 0 -12px 22px rgba(0,0,0,.32),
-    0 0 22px rgba(14,143,199,.42);
+    inset 0 2px 0 rgba(255,255,255,.38),
+    inset 0 -14px 24px rgba(0, 56, 98, .28),
+    0 0 26px rgba(39,174,234,.28);
   will-change: width;
 }
 
 .wave {
   position: absolute;
   left: 0;
-  bottom: -16px;
-  width: 760px;
-  height: 64px;
+  bottom: -20px;
+  width: 980px;
+  height: 72px;
   will-change: transform;
 }
 
 .wave path {
-  fill: rgba(89,199,238,.62);
+  fill: rgba(131,217,255,.56);
 }
 
 .wave-back {
-  opacity: .45;
-  animation: waveBackMove 6.8s linear infinite, waveBackFloat 3.6s ease-in-out infinite;
+  opacity: .55;
+  animation: waveBackMove 7s linear infinite, waveBackFloat 3.8s ease-in-out infinite;
 }
 
 .wave-back path {
-  fill: rgba(6,61,104,.86);
+  fill: rgba(8,118,181,.75);
 }
 
 .wave-front {
-  opacity: .85;
-  animation: waveFrontMove 4.6s linear infinite, waveFrontFloat 2.8s ease-in-out infinite reverse;
+  opacity: .9;
+  animation: waveFrontMove 4.7s linear infinite, waveFrontFloat 3s ease-in-out infinite reverse;
 }
 
-.foam-layer {
+.water-texture {
   position: absolute;
   inset: 0;
+  opacity: .42;
   background:
-    radial-gradient(circle at 12% 44%, rgba(255,255,255,.72) 0 1px, transparent 2px),
-    radial-gradient(circle at 30% 38%, rgba(255,255,255,.55) 0 1px, transparent 2px),
-    radial-gradient(circle at 48% 48%, rgba(255,255,255,.66) 0 1px, transparent 2px),
-    radial-gradient(circle at 66% 40%, rgba(255,255,255,.42) 0 1px, transparent 2px),
-    radial-gradient(circle at 84% 46%, rgba(255,255,255,.62) 0 1px, transparent 2px);
-  background-size: 120px 28px;
-  opacity: .45;
-  animation: foamMove 2.9s linear infinite;
+    radial-gradient(circle at 9% 42%, rgba(255,255,255,.9) 0 1px, transparent 2px),
+    radial-gradient(circle at 21% 61%, rgba(255,255,255,.65) 0 1px, transparent 2px),
+    radial-gradient(circle at 36% 40%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 51% 58%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 46%, rgba(255,255,255,.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 60%, rgba(255,255,255,.58) 0 1px, transparent 2px);
+  background-size: 150px 42px;
+  animation: foamMove 3.2s linear infinite;
 }
 
-.bar-gloss {
+.track-shine {
   position: absolute;
   left: 0;
-  top: 7px;
-  width: 0%;
+  top: 8px;
   height: 4px;
+  width: 0%;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.66), rgba(255,255,255,.10));
-  filter: blur(.1px);
-  opacity: .68;
-  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.72), rgba(255,255,255,.08));
+  opacity: .7;
   will-change: width;
 }
 
-.boat-holder {
+.boat-wrap {
   position: absolute;
   left: 0;
-  bottom: 36px;
-  width: 224px;
-  height: 76px;
-  transform: translateX(-112px);
-  will-change: transform;
+  bottom: 44px;
+  width: clamp(220px, 40vw, 340px);
+  height: 94px;
+  transform: translateX(-50%);
   z-index: 10;
+  will-change: transform;
   pointer-events: none;
 }
 
 .shikara-img {
   position: absolute;
   left: 0;
-  bottom: -4px;
-  width: 224px;
+  bottom: 0;
+  width: 100%;
   height: auto;
   user-select: none;
   filter:
-    drop-shadow(0 16px 15px rgba(0,0,0,.36))
-    drop-shadow(0 0 7px rgba(212,175,55,.18));
+    drop-shadow(0 14px 18px rgba(92, 61, 21, .20))
+    drop-shadow(0 0 7px rgba(200,148,47,.18));
   transform-origin: center bottom;
   animation: boatFloat 2.8s ease-in-out infinite;
 }
 
 .animated-oar {
   position: absolute;
-  left: 52px;
-  top: 38px;
-  width: 64px;
-  height: 48px;
-  transform-origin: 16% 56%;
-  opacity: .96;
-  filter: drop-shadow(0 0 4px rgba(212,175,55,.22));
+  left: 14%;
+  top: 37%;
+  width: 21%;
+  height: 58%;
+  transform-origin: 19% 14%;
+  opacity: .78;
   will-change: transform;
 }
 
 .oar-stick {
   fill: none;
-  stroke: rgba(255,230,160,.92);
-  stroke-width: 3;
+  stroke: #8E5E23;
+  stroke-width: 4;
   stroke-linecap: round;
 }
 
 .oar-blade {
-  fill: rgba(212,175,55,.32);
-  stroke: rgba(255,230,160,.95);
-  stroke-width: 2;
+  fill: rgba(142,94,35,.52);
+  stroke: #8E5E23;
+  stroke-width: 2.4;
   stroke-linejoin: round;
 }
 
-.wake {
+.paddle-splash {
+  position: absolute;
+  left: 18%;
+  bottom: 2px;
+  width: 38px;
+  height: 18px;
+  border-radius: 50%;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 38% 50%, rgba(255,255,255,.85) 0 2px, transparent 3px),
+    radial-gradient(circle at 56% 40%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+    radial-gradient(ellipse, rgba(255,255,255,.42), transparent 70%);
+  filter: blur(.1px);
+}
+
+.wake-layer {
   position: absolute;
   left: 0;
-  bottom: 40px;
+  bottom: 56px;
   width: 0;
-  height: 20px;
+  height: 36px;
   pointer-events: none;
-  z-index: 6;
+  z-index: 7;
   overflow: visible;
 }
 
 .wake-dot {
   position: absolute;
-  width: 3px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
   border-radius: 999px;
-  background: rgba(255,255,255,.8);
-  box-shadow: 0 0 8px rgba(89,199,238,.7);
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 0 8px rgba(39,174,234,.62);
 }
 
 .loader-text {
   margin: 0;
-  color: rgba(255,231,166,.92);
-  font-size: clamp(.72rem, 1.9vw, .86rem);
-  letter-spacing: .38em;
+  color: var(--gold-dark);
+  font-size: clamp(.8rem, 2vw, 1.06rem);
+  letter-spacing: .42em;
   text-transform: uppercase;
-  animation: textPulse 2.4s ease-in-out infinite;
+  font-weight: 500;
+  animation: textPulse 2.5s ease-in-out infinite;
+}
+
+.lotus-divider {
+  margin-top: -16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+  opacity: .85;
+}
+
+.lotus-divider span {
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.lotus-divider span:last-child {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.lotus-divider svg {
+  width: 38px;
+  height: 22px;
+}
+
+.lotus-divider path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
 }
 
 .page-preview {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  color: white;
+  color: #1A2430;
+  background: var(--cream);
 }
 
 .page-preview h1 {
-  margin: 0;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(3.2rem, 9vw, 7rem);
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  margin: 0;
 }
 
 @keyframes boatFloat {
   0%, 100% {
-    transform: translateY(0) rotate(-.25deg);
+    transform: translateY(0) rotate(-.2deg);
   }
   50% {
-    transform: translateY(-3px) rotate(.25deg);
+    transform: translateY(-3px) rotate(.22deg);
   }
 }
 
 @keyframes waveFrontMove {
   from { transform: translateX(0); }
-  to { transform: translateX(-380px); }
+  to { transform: translateX(-490px); }
 }
 
 @keyframes waveBackMove {
-  from { transform: translateX(-90px); }
-  to { transform: translateX(-470px); }
+  from { transform: translateX(-120px); }
+  to { transform: translateX(-610px); }
 }
 
 @keyframes waveFrontFloat {
-  0%, 100% { bottom: -16px; }
-  50% { bottom: -20px; }
+  0%, 100% { bottom: -20px; }
+  50% { bottom: -24px; }
 }
 
 @keyframes waveBackFloat {
-  0%, 100% { bottom: -14px; }
-  50% { bottom: -18px; }
+  0%, 100% { bottom: -18px; }
+  50% { bottom: -22px; }
 }
 
 @keyframes foamMove {
   from { background-position: 0 0; }
-  to { background-position: -120px 0; }
+  to { background-position: -150px 0; }
 }
 
 @keyframes textPulse {
-  0%, 100% { opacity: .52; }
+  0%, 100% { opacity: .5; }
   50% { opacity: 1; }
 }
 
-@media (max-width: 520px) {
-  .bar-wrap {
-    width: min(90vw, 360px);
-    height: 102px;
+@media (max-width: 560px) {
+  .loader-card {
+    gap: 26px;
   }
 
-  .boat-holder {
-    width: 194px;
-    bottom: 37px;
+  .bar-stage {
+    width: 90vw;
+    height: 145px;
   }
 
-  .shikara-img {
-    width: 194px;
+  .progress-track {
+    height: 42px;
+    bottom: 28px;
   }
 
-  .animated-oar {
-    left: 45px;
-    top: 37px;
-    width: 56px;
+  .boat-wrap {
+    width: 235px;
+    bottom: 38px;
   }
 
   .loader-text {
-    letter-spacing: .25em;
+    letter-spacing: .24em;
+    font-size: .72rem;
+  }
+
+  .lotus-divider span {
+    width: 46px;
   }
 }
 

@@ -1,20 +1,21 @@
 const loader = document.getElementById("loaderScreen");
-const barWrap = document.getElementById("barWrap");
-const boat = document.getElementById("boatHolder");
+const barStage = document.getElementById("barStage");
+const boat = document.getElementById("boatWrap");
 const waterFill = document.getElementById("waterFill");
-const barGloss = document.getElementById("barGloss");
+const trackShine = document.getElementById("trackShine");
 const oar = document.getElementById("animatedOar");
-const wake = document.getElementById("wake");
+const wakeLayer = document.getElementById("wakeLayer");
+const splash = document.getElementById("paddleSplash");
 
 function getMetrics() {
-  const bar = barWrap.getBoundingClientRect();
+  const stage = barStage.getBoundingClientRect();
   const boatBox = boat.getBoundingClientRect();
 
   return {
-    barWidth: bar.width,
+    stageWidth: stage.width,
     boatWidth: boatBox.width,
-    startX: -boatBox.width * 0.48,
-    endX: bar.width - boatBox.width * 0.52
+    startX: -boatBox.width * 0.52,
+    endX: stage.width - boatBox.width * 0.50
   };
 }
 
@@ -22,43 +23,43 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-function updateWater() {
+function updateProgress() {
   const m = getMetrics();
   const x = gsap.getProperty(boat, "x");
   const progress = clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
 
   gsap.set(waterFill, { width: `${progress * 100}%` });
-  gsap.set(barGloss, { width: `${progress * 100}%` });
-  gsap.set(wake, { width: `${progress * 100}%` });
+  gsap.set(trackShine, { width: `${progress * 100}%` });
+  gsap.set(wakeLayer, { width: `${progress * 100}%` });
 }
 
 function createWakeParticle() {
   const m = getMetrics();
   const x = gsap.getProperty(boat, "x");
-  const p = clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
+  const progress = clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
 
-  if (p < 0.08 || p > 0.96) return;
+  if (progress < 0.06 || progress > 0.96) return;
 
   const dot = document.createElement("span");
   dot.className = "wake-dot";
-  wake.appendChild(dot);
+  wakeLayer.appendChild(dot);
 
-  const localX = p * m.barWidth - gsap.utils.random(30, 76);
-  const localY = gsap.utils.random(-6, 10);
+  const px = progress * m.stageWidth - gsap.utils.random(34, 88);
+  const py = gsap.utils.random(-8, 14);
 
   gsap.set(dot, {
-    x: localX,
-    y: localY,
-    scale: gsap.utils.random(0.5, 1.3),
-    opacity: 0.85
+    x: px,
+    y: py,
+    scale: gsap.utils.random(.55, 1.35),
+    opacity: .82
   });
 
   gsap.to(dot, {
-    x: localX - gsap.utils.random(16, 38),
-    y: localY + gsap.utils.random(-10, 10),
+    x: px - gsap.utils.random(14, 42),
+    y: py + gsap.utils.random(-12, 12),
     scale: 0,
     opacity: 0,
-    duration: gsap.utils.random(0.7, 1.2),
+    duration: gsap.utils.random(.65, 1.2),
     ease: "power2.out",
     onComplete: () => dot.remove()
   });
@@ -68,32 +69,47 @@ function startLoader() {
   const m = getMetrics();
 
   gsap.set(boat, { x: m.startX });
-  gsap.set(oar, { rotation: 18, transformOrigin: "16% 56%" });
+  gsap.set(oar, { rotation: -10, transformOrigin: "19% 14%" });
 
   /*
-    Smooth movement:
-    The boat travels continuously from left to right.
-    Minor acceleration/deceleration is added through the ease,
-    while the rower/oar cycles create the rowing feeling.
+    Boat movement:
+    smooth left-to-right motion over the loading bar.
+    The movement is continuous, while the oar gives the rowing rhythm.
   */
-  const timeline = gsap.timeline({
-    onUpdate: updateWater,
+  const tl = gsap.timeline({
+    onUpdate: updateProgress,
     onComplete: finishLoader
   });
 
-  timeline.to(boat, {
+  tl.to(boat, {
     x: m.endX,
-    duration: 6.4,
+    duration: 6.6,
     ease: "sine.inOut"
-  }, 0);
+  });
 
+  /*
+    Oar animation:
+    oar dips into water, pulls back, exits and returns.
+    The splash appears exactly when the paddle enters the water.
+  */
   gsap.to(oar, {
     keyframes: [
-      { rotation: -34, duration: 0.42, ease: "power2.in" },
-      { rotation: 17, duration: 0.68, ease: "power3.out" }
+      { rotation: 28, duration: .28, ease: "power2.in" },
+      { rotation: 48, duration: .20, ease: "power1.inOut" },
+      { rotation: -12, duration: .70, ease: "power3.out" }
     ],
     repeat: 5,
-    transformOrigin: "16% 56%"
+    transformOrigin: "19% 14%"
+  });
+
+  gsap.to(splash, {
+    keyframes: [
+      { opacity: .95, scale: 1.05, duration: .12 },
+      { opacity: 0, scale: 1.65, duration: .55 }
+    ],
+    repeat: 5,
+    repeatDelay: .5,
+    ease: "power2.out"
   });
 
   gsap.ticker.add(() => {
@@ -104,21 +120,21 @@ function startLoader() {
 
 function finishLoader() {
   gsap.to(oar, {
-    rotation: 8,
-    duration: 0.55,
+    rotation: -4,
+    duration: .55,
     ease: "power2.out"
   });
 
   gsap.to(".wave", {
     y: 4,
-    duration: 0.8,
+    duration: .75,
     ease: "sine.out"
   });
 
   gsap.to(loader, {
     opacity: 0,
     duration: 1,
-    delay: 0.55,
+    delay: .55,
     ease: "power2.inOut",
     onComplete: () => {
       loader.classList.add("hide");

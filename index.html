@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Premium Shikara Loading Bar</title>
+  <title>Kashmir Shikara Loading Bar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
@@ -12,43 +12,51 @@
 
 <body>
   <main class="loader-screen" id="loaderScreen">
-    <section class="loader-card" aria-label="Kashmir Shikara loading bar">
-      <div class="bar-wrap" id="barWrap">
+    <section class="loader-card" aria-label="Kashmir Shikara loading animation">
+      <div class="bar-stage" id="barStage">
 
-        <div class="track">
+        <div class="progress-track">
           <div class="water-fill" id="waterFill">
-            <svg class="wave wave-back" viewBox="0 0 900 80" preserveAspectRatio="none">
-              <path d="M0 44 C55 18, 110 70, 165 44 S275 18, 330 44 S440 70, 495 44 S605 18, 660 44 S770 70, 825 44 S935 18, 990 44 L990 80 L0 80 Z"/>
+            <svg class="wave wave-back" viewBox="0 0 1000 70" preserveAspectRatio="none">
+              <path d="M0 38 C60 12, 120 64, 180 38 S300 12, 360 38 S480 64, 540 38 S660 12, 720 38 S840 64, 900 38 S1020 12, 1080 38 L1080 70 L0 70 Z"/>
             </svg>
 
-            <svg class="wave wave-front" viewBox="0 0 900 80" preserveAspectRatio="none">
-              <path d="M0 39 C50 22, 100 56, 150 39 S250 22, 300 39 S400 56, 450 39 S550 22, 600 39 S700 56, 750 39 S850 22, 900 39 L900 80 L0 80 Z"/>
+            <svg class="wave wave-front" viewBox="0 0 1000 70" preserveAspectRatio="none">
+              <path d="M0 35 C55 18, 110 52, 165 35 S275 18, 330 35 S440 52, 495 35 S605 18, 660 35 S770 52, 825 35 S935 18, 990 35 L990 70 L0 70 Z"/>
             </svg>
 
-            <div class="foam-layer"></div>
+            <div class="water-texture"></div>
           </div>
 
-          <div class="bar-gloss" id="barGloss"></div>
+          <div class="track-shine" id="trackShine"></div>
         </div>
 
-        <div class="boat-holder" id="boatHolder">
-          <img
-            src="assets/premium-shikara-rower.png"
-            alt="Premium Kashmir shikara with rower"
-            class="shikara-img"
-            draggable="false"
-          />
+        <div class="boat-wrap" id="boatWrap">
+          <img src="assets/shikara-reference.png" alt="Kashmir shikara with rower" class="shikara-img" draggable="false" />
 
-          <svg class="animated-oar" id="animatedOar" viewBox="0 0 120 90" aria-hidden="true">
-            <path class="oar-stick" d="M20 46 L92 18" />
-            <path class="oar-blade" d="M92 18 C105 12 116 15 122 25 C107 29 98 27 92 18 Z" />
+          <!-- Separate animated oar layer to make rowing feel alive -->
+          <svg class="animated-oar" id="animatedOar" viewBox="0 0 120 100" aria-hidden="true">
+            <path class="oar-stick" d="M24 40 L80 86" />
+            <path class="oar-blade" d="M80 86 C91 90 101 86 108 76 C96 73 87 77 80 86 Z" />
           </svg>
+
+          <div class="paddle-splash" id="paddleSplash"></div>
         </div>
 
-        <div class="wake" id="wake"></div>
+        <div class="wake-layer" id="wakeLayer"></div>
       </div>
 
       <p class="loader-text">CURATING YOUR JOURNEY...</p>
+
+      <div class="lotus-divider" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 70 30">
+          <path d="M35 25 C29 18 25 12 35 5 C45 12 41 18 35 25Z"/>
+          <path d="M32 25 C23 22 16 16 18 8 C27 10 31 17 32 25Z"/>
+          <path d="M38 25 C47 22 54 16 52 8 C43 10 39 17 38 25Z"/>
+        </svg>
+        <span></span>
+      </div>
     </section>
   </main>
 
