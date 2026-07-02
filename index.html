@@ -3,249 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kashmir Luxury Shikara Loader</title>
+  <title>Shikara Loading Bar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <main class="loader" id="loader">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
+  <main class="page-loader" id="pageLoader">
+    <section class="loader-box" aria-label="Kashmir tours loading animation">
+      <div class="loading-track" id="track">
 
-    <section class="loader-stage" aria-label="Kashmir Shikara loading animation">
-      <div class="scene" id="scene">
-
-        <svg class="backdrop-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#ffeec3" stop-opacity="0.9"/>
-              <stop offset="38%" stop-color="#d4af37" stop-opacity="0.42"/>
-              <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
-            </radialGradient>
-
-            <linearGradient id="lakeFade" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#6ea9b7" stop-opacity=".12"/>
-              <stop offset="100%" stop-color="#0B132B" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-
-          <circle class="sun" cx="730" cy="220" r="72" fill="url(#sunGlow)" />
-
-          <path class="mountain mountain-far" d="M0 292 C78 240 132 263 196 216 C268 162 304 236 360 199 C428 154 464 242 530 205 C620 154 674 250 752 207 C838 160 884 226 946 208 C1038 180 1084 242 1200 210 L1200 520 L0 520 Z" />
-          <path class="mountain mountain-near" d="M0 338 C108 286 184 305 270 262 C382 206 442 304 528 266 C626 222 706 316 792 266 C906 200 992 312 1200 250 L1200 520 L0 520 Z" />
-
-          <rect class="lake" x="0" y="330" width="1200" height="190" fill="url(#lakeFade)" />
-        </svg>
-
-        <div class="progress-window" id="progressWindow">
-          <svg class="water-svg water-back" viewBox="0 0 1600 220" preserveAspectRatio="none">
-            <path class="water-fill back-fill" d="M0 118 C90 78 180 156 270 116 C360 76 450 156 540 116 C630 76 720 156 810 116 C900 76 990 156 1080 116 C1170 76 1260 156 1350 116 C1440 76 1530 156 1620 116 L1620 220 L0 220 Z"/>
+        <div class="water-fill" id="waterFill">
+          <svg class="wave wave-back" viewBox="0 0 900 44" preserveAspectRatio="none">
+            <path d="M0 24 C45 8, 90 40, 135 24 S225 8, 270 24 S360 40, 405 24 S495 8, 540 24 S630 40, 675 24 S765 8, 810 24 S900 40, 945 24 L945 44 L0 44 Z"/>
           </svg>
 
-          <svg class="water-svg water-front" viewBox="0 0 1600 220" preserveAspectRatio="none">
-            <path class="water-fill main-fill" id="mainWaterPath" d="M0 112 C80 76 160 148 240 112 C320 76 400 148 480 112 C560 76 640 148 720 112 C800 76 880 148 960 112 C1040 76 1120 148 1200 112 C1280 76 1360 148 1440 112 C1520 76 1600 148 1680 112 L1680 220 L0 220 Z"/>
-            <path class="water-highlight" d="M0 98 C90 74 170 126 260 98 C350 70 430 126 520 98 C610 70 690 126 780 98 C870 70 950 126 1040 98 C1130 70 1210 126 1300 98 C1390 70 1470 126 1560 98"/>
+          <svg class="wave wave-front" viewBox="0 0 900 44" preserveAspectRatio="none">
+            <path d="M0 22 C45 10, 90 34, 135 22 S225 10, 270 22 S360 34, 405 22 S495 10, 540 22 S630 34, 675 22 S765 10, 810 22 S900 34, 945 22 L945 44 L0 44 Z"/>
           </svg>
         </div>
 
-        <svg class="reflection-svg" id="reflection" viewBox="0 0 900 180" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="reflectionGold" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#D4AF37" stop-opacity=".45"/>
-              <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path class="reflection-line r-main" d="M115 36 C190 72 710 72 785 36" />
-          <path class="reflection-line" d="M210 78 C292 108 606 108 690 78" />
-          <path class="reflection-line small" d="M292 118 C350 143 550 143 610 118" />
-        </svg>
+        <div class="water-shine" id="waterShine"></div>
 
-        <div class="shikara-wrap" id="shikaraWrap">
-          <svg class="shikara-svg" viewBox="0 0 760 330" aria-label="Realistic Kashmiri Shikara with rower">
+        <div class="boat-wrap" id="boatWrap">
+          <svg class="boat-svg" viewBox="0 0 260 130" aria-label="Side view Kashmir shikara with rower">
             <defs>
-              <linearGradient id="hullGold" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#FFE18C"/>
-                <stop offset="34%" stop-color="#D4AF37"/>
-                <stop offset="72%" stop-color="#8E631D"/>
-                <stop offset="100%" stop-color="#3F2A10"/>
+              <linearGradient id="hullGradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#F7D66A"/>
+                <stop offset="42%" stop-color="#D4AF37"/>
+                <stop offset="100%" stop-color="#7A4E16"/>
               </linearGradient>
 
-              <linearGradient id="woodDark" x1="0" x2="1">
-                <stop offset="0%" stop-color="#27180E"/>
-                <stop offset="45%" stop-color="#8A5A20"/>
-                <stop offset="100%" stop-color="#23140A"/>
+              <linearGradient id="woodGradient" x1="0" x2="1">
+                <stop offset="0%" stop-color="#3A2210"/>
+                <stop offset="45%" stop-color="#A26A24"/>
+                <stop offset="100%" stop-color="#2A1609"/>
               </linearGradient>
 
-              <linearGradient id="canopyGold" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#FFF1B2"/>
-                <stop offset="50%" stop-color="#D4AF37"/>
-                <stop offset="100%" stop-color="#7C5318"/>
+              <linearGradient id="canopyGradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#FFF2B7"/>
+                <stop offset="52%" stop-color="#D4AF37"/>
+                <stop offset="100%" stop-color="#7A4E16"/>
               </linearGradient>
 
-              <linearGradient id="fabricRed" x1="0" x2="1">
-                <stop offset="0%" stop-color="#7E1F1D"/>
-                <stop offset="55%" stop-color="#B84A3A"/>
-                <stop offset="100%" stop-color="#4A1213"/>
-              </linearGradient>
-
-              <linearGradient id="fabricCream" x1="0" x2="1">
-                <stop offset="0%" stop-color="#FFF8E7"/>
-                <stop offset="100%" stop-color="#C6A96A"/>
-              </linearGradient>
-
-              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
-                <feDropShadow dx="0" dy="18" stdDeviation="12" flood-color="#000000" flood-opacity=".32"/>
+              <filter id="boatShadow" x="-20%" y="-20%" width="140%" height="150%">
+                <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity=".28"/>
               </filter>
-
-              <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#D4AF37" flood-opacity=".32"/>
-              </filter>
-
-              <pattern id="carpetPattern" width="28" height="18" patternUnits="userSpaceOnUse">
-                <rect width="28" height="18" fill="#8B2635"/>
-                <path d="M0 9 C7 2 14 16 21 9 C24 6 26 6 28 9" fill="none" stroke="#D4AF37" stroke-width="1.4"/>
-                <circle cx="14" cy="9" r="2" fill="#F8F6EF" opacity=".75"/>
-              </pattern>
-
-              <mask id="paintMask">
-                <rect width="760" height="330" fill="white"/>
-                <path d="M94 218 C194 254 500 258 668 203" fill="none" stroke="black" stroke-width="4" opacity=".16"/>
-              </mask>
             </defs>
 
-            <g class="boat-body" filter="url(#softShadow)">
-              <!-- Long, sharp Kashmiri shikara hull -->
-              <path class="hull-main" mask="url(#paintMask)"
-                d="M42 205
-                   C106 202 180 193 265 193
-                   C395 194 542 192 698 154
-                   C681 186 647 216 587 238
-                   C492 273 273 274 150 241
-                   C92 226 57 215 42 205 Z" />
+            <g class="boat-float" filter="url(#boatShadow)">
+              <!-- Real side-view shikara hull: long, slim, pointed nose, raised carved back -->
+              <path class="hull-main"
+                d="M18 82
+                   C55 82 94 75 135 75
+                   C180 75 216 67 250 52
+                   C241 72 221 88 186 99
+                   C132 116 62 105 18 82 Z" />
 
-              <!-- Pencil-like front nose -->
-              <path class="hull-edge"
-                d="M42 205 C16 199 3 187 0 170 C31 183 62 191 108 197" />
+              <path class="hull-line" d="M18 82 C6 78 1 70 0 61 C14 70 30 75 51 78"/>
+              <path class="hull-line" d="M250 52 C259 40 262 25 255 13 C250 31 239 46 220 58"/>
+              <path class="hull-rim" d="M22 81 C76 64 178 73 250 52"/>
+              <path class="wood-panel" d="M46 86 C88 99 167 101 214 84 C173 92 91 91 46 86 Z"/>
 
-              <!-- High carved stern curve -->
-              <path class="hull-edge"
-                d="M698 154 C725 125 730 88 712 60 C696 108 660 145 598 167" />
+              <!-- Shikara canopy -->
+              <path class="post" d="M75 76 L75 34"/>
+              <path class="post" d="M105 73 L105 28"/>
+              <path class="post" d="M170 70 L170 28"/>
+              <path class="post" d="M200 64 L200 34"/>
 
-              <!-- Upper rim -->
-              <path class="rim" d="M56 204 C174 170 485 178 698 154" />
-              <path class="rim rim-low" d="M124 239 C260 284 490 283 590 238" />
+              <path class="canopy"
+                d="M68 35 C95 16 175 16 207 35
+                   C197 46 180 51 160 52
+                   C128 45 102 45 78 52
+                   C72 46 69 40 68 35 Z" />
 
-              <!-- Side wooden panel -->
-              <path class="wood-panel"
-                d="M112 214 C220 235 457 235 632 190 C614 206 586 220 548 232 C445 263 265 263 152 236 C130 231 118 222 112 214 Z" />
+              <path class="canopy-line" d="M68 35 C95 16 175 16 207 35"/>
+              <path class="canopy-line" d="M78 52 C102 45 128 45 160 52 C180 51 197 46 207 35"/>
 
-              <!-- ornamental hull details -->
-              <g class="ornaments">
-                <circle cx="182" cy="218" r="6"/>
-                <circle cx="235" cy="226" r="5"/>
-                <circle cx="290" cy="231" r="5"/>
-                <circle cx="348" cy="233" r="6"/>
-                <circle cx="410" cy="231" r="5"/>
-                <circle cx="468" cy="226" r="5"/>
-                <circle cx="528" cy="216" r="6"/>
-              </g>
+              <!-- Curtains and cushions -->
+              <path class="curtain" d="M74 36 C82 24 99 24 105 28 L105 73 C94 69 84 70 75 76 Z"/>
+              <path class="curtain rear" d="M170 28 C183 22 199 26 207 35 L200 64 C188 61 179 64 170 70 Z"/>
+              <path class="pattern" d="M84 43 C90 49 96 38 102 43"/>
+              <path class="pattern" d="M178 43 C184 49 192 39 199 45"/>
 
-              <!-- Carpet seating -->
-              <path class="seat-base"
-                d="M210 190 C270 164 448 164 526 190 L500 215 C414 201 304 202 228 216 Z" />
-              <path class="seat-highlight" d="M236 190 C305 175 433 175 499 190"/>
-              <path class="seat-highlight" d="M252 203 C315 190 420 190 478 203"/>
+              <path class="seat" d="M88 76 C111 65 158 64 182 74 L170 84 C140 79 112 80 94 86 Z"/>
 
-              <!-- canopy posts -->
-              <path class="post" d="M224 190 L224 92"/>
-              <path class="post" d="M292 184 L292 80"/>
-              <path class="post" d="M502 180 L502 80"/>
-              <path class="post" d="M568 167 L568 92"/>
-
-              <!-- realistic sloped shikara roof -->
-              <path class="roof-main"
-                d="M206 94
-                   C286 46 494 46 586 94
-                   C562 116 528 128 488 132
-                   C412 116 316 116 238 132
-                   C222 120 212 108 206 94 Z" />
-              <path class="roof-rim" d="M206 94 C286 46 494 46 586 94"/>
-              <path class="roof-rim" d="M238 132 C316 116 412 116 488 132 C528 128 562 116 586 94"/>
-              <path class="roof-highlight" d="M252 94 C326 65 468 65 540 94"/>
-
-              <!-- front arched curtain -->
-              <path class="curtain"
-                d="M206 94
-                   C222 66 267 64 292 80
-                   L292 184
-                   C270 174 246 176 224 190 Z" />
-              <path class="curtain-stroke" d="M224 112 C240 94 270 94 286 112"/>
-              <path class="curtain-stroke" d="M230 136 C247 151 268 151 286 136"/>
-              <path class="curtain-stroke" d="M230 160 C247 174 268 174 286 160"/>
-
-              <!-- rear arched curtain -->
-              <path class="curtain rear"
-                d="M502 80
-                   C530 62 570 68 586 94
-                   L568 167
-                   C548 162 524 166 502 180 Z" />
-              <path class="curtain-stroke" d="M514 112 C532 94 562 96 578 114"/>
-              <path class="curtain-stroke" d="M512 136 C530 151 556 151 574 136"/>
-              <path class="curtain-stroke" d="M510 158 C530 174 552 174 568 158"/>
-
-              <!-- scalloped valance -->
-              <path class="valance"
-                d="M238 132
-                   C248 146 260 118 270 132
-                   C280 146 292 118 302 132
-                   C312 146 324 118 334 132
-                   C344 146 356 118 366 132
-                   C376 146 388 118 398 132
-                   C408 146 420 118 430 132
-                   C440 146 452 118 462 132
-                   C472 146 484 118 494 132" />
-
-              <!-- cushions -->
-              <path class="cushion cream" d="M306 176 C340 164 405 164 440 176 L428 192 C386 185 350 185 318 192 Z"/>
-              <path class="cushion red" d="M250 194 C292 182 356 184 392 198 L382 211 C332 204 288 205 258 214 Z"/>
-
-              <!-- rower / boatman -->
+              <!-- Rower -->
               <g class="rower" id="rower">
-                <circle class="rower-head" cx="612" cy="152" r="10"/>
-                <path class="rower-body" d="M608 164 C594 179 594 197 607 211"/>
-                <path class="rower-arm arm-back" d="M606 176 C626 180 636 187 646 198"/>
-                <path class="rower-arm arm-front" d="M604 174 C622 164 638 154 656 145"/>
+                <circle class="rower-head" cx="212" cy="60" r="5.5"/>
+                <path class="rower-body" d="M210 67 C203 75 203 83 211 91"/>
+                <path class="rower-arm arm-left" d="M210 72 C221 75 228 80 234 87"/>
+                <path class="rower-arm arm-right" d="M208 72 C218 65 226 59 237 54"/>
 
-                <g id="oar" class="oar">
-                  <path class="oar-stick" d="M628 178 L734 102"/>
-                  <path class="oar-blade" d="M734 102 C752 89 774 94 790 111 C766 118 748 115 734 102 Z"/>
+                <g class="oar" id="oar">
+                  <path class="oar-stick" d="M224 76 L270 45"/>
+                  <path class="oar-blade" d="M270 45 C279 40 289 42 296 50 C284 54 276 52 270 45 Z"/>
                 </g>
               </g>
             </g>
           </svg>
         </div>
-
-        <div class="wake-particles" id="wakeParticles" aria-hidden="true"></div>
       </div>
 
-      <div class="loader-copy">
-        <p class="kicker">Kashmir Escapes</p>
-        <h1>Curating Your Journey</h1>
-        <div class="progress-meta">
-          <span id="percent">0%</span>
-          <span class="dash"></span>
-          <span>Dal Lake Awaits</span>
-        </div>
-      </div>
+      <p class="loader-text">Curating your Kashmir journey</p>
     </section>
   </main>
 
-  <section class="home-preview">
-    <p>Welcome</p>
-    <h2>Luxury Kashmir journeys, thoughtfully planned.</h2>
+  <section class="demo-content">
+    <h1>Welcome to Kashmir</h1>
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
