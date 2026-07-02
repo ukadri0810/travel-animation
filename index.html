@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professional Shikara Loading Bar</title>
+  <title>Premium Kashmir Shikara Loader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
@@ -12,43 +12,38 @@
 
 <body>
   <main class="loader-screen" id="loaderScreen">
-    <section class="loader-card" aria-label="Kashmir Shikara loading animation">
+    <section class="loader-card" aria-label="Kashmir shikara loading bar">
       <div class="bar-stage" id="barStage">
 
         <div class="progress-track" id="progressTrack">
+          <div class="lake-depth"></div>
+
           <div class="water-fill" id="waterFill">
-            <svg class="wave wave-back" viewBox="0 0 1000 70" preserveAspectRatio="none">
-              <path d="M0 38 C60 12, 120 64, 180 38 S300 12, 360 38 S480 64, 540 38 S660 12, 720 38 S840 64, 900 38 S1020 12, 1080 38 L1080 70 L0 70 Z"/>
+            <svg class="wave wave-back" viewBox="0 0 1100 80" preserveAspectRatio="none">
+              <path d="M0 44 C70 20, 140 68, 210 44 S350 20, 420 44 S560 68, 630 44 S770 20, 840 44 S980 68, 1050 44 S1190 20, 1260 44 L1260 80 L0 80 Z"/>
             </svg>
 
-            <svg class="wave wave-front" viewBox="0 0 1000 70" preserveAspectRatio="none">
-              <path d="M0 35 C55 18, 110 52, 165 35 S275 18, 330 35 S440 52, 495 35 S605 18, 660 35 S770 52, 825 35 S935 18, 990 35 L990 70 L0 70 Z"/>
+            <svg class="wave wave-front" viewBox="0 0 1100 80" preserveAspectRatio="none">
+              <path d="M0 39 C62 24, 124 54, 186 39 S310 24, 372 39 S496 54, 558 39 S682 24, 744 39 S868 54, 930 39 S1054 24, 1116 39 L1116 80 L0 80 Z"/>
             </svg>
 
+            <div class="liquid-edge" id="liquidEdge"></div>
             <div class="water-texture"></div>
           </div>
 
           <div class="track-shine" id="trackShine"></div>
           <div class="wake-layer" id="wakeLayer"></div>
+          <div class="paddle-ripple" id="paddleRipple"></div>
         </div>
 
         <div class="boat-wrap" id="boatWrap">
-          <img src="assets/shikara-reference.png" alt="Kashmir shikara with rower" class="shikara-img" draggable="false" />
+          <img src="assets/clean-shikara-reflection.png" alt="" class="shikara-reflection" aria-hidden="true" draggable="false" />
+          <img src="assets/clean-shikara.png" alt="Kashmir shikara with rower" class="shikara-img" draggable="false" />
           <div class="paddle-splash" id="paddleSplash"></div>
         </div>
       </div>
 
       <p class="loader-text">CURATING YOUR JOURNEY...</p>
-
-      <div class="lotus-divider" aria-hidden="true">
-        <span></span>
-        <svg viewBox="0 0 70 30">
-          <path d="M35 25 C29 18 25 12 35 5 C45 12 41 18 35 25Z"/>
-          <path d="M32 25 C23 22 16 16 18 8 C27 10 31 17 32 25Z"/>
-          <path d="M38 25 C47 22 54 16 52 8 C43 10 39 17 38 25Z"/>
-        </svg>
-        <span></span>
-      </div>
     </section>
   </main>
 

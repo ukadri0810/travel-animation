@@ -5,15 +5,12 @@ const waterFill = document.getElementById("waterFill");
 const trackShine = document.getElementById("trackShine");
 const wakeLayer = document.getElementById("wakeLayer");
 const splash = document.getElementById("paddleSplash");
+const ripple = document.getElementById("paddleRipple");
 
 function getMetrics() {
   const stage = barStage.getBoundingClientRect();
   const boatBox = boat.getBoundingClientRect();
 
-  /*
-    The boat now stays fully inside the loading bar width.
-    It starts aligned inside the left edge and ends inside the right edge.
-  */
   return {
     stageWidth: stage.width,
     boatWidth: boatBox.width,
@@ -26,12 +23,16 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-function updateProgress() {
+function progressValue() {
   const m = getMetrics();
   const x = gsap.getProperty(boat, "x");
-  const progress = clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
+  return clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
+}
 
-  const fill = progress * 100;
+function updateProgress() {
+  const p = progressValue();
+  const fill = p * 100;
+
   gsap.set(waterFill, { width: `${fill}%` });
   gsap.set(trackShine, { width: `${fill}%` });
   gsap.set(wakeLayer, { width: `${fill}%` });
@@ -39,23 +40,22 @@ function updateProgress() {
 
 function createWakeParticle() {
   const m = getMetrics();
-  const x = gsap.getProperty(boat, "x");
-  const progress = clamp((x - m.startX) / (m.endX - m.startX), 0, 1);
+  const p = progressValue();
 
-  if (progress < 0.04 || progress > 0.96) return;
+  if (p < 0.04 || p > 0.96) return;
 
   const dot = document.createElement("span");
   dot.className = "wake-dot";
   wakeLayer.appendChild(dot);
 
-  const px = progress * m.stageWidth - gsap.utils.random(22, 64);
-  const py = gsap.utils.random(4, 20);
+  const px = p * m.stageWidth - gsap.utils.random(22, 68);
+  const py = gsap.utils.random(3, 20);
 
   gsap.set(dot, {
     x: px,
     y: py,
-    scale: gsap.utils.random(.55, 1.25),
-    opacity: .8
+    scale: gsap.utils.random(.45, 1.15),
+    opacity: .78
   });
 
   gsap.to(dot, {
@@ -69,36 +69,78 @@ function createWakeParticle() {
   });
 }
 
+function animateStrokeReaction() {
+  const m = getMetrics();
+  const p = progressValue();
+  const x = p * m.stageWidth - 48;
+
+  gsap.set(ripple, { x, opacity: 0, scale: .55 });
+  gsap.to(ripple, {
+    opacity: .75,
+    scale: 1,
+    duration: .12,
+    ease: "power1.out"
+  });
+  gsap.to(ripple, {
+    opacity: 0,
+    scale: 2.2,
+    duration: .7,
+    delay: .08,
+    ease: "power2.out"
+  });
+
+  gsap.to(splash, {
+    opacity: .88,
+    scale: 1.08,
+    duration: .12,
+    ease: "power1.out"
+  });
+  gsap.to(splash, {
+    opacity: 0,
+    scale: 1.55,
+    duration: .5,
+    delay: .08,
+    ease: "power2.out"
+  });
+}
+
 function startLoader() {
   const m = getMetrics();
 
   gsap.set(boat, { x: m.startX });
   updateProgress();
 
+  /*
+    Premium rowing motion:
+    Each rowing cycle has a subtle acceleration and glide.
+    Movement remains smooth, not jumpy.
+  */
   const tl = gsap.timeline({
     onUpdate: updateProgress,
     onComplete: finishLoader
   });
 
-  tl.to(boat, {
-    x: m.endX,
-    duration: 6.2,
-    ease: "sine.inOut"
-  });
+  const strokes = 6;
+  const distance = m.endX - m.startX;
+  const perStroke = distance / strokes;
+  let x = m.startX;
 
-  /*
-    Since the image already has a paddle, we do not add another one.
-    Instead, the splash pulses near the existing paddle to imply rowing.
-  */
-  gsap.to(splash, {
-    keyframes: [
-      { opacity: .88, scale: 1.05, duration: .14 },
-      { opacity: 0, scale: 1.55, duration: .52 }
-    ],
-    repeat: 6,
-    repeatDelay: .38,
-    ease: "power2.out"
-  });
+  for (let i = 0; i < strokes; i++) {
+    x += perStroke * 0.56;
+    tl.to(boat, {
+      x,
+      duration: .46,
+      ease: "power2.out",
+      onStart: animateStrokeReaction
+    });
+
+    x += perStroke * 0.44;
+    tl.to(boat, {
+      x,
+      duration: .58,
+      ease: "sine.out"
+    });
+  }
 
   gsap.ticker.add(() => {
     if (loader.classList.contains("hide")) return;
@@ -113,10 +155,16 @@ function finishLoader() {
     ease: "sine.out"
   });
 
+  gsap.to(".water-fill", {
+    filter: "saturate(.9)",
+    duration: .6,
+    ease: "sine.out"
+  });
+
   gsap.to(loader, {
     opacity: 0,
     duration: 1,
-    delay: .5,
+    delay: .65,
     ease: "power2.inOut",
     onComplete: () => {
       loader.classList.add("hide");
