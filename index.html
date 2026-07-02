@@ -3,417 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kashmir Shikara Premium Loader</title>
-
-  <style>
-    :root {
-      --bg-1: #07101f;
-      --bg-2: #101c2d;
-      --gold: #d8b56d;
-      --gold-soft: rgba(216, 181, 109, 0.32);
-      --gold-faint: rgba(216, 181, 109, 0.12);
-      --white-soft: rgba(255, 255, 255, 0.66);
-      --mountain: rgba(255, 255, 255, 0.15);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(216, 181, 109, 0.10), transparent 22%),
-        radial-gradient(circle at 50% 78%, rgba(44, 114, 146, 0.14), transparent 24%),
-        linear-gradient(180deg, var(--bg-2), var(--bg-1) 72%);
-      font-family: Inter, Montserrat, system-ui, sans-serif;
-      color: #fff;
-    }
-
-    .loader {
-      width: min(94vw, 720px);
-      text-align: center;
-      position: relative;
-      isolation: isolate;
-    }
-
-    .loader::before {
-      content: "";
-      position: absolute;
-      width: 520px;
-      height: 720px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -48%);
-      background:
-        linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent),
-        radial-gradient(ellipse at 50% 38%, rgba(216,181,109,.16), transparent 28%);
-      filter: blur(18px);
-      opacity: .8;
-      z-index: -1;
-      animation: ambientMove 7s ease-in-out infinite alternate;
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
-      overflow: visible;
-    }
-
-    .draw {
-      fill: none;
-      stroke: var(--gold);
-      stroke-width: 2.1;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 8px rgba(216,181,109,.38));
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-      animation: drawLine 2.8s ease forwards;
-    }
-
-    .draw.delay-1 { animation-delay: .18s; }
-    .draw.delay-2 { animation-delay: .35s; }
-    .draw.delay-3 { animation-delay: .55s; }
-    .draw.delay-4 { animation-delay: .8s; }
-
-    .mountain-line {
-      fill: none;
-      stroke: var(--mountain);
-      stroke-width: 1.7;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 900;
-      stroke-dashoffset: 900;
-      animation: drawMountain 3.2s ease forwards;
-      animation-delay: 4.8s;
-    }
-
-    .sun {
-      opacity: 0;
-      transform-origin: center;
-      animation: sunRise 1.6s ease forwards;
-      animation-delay: 5.3s;
-      filter: drop-shadow(0 0 26px rgba(216,181,109,.75));
-    }
-
-    .boat {
-      transform-origin: center;
-      animation: boatFloat 3.8s ease-in-out infinite;
-      animation-delay: 2.7s;
-    }
-
-    .reflection {
-      opacity: 0;
-      transform-origin: center;
-      animation: reflectionAppear 1.5s ease forwards, reflectionFloat 3.8s ease-in-out infinite;
-      animation-delay: 3.1s, 3.2s;
-    }
-
-    .reflection path {
-      fill: none;
-      stroke: rgba(216, 181, 109, 0.55);
-      stroke-width: 1.45;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 12px rgba(216,181,109,.28));
-    }
-
-    .ripple {
-      fill: none;
-      stroke: rgba(216, 181, 109, 0.34);
-      stroke-width: 1.4;
-      transform-origin: center;
-      opacity: 0;
-      animation: ripplePulse 3.2s ease-out infinite;
-      animation-delay: 2.6s;
-    }
-
-    .ripple.r2 {
-      animation-delay: 3.15s;
-      stroke: rgba(143, 188, 204, 0.24);
-    }
-
-    .ripple.r3 {
-      animation-delay: 3.7s;
-      stroke: rgba(216, 181, 109, 0.20);
-    }
-
-    .water-glow {
-      opacity: 0;
-      animation: waterGlow 1.6s ease forwards;
-      animation-delay: 3s;
-    }
-
-    .text {
-      margin-top: -14px;
-      color: rgba(255, 244, 221, 0.92);
-      font-size: clamp(.9rem, 2.2vw, 1.08rem);
-      letter-spacing: .03em;
-      font-weight: 400;
-      text-shadow: 0 0 16px rgba(216,181,109,.28);
-      opacity: 0;
-      transform: translateY(10px);
-      animation: textReveal 1s ease forwards, textPulse 2.8s ease-in-out infinite;
-      animation-delay: 2.4s, 3.5s;
-    }
-
-    .spark {
-      fill: rgba(255,255,255,.78);
-      opacity: 0;
-      transform-origin: center;
-      animation: sparkle 2.8s ease-in-out infinite;
-      animation-delay: 2.8s;
-    }
-
-    .spark.right {
-      animation-delay: 3.6s;
-    }
-
-    @keyframes drawLine {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes drawMountain {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes boatFloat {
-      0%, 100% {
-        transform: translateY(0) rotate(-0.35deg);
-      }
-      50% {
-        transform: translateY(-8px) rotate(0.35deg);
-      }
-    }
-
-    @keyframes reflectionAppear {
-      from {
-        opacity: 0;
-        transform: translateY(-8px) scaleY(.7);
-      }
-      to {
-        opacity: .78;
-        transform: translateY(0) scaleY(1);
-      }
-    }
-
-    @keyframes reflectionFloat {
-      0%, 100% {
-        transform: translateY(0) scaleY(1);
-      }
-      50% {
-        transform: translateY(6px) scaleY(.94);
-      }
-    }
-
-    @keyframes ripplePulse {
-      0% {
-        opacity: 0;
-        transform: scale(.62);
-      }
-      22% {
-        opacity: .86;
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1.45);
-      }
-    }
-
-    @keyframes waterGlow {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes sunRise {
-      from {
-        opacity: 0;
-        transform: translateY(22px) scale(.78);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes textReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes textPulse {
-      0%, 100% {
-        opacity: .62;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes sparkle {
-      0%, 100% {
-        opacity: .18;
-        transform: scale(.8) rotate(0deg);
-      }
-      50% {
-        opacity: .9;
-        transform: scale(1.08) rotate(45deg);
-      }
-    }
-
-    @keyframes ambientMove {
-      from {
-        transform: translate(-52%, -49%) rotate(-2deg);
-      }
-      to {
-        transform: translate(-48%, -47%) rotate(2deg);
-      }
-    }
-
-    @media (max-width: 520px) {
-      .loader {
-        width: 96vw;
-      }
-
-      .text {
-        margin-top: -4px;
-      }
-
-      .draw {
-        stroke-width: 2.3;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 1ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 1ms !important;
-      }
-    }
-  </style>
+  <title>Kashmir Luxury Shikara Loader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <main class="loader" aria-label="Kashmir Shikara loading animation">
-    <svg viewBox="0 0 720 520" role="img">
-      <defs>
-        <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fff4c8"/>
-          <stop offset="55%" stop-color="#d8b56d"/>
-          <stop offset="100%" stop-color="rgba(216,181,109,0)"/>
-        </radialGradient>
+  <main class="loader" id="loader">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
 
-        <radialGradient id="waterGradient" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(216,181,109,.22)" />
-          <stop offset="55%" stop-color="rgba(77,136,160,.14)" />
-          <stop offset="100%" stop-color="rgba(77,136,160,0)" />
-        </radialGradient>
-      </defs>
+    <section class="loader-stage" aria-label="Kashmir Shikara loading animation">
+      <div class="scene" id="scene">
 
-      <!-- Background Kashmir mountains reveal later -->
-      <path class="mountain-line"
-        d="M92 278 C130 228 163 210 198 245 C225 184 263 147 310 224 C340 169 377 114 430 218 C464 172 499 148 548 226 C584 198 620 214 650 250" />
-      <path class="mountain-line"
-        d="M38 302 C100 260 142 268 190 286 C250 226 307 240 356 282 C417 218 490 246 540 280 C590 254 636 270 690 300" />
+        <svg class="backdrop-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffeec3" stop-opacity="0.9"/>
+              <stop offset="38%" stop-color="#d4af37" stop-opacity="0.42"/>
+              <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+            </radialGradient>
 
-      <!-- Sun behind mountains -->
-      <circle class="sun" cx="462" cy="236" r="32" fill="url(#sunGradient)" />
+            <linearGradient id="lakeFade" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#6ea9b7" stop-opacity=".12"/>
+              <stop offset="100%" stop-color="#0B132B" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
 
-      <!-- Water glow -->
-      <ellipse class="water-glow" cx="360" cy="365" rx="212" ry="45" fill="url(#waterGradient)" />
+          <circle class="sun" cx="730" cy="220" r="72" fill="url(#sunGlow)" />
 
-      <!-- Ripple rings -->
-      <ellipse class="ripple r1" cx="360" cy="355" rx="128" ry="30" />
-      <ellipse class="ripple r2" cx="360" cy="355" rx="166" ry="39" />
-      <ellipse class="ripple r3" cx="360" cy="355" rx="205" ry="48" />
+          <path class="mountain mountain-far" d="M0 292 C78 240 132 263 196 216 C268 162 304 236 360 199 C428 154 464 242 530 205 C620 154 674 250 752 207 C838 160 884 226 946 208 C1038 180 1084 242 1200 210 L1200 520 L0 520 Z" />
+          <path class="mountain mountain-near" d="M0 338 C108 286 184 305 270 262 C382 206 442 304 528 266 C626 222 706 316 792 266 C906 200 992 312 1200 250 L1200 520 L0 520 Z" />
 
-      <!-- Shikara reflection -->
-      <g class="reflection">
-        <path d="M252 362 C276 386 444 386 468 362" />
-        <path d="M278 376 C308 397 412 397 442 376" />
-        <path d="M316 382 L316 432" />
-        <path d="M404 382 L404 432" />
-        <path d="M288 422 C324 446 398 446 432 422" />
-        <path d="M312 432 C340 456 382 456 410 432" />
-      </g>
+          <rect class="lake" x="0" y="330" width="1200" height="190" fill="url(#lakeFade)" />
+        </svg>
 
-      <!-- Main Shikara -->
-      <g class="boat">
-        <!-- Curved long hull -->
-        <path class="draw delay-1"
-          d="M214 304 C260 338 462 338 506 304" />
-        <path class="draw delay-1"
-          d="M214 304 C282 320 438 320 506 304" />
+        <div class="progress-window" id="progressWindow">
+          <svg class="water-svg water-back" viewBox="0 0 1600 220" preserveAspectRatio="none">
+            <path class="water-fill back-fill" d="M0 118 C90 78 180 156 270 116 C360 76 450 156 540 116 C630 76 720 156 810 116 C900 76 990 156 1080 116 C1170 76 1260 156 1350 116 C1440 76 1530 156 1620 116 L1620 220 L0 220 Z"/>
+          </svg>
 
-        <!-- Raised Kashmiri bow and stern -->
-        <path class="draw delay-2"
-          d="M214 304 C190 287 183 256 194 230 C211 263 233 288 268 299" />
-        <path class="draw delay-2"
-          d="M506 304 C532 287 539 254 527 226 C509 262 486 288 450 299" />
+          <svg class="water-svg water-front" viewBox="0 0 1600 220" preserveAspectRatio="none">
+            <path class="water-fill main-fill" id="mainWaterPath" d="M0 112 C80 76 160 148 240 112 C320 76 400 148 480 112 C560 76 640 148 720 112 C800 76 880 148 960 112 C1040 76 1120 148 1200 112 C1280 76 1360 148 1440 112 C1520 76 1600 148 1680 112 L1680 220 L0 220 Z"/>
+            <path class="water-highlight" d="M0 98 C90 74 170 126 260 98 C350 70 430 126 520 98 C610 70 690 126 780 98 C870 70 950 126 1040 98 C1130 70 1210 126 1300 98 C1390 70 1470 126 1560 98"/>
+          </svg>
+        </div>
 
-        <!-- lower slim hull -->
-        <path class="draw delay-3"
-          d="M256 324 C302 348 420 348 464 324" />
+        <svg class="reflection-svg" id="reflection" viewBox="0 0 900 180" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="reflectionGold" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#D4AF37" stop-opacity=".45"/>
+              <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path class="reflection-line r-main" d="M115 36 C190 72 710 72 785 36" />
+          <path class="reflection-line" d="M210 78 C292 108 606 108 690 78" />
+          <path class="reflection-line small" d="M292 118 C350 143 550 143 610 118" />
+        </svg>
 
-        <!-- Canopy roof -->
-        <path class="draw"
-          d="M292 221 C308 176 414 176 430 221" />
-        <path class="draw delay-1"
-          d="M304 220 C322 195 400 195 418 220" />
+        <div class="shikara-wrap" id="shikaraWrap">
+          <svg class="shikara-svg" viewBox="0 0 760 330" aria-label="Realistic Kashmiri Shikara with rower">
+            <defs>
+              <linearGradient id="hullGold" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#FFE18C"/>
+                <stop offset="34%" stop-color="#D4AF37"/>
+                <stop offset="72%" stop-color="#8E631D"/>
+                <stop offset="100%" stop-color="#3F2A10"/>
+              </linearGradient>
 
-        <!-- decorative roof cap -->
-        <path class="draw delay-2"
-          d="M296 213 L430 213" />
-        <path class="draw delay-3"
-          d="M316 195 L408 195" />
+              <linearGradient id="woodDark" x1="0" x2="1">
+                <stop offset="0%" stop-color="#27180E"/>
+                <stop offset="45%" stop-color="#8A5A20"/>
+                <stop offset="100%" stop-color="#23140A"/>
+              </linearGradient>
 
-        <!-- supports -->
-        <path class="draw delay-2" d="M304 222 L304 292" />
-        <path class="draw delay-2" d="M418 222 L418 292" />
-        <path class="draw delay-3" d="M337 214 L337 288" />
-        <path class="draw delay-3" d="M386 214 L386 288" />
+              <linearGradient id="canopyGold" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#FFF1B2"/>
+                <stop offset="50%" stop-color="#D4AF37"/>
+                <stop offset="100%" stop-color="#7C5318"/>
+              </linearGradient>
 
-        <!-- seating/cabin -->
-        <path class="draw delay-3"
-          d="M280 292 C310 274 414 274 444 292" />
-        <path class="draw delay-4"
-          d="M300 294 L424 294" />
+              <linearGradient id="fabricRed" x1="0" x2="1">
+                <stop offset="0%" stop-color="#7E1F1D"/>
+                <stop offset="55%" stop-color="#B84A3A"/>
+                <stop offset="100%" stop-color="#4A1213"/>
+              </linearGradient>
 
-        <!-- small curtains/pattern -->
-        <path class="draw delay-4"
-          d="M320 238 C332 247 344 247 356 238 C368 247 380 247 392 238 C402 246 412 245 420 238" />
-        <path class="draw delay-4"
-          d="M319 260 C333 250 345 270 360 260 C374 250 388 270 403 260" />
+              <linearGradient id="fabricCream" x1="0" x2="1">
+                <stop offset="0%" stop-color="#FFF8E7"/>
+                <stop offset="100%" stop-color="#C6A96A"/>
+              </linearGradient>
 
-        <!-- paddle -->
-        <path class="draw delay-4"
-          d="M434 279 L536 214" />
-        <path class="draw delay-4"
-          d="M536 214 C552 203 568 207 578 220 C562 226 548 224 536 214" />
-      </g>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+                <feDropShadow dx="0" dy="18" stdDeviation="12" flood-color="#000000" flood-opacity=".32"/>
+              </filter>
 
-      <!-- Text side sparkles like reference -->
-      <path class="spark left" d="M122 388 L130 407 L138 388 L130 369 Z" />
-      <path class="spark right" d="M604 388 L612 407 L620 388 L612 369 Z" />
-    </svg>
+              <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#D4AF37" flood-opacity=".32"/>
+              </filter>
 
-    <p class="text">Curating Your Kashmiri Journey</p>
+              <pattern id="carpetPattern" width="28" height="18" patternUnits="userSpaceOnUse">
+                <rect width="28" height="18" fill="#8B2635"/>
+                <path d="M0 9 C7 2 14 16 21 9 C24 6 26 6 28 9" fill="none" stroke="#D4AF37" stroke-width="1.4"/>
+                <circle cx="14" cy="9" r="2" fill="#F8F6EF" opacity=".75"/>
+              </pattern>
+
+              <mask id="paintMask">
+                <rect width="760" height="330" fill="white"/>
+                <path d="M94 218 C194 254 500 258 668 203" fill="none" stroke="black" stroke-width="4" opacity=".16"/>
+              </mask>
+            </defs>
+
+            <g class="boat-body" filter="url(#softShadow)">
+              <!-- Long, sharp Kashmiri shikara hull -->
+              <path class="hull-main" mask="url(#paintMask)"
+                d="M42 205
+                   C106 202 180 193 265 193
+                   C395 194 542 192 698 154
+                   C681 186 647 216 587 238
+                   C492 273 273 274 150 241
+                   C92 226 57 215 42 205 Z" />
+
+              <!-- Pencil-like front nose -->
+              <path class="hull-edge"
+                d="M42 205 C16 199 3 187 0 170 C31 183 62 191 108 197" />
+
+              <!-- High carved stern curve -->
+              <path class="hull-edge"
+                d="M698 154 C725 125 730 88 712 60 C696 108 660 145 598 167" />
+
+              <!-- Upper rim -->
+              <path class="rim" d="M56 204 C174 170 485 178 698 154" />
+              <path class="rim rim-low" d="M124 239 C260 284 490 283 590 238" />
+
+              <!-- Side wooden panel -->
+              <path class="wood-panel"
+                d="M112 214 C220 235 457 235 632 190 C614 206 586 220 548 232 C445 263 265 263 152 236 C130 231 118 222 112 214 Z" />
+
+              <!-- ornamental hull details -->
+              <g class="ornaments">
+                <circle cx="182" cy="218" r="6"/>
+                <circle cx="235" cy="226" r="5"/>
+                <circle cx="290" cy="231" r="5"/>
+                <circle cx="348" cy="233" r="6"/>
+                <circle cx="410" cy="231" r="5"/>
+                <circle cx="468" cy="226" r="5"/>
+                <circle cx="528" cy="216" r="6"/>
+              </g>
+
+              <!-- Carpet seating -->
+              <path class="seat-base"
+                d="M210 190 C270 164 448 164 526 190 L500 215 C414 201 304 202 228 216 Z" />
+              <path class="seat-highlight" d="M236 190 C305 175 433 175 499 190"/>
+              <path class="seat-highlight" d="M252 203 C315 190 420 190 478 203"/>
+
+              <!-- canopy posts -->
+              <path class="post" d="M224 190 L224 92"/>
+              <path class="post" d="M292 184 L292 80"/>
+              <path class="post" d="M502 180 L502 80"/>
+              <path class="post" d="M568 167 L568 92"/>
+
+              <!-- realistic sloped shikara roof -->
+              <path class="roof-main"
+                d="M206 94
+                   C286 46 494 46 586 94
+                   C562 116 528 128 488 132
+                   C412 116 316 116 238 132
+                   C222 120 212 108 206 94 Z" />
+              <path class="roof-rim" d="M206 94 C286 46 494 46 586 94"/>
+              <path class="roof-rim" d="M238 132 C316 116 412 116 488 132 C528 128 562 116 586 94"/>
+              <path class="roof-highlight" d="M252 94 C326 65 468 65 540 94"/>
+
+              <!-- front arched curtain -->
+              <path class="curtain"
+                d="M206 94
+                   C222 66 267 64 292 80
+                   L292 184
+                   C270 174 246 176 224 190 Z" />
+              <path class="curtain-stroke" d="M224 112 C240 94 270 94 286 112"/>
+              <path class="curtain-stroke" d="M230 136 C247 151 268 151 286 136"/>
+              <path class="curtain-stroke" d="M230 160 C247 174 268 174 286 160"/>
+
+              <!-- rear arched curtain -->
+              <path class="curtain rear"
+                d="M502 80
+                   C530 62 570 68 586 94
+                   L568 167
+                   C548 162 524 166 502 180 Z" />
+              <path class="curtain-stroke" d="M514 112 C532 94 562 96 578 114"/>
+              <path class="curtain-stroke" d="M512 136 C530 151 556 151 574 136"/>
+              <path class="curtain-stroke" d="M510 158 C530 174 552 174 568 158"/>
+
+              <!-- scalloped valance -->
+              <path class="valance"
+                d="M238 132
+                   C248 146 260 118 270 132
+                   C280 146 292 118 302 132
+                   C312 146 324 118 334 132
+                   C344 146 356 118 366 132
+                   C376 146 388 118 398 132
+                   C408 146 420 118 430 132
+                   C440 146 452 118 462 132
+                   C472 146 484 118 494 132" />
+
+              <!-- cushions -->
+              <path class="cushion cream" d="M306 176 C340 164 405 164 440 176 L428 192 C386 185 350 185 318 192 Z"/>
+              <path class="cushion red" d="M250 194 C292 182 356 184 392 198 L382 211 C332 204 288 205 258 214 Z"/>
+
+              <!-- rower / boatman -->
+              <g class="rower" id="rower">
+                <circle class="rower-head" cx="612" cy="152" r="10"/>
+                <path class="rower-body" d="M608 164 C594 179 594 197 607 211"/>
+                <path class="rower-arm arm-back" d="M606 176 C626 180 636 187 646 198"/>
+                <path class="rower-arm arm-front" d="M604 174 C622 164 638 154 656 145"/>
+
+                <g id="oar" class="oar">
+                  <path class="oar-stick" d="M628 178 L734 102"/>
+                  <path class="oar-blade" d="M734 102 C752 89 774 94 790 111 C766 118 748 115 734 102 Z"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="wake-particles" id="wakeParticles" aria-hidden="true"></div>
+      </div>
+
+      <div class="loader-copy">
+        <p class="kicker">Kashmir Escapes</p>
+        <h1>Curating Your Journey</h1>
+        <div class="progress-meta">
+          <span id="percent">0%</span>
+          <span class="dash"></span>
+          <span>Dal Lake Awaits</span>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <section class="home-preview">
+    <p>Welcome</p>
+    <h2>Luxury Kashmir journeys, thoughtfully planned.</h2>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
