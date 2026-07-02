@@ -1,29 +1,26 @@
-const statusText = document.getElementById("statusText");
-const loaderScreen = document.getElementById("loaderScreen");
+const copy = document.getElementById("copy");
+const loader = document.getElementById("loader");
 
 const messages = [
-  "Selecting destinations with care",
-  "Packing the essentials",
-  "Adding the final details",
-  "Your escape is ready"
+  "Arranging every detail with care",
+  "Packing your travel essentials",
+  "Finalising a seamless experience",
+  "Your journey is ready"
 ];
 
 messages.forEach((message, index) => {
   setTimeout(() => {
-    statusText.style.opacity = "0";
-    statusText.style.transform = "translateY(5px)";
-
+    copy.style.opacity = "0";
+    copy.style.transform = "translateY(6px)";
     setTimeout(() => {
-      statusText.textContent = message;
-      statusText.style.opacity = "1";
-      statusText.style.transform = "translateY(0)";
+      copy.textContent = message;
+      copy.style.opacity = "1";
+      copy.style.transform = "translateY(0)";
     }, 220);
-  }, index * 1150);
+  }, index * 1250);
 });
 
-statusText.style.transition = "opacity 220ms ease, transform 220ms ease";
-
 setTimeout(() => {
-  loaderScreen.classList.add("hide");
+  loader.classList.add("hide");
   document.body.style.overflow = "auto";
-}, 5400);
+}, 5900);

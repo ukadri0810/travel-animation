@@ -3,82 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Premium Travel Loader</title>
+  <title>Premium Realistic Travel Loader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="loader-screen" id="loaderScreen">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
+  <main class="loader" id="loader">
+    <div class="light light-left"></div>
+    <div class="light light-right"></div>
 
-    <section class="loader-card" aria-label="Travel website loading animation">
-      <p class="eyebrow">Curated Travel Experiences</p>
+    <section class="stage">
+      <div class="brand-side">
+        <div class="mark">
+          <span></span>
+        </div>
+        <p class="overline">Premium Tours & Travels</p>
+        <h1>Preparing your next journey</h1>
+        <p class="copy" id="copy">Arranging every detail with care</p>
 
-      <div class="scene">
-        <div class="shadow"></div>
-
-        <div class="suitcase-wrap">
-          <div class="suitcase-lid">
-            <div class="lid-inner"></div>
-          </div>
-
-          <div class="suitcase-body">
-            <div class="handle"></div>
-            <div class="corner corner-left"></div>
-            <div class="corner corner-right"></div>
-            <div class="strap strap-left"></div>
-            <div class="strap strap-right"></div>
-            <div class="lock"></div>
-          </div>
-
-          <div class="item passport">
-            <span class="passport-line"></span>
-            <span class="passport-seal"></span>
-          </div>
-
-          <div class="item ticket">
-            <span></span>
-            <span></span>
-          </div>
-
-          <div class="item camera">
-            <span class="lens"></span>
-            <span class="flash"></span>
-          </div>
-
-          <div class="item glasses">
-            <span></span>
-            <span></span>
-          </div>
-
-          <div class="item shirt">
-            <span class="shirt-neck"></span>
-          </div>
-
-          <div class="tag">
-            <span class="tag-dot"></span>
-            <strong>DT</strong>
-          </div>
+        <div class="loader-line">
+          <i></i>
         </div>
       </div>
 
-      <h1>Preparing your journey</h1>
-      <p class="status" id="statusText">Selecting destinations with care</p>
+      <div class="visual-side">
+        <div class="table-shadow"></div>
 
-      <div class="progress">
-        <span></span>
+        <div class="travel-scene">
+          <div class="floating-item passport">
+            <div class="passport-rim"></div>
+            <div class="passport-title">PASSPORT</div>
+            <div class="passport-emblem"></div>
+            <div class="passport-line"></div>
+          </div>
+
+          <div class="floating-item boarding-pass">
+            <div class="stub"></div>
+            <div class="bp-lines">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="barcode"></div>
+          </div>
+
+          <div class="floating-item sunglasses">
+            <div class="glass left"></div>
+            <div class="bridge"></div>
+            <div class="glass right"></div>
+          </div>
+
+          <div class="floating-item camera">
+            <div class="camera-top"></div>
+            <div class="camera-body">
+              <div class="lens-outer">
+                <div class="lens-inner"></div>
+              </div>
+              <div class="camera-flash"></div>
+            </div>
+          </div>
+
+          <div class="suitcase">
+            <div class="lid">
+              <div class="lid-rim"></div>
+              <div class="lid-fabric">
+                <div class="inner-pocket"></div>
+                <div class="zipper"></div>
+                <div class="leather-patch">TRAVEL</div>
+              </div>
+            </div>
+
+            <div class="base">
+              <div class="base-rim"></div>
+              <div class="fabric-bed">
+                <div class="folded folded-one"></div>
+                <div class="folded folded-two"></div>
+                <div class="folded folded-three"></div>
+              </div>
+
+              <div class="front-shell">
+                <div class="grain"></div>
+                <div class="corner-cap cap-left"></div>
+                <div class="corner-cap cap-right"></div>
+                <div class="metal metal-left"></div>
+                <div class="metal metal-right"></div>
+                <div class="front-handle"></div>
+                <div class="number-lock"></div>
+              </div>
+            </div>
+
+            <div class="wheel wheel-left"></div>
+            <div class="wheel wheel-right"></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <section class="preview-home" id="previewHome">
-    <div>
-      <p>Welcome</p>
-      <h2>Your next escape begins here</h2>
-    </div>
+  <section class="home-preview">
+    <p>Welcome</p>
+    <h2>Beautiful holidays, thoughtfully planned.</h2>
   </section>
 
   <script src="script.js"></script>
