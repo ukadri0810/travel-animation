@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kashmir Shikara Loading Bar</title>
+  <title>Professional Shikara Loading Bar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <section class="loader-card" aria-label="Kashmir Shikara loading animation">
       <div class="bar-stage" id="barStage">
 
-        <div class="progress-track">
+        <div class="progress-track" id="progressTrack">
           <div class="water-fill" id="waterFill">
             <svg class="wave wave-back" viewBox="0 0 1000 70" preserveAspectRatio="none">
               <path d="M0 38 C60 12, 120 64, 180 38 S300 12, 360 38 S480 64, 540 38 S660 12, 720 38 S840 64, 900 38 S1020 12, 1080 38 L1080 70 L0 70 Z"/>
@@ -29,21 +29,13 @@
           </div>
 
           <div class="track-shine" id="trackShine"></div>
+          <div class="wake-layer" id="wakeLayer"></div>
         </div>
 
         <div class="boat-wrap" id="boatWrap">
           <img src="assets/shikara-reference.png" alt="Kashmir shikara with rower" class="shikara-img" draggable="false" />
-
-          <!-- Separate animated oar layer to make rowing feel alive -->
-          <svg class="animated-oar" id="animatedOar" viewBox="0 0 120 100" aria-hidden="true">
-            <path class="oar-stick" d="M24 40 L80 86" />
-            <path class="oar-blade" d="M80 86 C91 90 101 86 108 76 C96 73 87 77 80 86 Z" />
-          </svg>
-
           <div class="paddle-splash" id="paddleSplash"></div>
         </div>
-
-        <div class="wake-layer" id="wakeLayer"></div>
       </div>
 
       <p class="loader-text">CURATING YOUR JOURNEY...</p>

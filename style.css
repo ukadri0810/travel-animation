@@ -43,32 +43,33 @@ body {
 }
 
 .loader-card {
-  width: min(92vw, 820px);
+  width: min(94vw, 820px);
   display: grid;
   place-items: center;
-  gap: 34px;
+  gap: 32px;
 }
 
 .bar-stage {
-  width: min(88vw, 710px);
-  height: 170px;
+  width: min(90vw, 720px);
+  height: 150px;
   position: relative;
+  overflow: visible;
 }
 
 .progress-track {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 34px;
-  height: 48px;
+  bottom: 28px;
+  height: 52px;
   border-radius: 999px;
   border: 2px solid rgba(200,148,47,.88);
-  background: rgba(255,255,255,.62);
+  background: rgba(255,255,255,.66);
   overflow: hidden;
   box-shadow:
-    0 24px 55px rgba(86, 56, 21, .16),
-    inset 0 1px 0 rgba(255,255,255,.75),
-    inset 0 -12px 22px rgba(123, 88, 34, .06);
+    0 24px 55px rgba(86, 56, 21, .14),
+    inset 0 1px 0 rgba(255,255,255,.78),
+    inset 0 -12px 22px rgba(123, 88, 34, .07);
 }
 
 .water-fill {
@@ -91,7 +92,7 @@ body {
 .wave {
   position: absolute;
   left: 0;
-  bottom: -20px;
+  bottom: -18px;
   width: 980px;
   height: 72px;
   will-change: transform;
@@ -145,13 +146,14 @@ body {
 .boat-wrap {
   position: absolute;
   left: 0;
-  bottom: 44px;
-  width: clamp(220px, 40vw, 340px);
-  height: 94px;
-  transform: translateX(-50%);
+  bottom: 48px;
+  width: clamp(205px, 36vw, 300px);
+  height: 82px;
+  transform: translateX(0);
   z-index: 10;
   will-change: transform;
   pointer-events: none;
+  overflow: visible;
 }
 
 .shikara-img {
@@ -162,47 +164,23 @@ body {
   height: auto;
   user-select: none;
   filter:
-    drop-shadow(0 14px 18px rgba(92, 61, 21, .20))
-    drop-shadow(0 0 7px rgba(200,148,47,.18));
+    drop-shadow(0 14px 18px rgba(92, 61, 21, .18))
+    drop-shadow(0 0 6px rgba(200,148,47,.15));
   transform-origin: center bottom;
   animation: boatFloat 2.8s ease-in-out infinite;
 }
 
-.animated-oar {
-  position: absolute;
-  left: 14%;
-  top: 37%;
-  width: 21%;
-  height: 58%;
-  transform-origin: 19% 14%;
-  opacity: .78;
-  will-change: transform;
-}
-
-.oar-stick {
-  fill: none;
-  stroke: #8E5E23;
-  stroke-width: 4;
-  stroke-linecap: round;
-}
-
-.oar-blade {
-  fill: rgba(142,94,35,.52);
-  stroke: #8E5E23;
-  stroke-width: 2.4;
-  stroke-linejoin: round;
-}
-
+/* no extra paddle now — the reference image already includes one */
 .paddle-splash {
   position: absolute;
-  left: 18%;
-  bottom: 2px;
+  left: 17%;
+  bottom: -3px;
   width: 38px;
   height: 18px;
   border-radius: 50%;
   opacity: 0;
   background:
-    radial-gradient(circle at 38% 50%, rgba(255,255,255,.85) 0 2px, transparent 3px),
+    radial-gradient(circle at 38% 50%, rgba(255,255,255,.88) 0 2px, transparent 3px),
     radial-gradient(circle at 56% 40%, rgba(255,255,255,.75) 0 1px, transparent 2px),
     radial-gradient(ellipse, rgba(255,255,255,.42), transparent 70%);
   filter: blur(.1px);
@@ -211,11 +189,11 @@ body {
 .wake-layer {
   position: absolute;
   left: 0;
-  bottom: 56px;
+  top: 12px;
   width: 0;
-  height: 36px;
+  height: 28px;
   pointer-events: none;
-  z-index: 7;
+  z-index: 6;
   overflow: visible;
 }
 
@@ -285,10 +263,10 @@ body {
 
 @keyframes boatFloat {
   0%, 100% {
-    transform: translateY(0) rotate(-.2deg);
+    transform: translateY(0) rotate(-.15deg);
   }
   50% {
-    transform: translateY(-3px) rotate(.22deg);
+    transform: translateY(-2px) rotate(.18deg);
   }
 }
 
@@ -303,13 +281,13 @@ body {
 }
 
 @keyframes waveFrontFloat {
-  0%, 100% { bottom: -20px; }
-  50% { bottom: -24px; }
+  0%, 100% { bottom: -18px; }
+  50% { bottom: -22px; }
 }
 
 @keyframes waveBackFloat {
-  0%, 100% { bottom: -18px; }
-  50% { bottom: -22px; }
+  0%, 100% { bottom: -16px; }
+  50% { bottom: -20px; }
 }
 
 @keyframes foamMove {
@@ -329,17 +307,17 @@ body {
 
   .bar-stage {
     width: 90vw;
-    height: 145px;
+    height: 132px;
   }
 
   .progress-track {
-    height: 42px;
-    bottom: 28px;
+    height: 44px;
+    bottom: 24px;
   }
 
   .boat-wrap {
-    width: 235px;
-    bottom: 38px;
+    width: 212px;
+    bottom: 39px;
   }
 
   .loader-text {
