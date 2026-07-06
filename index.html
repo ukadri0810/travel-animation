@@ -1,58 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Catch the Button | Codexa</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0b0b08" />
+  <title>Password Runaway Login | Codexa Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="wrap">
-    <section class="card">
-      <div class="grain"></div>
-      <header class="nav">
-        <div class="logo"><span>C</span> Codexa</div>
-        <div class="badge">Live interaction</div>
-      </header>
+  <main class="scene" id="scene">
+    <div class="grain"></div>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <div class="soft-grid"></div>
 
-      <section class="hero">
-        <div class="copy">
-          <p class="label">Scroll-stopping website animation</p>
-          <h1>Try to catch the button.</h1>
-          <p class="text">A funny micro-game that keeps visitors engaged before showing your real business CTA.</p>
-
-          <div class="scoreboard">
-            <div><strong id="attempts">0</strong><small>Attempts</small></div>
-            <div><strong id="clock">0.0s</strong><small>Time</small></div>
+    <section class="showcase" id="showcase" aria-label="Password runaway login animation">
+      <div class="device-glow"></div>
+      <div class="device" id="device">
+        <header class="nav">
+          <div class="brand">
+            <span class="brand-icon"></span>
+            <span>CODEXA</span>
           </div>
+          <span class="live-badge" id="liveBadge">Live demo</span>
+        </header>
 
-          <p class="note" id="note">Tap the orange button. It will run first, then surrender.</p>
-        </div>
+        <section class="intro" id="intro">
+          <p class="kicker">Interactive login concept</p>
+          <h1>Even the password<br><em>has attitude.</em></h1>
+          <p class="lead" id="lead">Type a password and watch the dots escape like they saw your old website.</p>
+        </section>
 
-        <div class="device">
-          <div class="device-top"><span></span><span></span><span></span></div>
-          <div class="arena" id="arena">
-            <div class="speech" id="speech">Catch me if you can 😏</div>
-            <button class="runner" id="runner" type="button">
-              <span id="face">😏</span>
-              <span id="runnerText">Catch me</span>
-            </button>
-
-            <div class="win" id="win">
-              <div class="medal">🏆</div>
-              <h2>Button Hunter</h2>
-              <p>You caught it in <b id="finalAttempts">0</b> attempts and <b id="finalTime">0.0s</b>.</p>
-              <p class="small">If one button can hold attention, imagine what a custom website can do for your customers.</p>
-              <a class="primary" href="https://wa.me/" target="_blank" rel="noreferrer">Build My Website</a>
-              <button class="again" id="again" type="button">Play again</button>
+        <form class="panel" id="loginForm" autocomplete="off">
+          <div class="field-row">
+            <label for="emailInput">Email</label>
+            <div class="input-shell">
+              <input id="emailInput" type="email" value="founder@business.in" aria-label="Email" />
             </div>
           </div>
-        </div>
-      </section>
+
+          <div class="field-row password-row">
+            <label for="passwordInput">Password</label>
+            <div class="input-shell password-shell" id="passwordShell">
+              <input id="passwordInput" type="password" placeholder="Type anything" aria-label="Password" inputmode="text" />
+              <div class="fake-dots" id="fakeDots" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="message-strip" id="messageStrip">Waiting for password drama...</div>
+
+          <button class="login-button" id="loginButton" type="submit">
+            <span class="btn-label" id="btnLabel">Enter the portal</span>
+            <span class="btn-shine"></span>
+          </button>
+        </form>
+
+        <div class="escape-world" id="escapeWorld" aria-hidden="true"></div>
+
+        <aside class="reaction-card" id="reactionCard" aria-hidden="true">
+          <span class="reaction-emoji">🏃</span>
+          <span id="reactionText">Password left the chat.</span>
+        </aside>
+
+        <section class="finish" id="finish" aria-live="polite">
+          <div class="finish-mark">✓</div>
+          <p class="finish-kicker">Micro-interaction unlocked</p>
+          <h2>Boring page? Fixed.</h2>
+          <p>If one login screen can hold attention, imagine what a custom website can do for a real business.</p>
+          <button class="restart" id="restartBtn" type="button">Replay animation</button>
+        </section>
+
+        <footer class="caption-bar">
+          <span>Built for scroll-stopping reels</span>
+          <span>Tap • Laugh • Remember</span>
+        </footer>
+      </div>
     </section>
   </main>
 
-  <canvas id="confetti"></canvas>
   <script src="script.js"></script>
 </body>
 </html>
