@@ -1,60 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Porcelain Entrance — Phase 1</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ivory:#f8f5ee;
-  --porcelain:#fffdf8;
-  --warm:#eee6d8;
-  --ink:#1f1b16;
-  --muted:#8d8375;
-  --soft:#d8c8b4;
-  --gold:#b89a68;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:var(--ivory);font-family:Manrope,system-ui,sans-serif;color:var(--ink);overflow-x:hidden}
-.phase-label{position:fixed;top:22px;left:22px;z-index:50;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9b907f;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);padding:10px 14px;border:1px solid rgba(80,60,40,.08);border-radius:999px}
-.scene{min-height:100vh;display:grid;place-items:center;padding:28px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 30%,#fffefa 0%,#f7f1e7 44%,#ece3d5 100%)}
-.scene:before{content:"";position:absolute;inset:-20%;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.7) 46%,rgba(255,255,255,.12) 56%,transparent 65%);transform:translateX(-28%) rotate(-5deg);filter:blur(8px);opacity:.75}
-.scene:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(40,30,18,.05) .7px,transparent .7px);background-size:3px 3px;opacity:.22;mix-blend-mode:multiply;pointer-events:none}
-.porcelain-wall{width:min(92vw,860px);height:min(74vh,560px);position:relative;border-radius:34px;background:linear-gradient(135deg,#fffefa,#f1e9dc 55%,#fffaf2);box-shadow:0 40px 120px rgba(72,54,36,.14), inset 0 1px 1px rgba(255,255,255,.9), inset 0 -30px 80px rgba(142,111,77,.08);display:grid;place-items:center;overflow:hidden;border:1px solid rgba(105,82,54,.09)}
-.porcelain-wall:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.45),transparent 28%,transparent 70%,rgba(164,134,91,.09));}
-.porcelain-wall:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(70,54,35,.11),transparent);opacity:.65}
-.brand{text-align:center;position:relative;z-index:2;padding:30px;filter:drop-shadow(0 16px 28px rgba(75,56,35,.08))}
-.logo-emboss{font-size:clamp(3.3rem,9vw,7.8rem);letter-spacing:-.07em;font-weight:700;color:transparent;background:linear-gradient(180deg,#ffffff 0%,#d4c4ac 45%,#ffffff 100%);-webkit-background-clip:text;background-clip:text;text-shadow:0 -1px 1px rgba(255,255,255,.95),0 1px 1px rgba(102,82,55,.22)}
-.subline{font-family:'Instrument Serif',serif;font-size:clamp(1.15rem,2.6vw,1.7rem);font-style:italic;color:#9a7f55;margin-top:10px;letter-spacing:.01em}
-.smile{width:min(270px,56vw);height:36px;margin:22px auto 0;position:relative}
-.smile svg{width:100%;height:100%;overflow:visible}.smile path{fill:none;stroke:url(#goldLine);stroke-width:2;stroke-linecap:round;filter:drop-shadow(0 8px 10px rgba(184,154,104,.2))}
-.notes{position:absolute;right:28px;bottom:26px;z-index:4;text-align:right;color:#9f9382;font-size:12px;line-height:1.8}.notes strong{display:block;color:#6e614f;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:3px}
-.frames{position:fixed;left:22px;right:22px;bottom:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;z-index:40}.frame{background:rgba(255,255,255,.62);backdrop-filter:blur(18px);border:1px solid rgba(79,58,36,.09);border-radius:18px;padding:15px 16px;min-height:98px;box-shadow:0 18px 55px rgba(76,56,35,.07)}.time{font-size:11px;color:#b89a68;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.frame h3{font-size:14px;margin:8px 0 6px;letter-spacing:-.02em}.frame p{font-size:12px;color:#857a6b;line-height:1.55}
-@media(max-width:760px){.phase-label{top:14px;left:14px}.scene{padding:18px 18px 240px}.porcelain-wall{height:450px;border-radius:28px}.frames{grid-template-columns:1fr 1fr;left:12px;right:12px;bottom:12px;gap:9px}.frame{padding:12px;min-height:94px}.notes{display:none}.logo-emboss{letter-spacing:-.06em}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arc Dental — Porcelain Entrance Phase 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="phase-label">Phase 1 · Art direction</div>
-  <section class="scene" aria-label="Porcelain Entrance visual storyboard">
-    <div class="porcelain-wall">
-      <div class="brand">
-        <div class="logo-emboss">Arc Dental</div>
-        <div class="subline">Gentle dentistry, beautifully delivered.</div>
-        <div class="smile" aria-hidden="true">
-          <svg viewBox="0 0 300 50"><defs><linearGradient id="goldLine" x1="0" x2="1"><stop offset="0" stop-color="#d9c59b" stop-opacity="0"/><stop offset=".5" stop-color="#b89a68"/><stop offset="1" stop-color="#d9c59b" stop-opacity="0"/></linearGradient></defs><path d="M42 15 C86 46, 213 46, 258 15"/></svg>
+  <main class="clinic-page" aria-label="Arc Dental homepage preview">
+    <nav class="nav-shell">
+      <a class="brand" href="#" aria-label="Arc Dental home">
+        <span class="brand-mark">A</span>
+        <span>Arc Dental</span>
+      </a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#care">Care</a>
+        <a href="#comfort">Comfort</a>
+        <a href="#book">Book Visit</a>
+      </div>
+    </nav>
+
+    <section class="hero-stage">
+      <div class="hero-copy">
+        <p class="eyebrow">Modern cosmetic & restorative dentistry</p>
+        <h1>A calmer way<br><span>to smile.</span></h1>
+        <p class="lead">A warm, precision-led dental experience designed around comfort, clarity, and confidence.</p>
+        <div class="hero-actions">
+          <a href="#book" class="primary-btn">Book a visit</a>
+          <a href="#care" class="ghost-btn">Explore care</a>
         </div>
       </div>
-      <div class="notes"><strong>Material language</strong>Porcelain · light · warmth<br>precision without fear</div>
+      <div class="hero-card" aria-hidden="true">
+        <div class="glass-panel">
+          <div class="soft-smile"></div>
+          <p>Gentle dentistry,<br>beautifully delivered.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="loader-shell" aria-label="Porcelain entrance loader concept">
+    <div class="porcelain-grain"></div>
+    <div class="porcelain-panel panel-left"></div>
+    <div class="porcelain-panel panel-right"></div>
+
+    <div class="loader-center">
+      <div class="embossed-badge">
+        <span class="badge-letter">A</span>
+      </div>
+      <h2>Arc Dental</h2>
+      <div class="smile-line" aria-hidden="true"></div>
+      <p>Gentle dentistry, beautifully delivered.</p>
     </div>
+
+    <div class="reflection-band" aria-hidden="true"></div>
+    <div class="phase-note">Phase 2 · Static structure</div>
   </section>
-  <div class="frames">
-    <div class="frame"><div class="time">0–1s</div><h3>White ceramic silence</h3><p>Warm ivory surface, barely visible texture, no spinner.</p></div>
-    <div class="frame"><div class="time">1–2s</div><h3>Emboss reveal</h3><p>Clinic name appears like engraved porcelain catching light.</p></div>
-    <div class="frame"><div class="time">2–3s</div><h3>Smile reflection</h3><p>A subtle curve forms under the name, calm and dental-specific.</p></div>
-    <div class="frame"><div class="time">3–4s</div><h3>Entrance opens</h3><p>Porcelain wall separates and reveals the homepage behind it.</p></div>
-  </div>
 </body>
 </html>
