@@ -1,86 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0b0b08" />
-  <title>Password Runaway Login | Codexa Agency</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Password Runaway Login | Codexa</title>
+<style>
+:root{--bg:#070706;--panel:#11110f;--ink:#f5f1e8;--muted:#a9a095;--acid:#b8ff2c;--line:rgba(255,255,255,.12);--glass:rgba(255,255,255,.075)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}body{background:radial-gradient(circle at 18% 8%,rgba(184,255,44,.18),transparent 28%),radial-gradient(circle at 90% 20%,rgba(255,255,255,.08),transparent 26%),linear-gradient(145deg,#090908,#030303 65%,#130d08);}.grain{position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");mix-blend-mode:soft-light}.wrap{width:min(1120px,100%);margin:0 auto;padding:28px clamp(16px,4vw,44px) 48px}.hero{min-height:100svh;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}.brand{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#ddd7cd}.pill{border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:var(--glass);backdrop-filter:blur(16px);letter-spacing:.04em}.eyebrow{display:inline-flex;gap:10px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.055);padding:10px 14px;border-radius:999px;color:var(--muted);font-size:14px}.dot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 20px var(--acid)}h1{font-size:clamp(50px,10vw,128px);line-height:.82;letter-spacing:-.085em;margin:22px 0 24px;max-width:780px}.italic{font-style:italic;font-weight:850;color:var(--acid);letter-spacing:-.075em}p.lead{font-size:clamp(18px,2.3vw,25px);line-height:1.25;color:#ded8ce;max-width:660px;margin:0 0 28px}.mini-row{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}.mini-row span{border:1px solid var(--line);padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.045)}.login-card{position:relative;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.055));box-shadow:0 34px 100px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(24px);border-radius:34px;padding:24px;overflow:hidden}.login-card:before{content:"";position:absolute;inset:-2px;background:radial-gradient(circle at var(--mx,35%) var(--my,20%),rgba(184,255,44,.23),transparent 30%);opacity:.8;pointer-events:none}.card-top,.form,.status,.portal,.score{position:relative}.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}.card-title{font-size:15px;color:var(--muted)}.live{font-size:13px;color:#101;background:var(--acid);padding:8px 11px;border-radius:999px;font-weight:800}.field{margin-bottom:16px}.field label{display:block;color:#d9d3ca;font-size:14px;margin:0 0 7px}.input-wrap{position:relative;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(5,5,5,.48);height:58px;display:flex;align-items:center;padding:0 16px;transition:.25s}.input-wrap:focus-within{border-color:rgba(184,255,44,.6);box-shadow:0 0 0 4px rgba(184,255,44,.08)}input{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:17px}.password-ghost{position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding-left:16px;pointer-events:none}.ghost-dot{width:12px;height:12px;border-radius:50%;background:var(--ink);box-shadow:0 0 14px rgba(255,255,255,.5);transition:transform .55s cubic-bezier(.2,1.4,.25,1),opacity .3s}.input-wrap input[type=password]{color:transparent;text-shadow:0 0 0 transparent}.status{min-height:36px;font-size:15px;color:#eee;margin:10px 0 18px;display:flex;align-items:center;gap:10px}.status b{color:var(--acid)}button{font:inherit}.portal{width:100%;height:60px;border:0;border-radius:20px;background:var(--acid);color:#0b0b08;font-weight:950;font-size:16px;cursor:pointer;box-shadow:0 18px 44px rgba(184,255,44,.18);transition:.25s transform,.25s filter}.portal:active{transform:scale(.98)}.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.score div{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(0,0,0,.22)}.score strong{display:block;font-size:20px}.score small{color:var(--muted);font-size:12px}.runner{position:fixed;z-index:20;width:15px;height:15px;border-radius:50%;background:var(--acid);box-shadow:0 0 20px var(--acid),0 0 44px rgba(184,255,44,.45);pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.7)}.runner.show{opacity:1}.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;z-index:30;background:rgba(14,14,13,.82);border:1px solid var(--line);backdrop-filter:blur(18px);border-radius:999px;padding:13px 17px;color:#fff;transition:.35s;box-shadow:0 20px 70px #000}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.end{display:none;position:fixed;inset:0;z-index:40;background:rgba(4,4,3,.72);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:20px}.end.show{display:flex}.end-card{width:min(560px,100%);background:#f5f1e8;color:#111;border-radius:34px;padding:32px;box-shadow:0 40px 120px #000;position:relative;overflow:hidden}.end-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 10%,rgba(184,255,44,.75),transparent 34%);pointer-events:none}.end-card>*{position:relative}.end-card h2{font-size:clamp(38px,7vw,72px);line-height:.88;letter-spacing:-.06em;margin:0 0 18px}.end-card p{font-size:18px;line-height:1.35;color:#28251f}.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.dark-btn,.light-btn{border:0;border-radius:999px;padding:14px 18px;font-weight:900}.dark-btn{background:#111;color:#fff}.light-btn{background:rgba(0,0,0,.08);color:#111}.shake{animation:shake .42s}.card-shine{position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(184,255,44,.18);filter:blur(24px);right:-50px;top:-40px;animation:float 5s ease-in-out infinite}.scribble{position:absolute;right:22px;bottom:18px;color:rgba(255,255,255,.3);font-size:12px;letter-spacing:.16em;text-transform:uppercase}.confetti{position:fixed;width:8px;height:14px;z-index:60;top:-20px;animation:fall 900ms linear forwards;background:var(--acid)}@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}@keyframes float{50%{transform:translate(-18px,20px)}}@keyframes fall{to{transform:translateY(110vh) rotate(520deg);opacity:.2}}
+@media(max-width:860px){.wrap{padding:18px 14px 34px}.hero{grid-template-columns:1fr;align-items:start;gap:20px}.brand{margin-bottom:30px}.pill{display:none}h1{font-size:clamp(56px,17vw,96px);margin-top:18px}.login-card{border-radius:28px;padding:18px}.score{grid-template-columns:1fr 1fr 1fr}.hero{min-height:auto}.left{padding-top:12px}.card-top{margin-bottom:24px}.portal{height:56px}.input-wrap{height:54px}.end-card{padding:26px;border-radius:28px}}@media(max-width:420px){.score{gap:7px}.score div{padding:10px}.score strong{font-size:17px}.mini-row span{font-size:12px;padding:8px 10px}.brand{font-size:12px}p.lead{font-size:18px}}
+</style>
 </head>
 <body>
-  <main class="scene" id="scene">
-    <div class="grain"></div>
-    <div class="ambient ambient-a"></div>
-    <div class="ambient ambient-b"></div>
-    <div class="soft-grid"></div>
+<div class="grain"></div>
+<main class="wrap">
+  <section class="hero">
+    <div class="left">
+      <div class="brand"><strong>CODEXA</strong><span class="pill">Interactive concept</span></div>
+      <div class="eyebrow"><span class="dot"></span> Scroll-stopping login animation</div>
+      <h1>Even the password <span class="italic">has attitude.</span></h1>
+      <p class="lead">Type anything in the password field. The dots escape, roast the user, then return only when they are done with the drama.</p>
+      <div class="mini-row"><span>Mobile friendly</span><span>Funny micro-interaction</span><span>Built for reels</span></div>
+    </div>
 
-    <section class="showcase" id="showcase" aria-label="Password runaway login animation">
-      <div class="device-glow"></div>
-      <div class="device" id="device">
-        <header class="nav">
-          <div class="brand">
-            <span class="brand-icon"></span>
-            <span>CODEXA</span>
-          </div>
-          <span class="live-badge" id="liveBadge">Live demo</span>
-        </header>
-
-        <section class="intro" id="intro">
-          <p class="kicker">Interactive login concept</p>
-          <h1>Even the password<br><em>has attitude.</em></h1>
-          <p class="lead" id="lead">Type a password and watch the dots escape like they saw your old website.</p>
-        </section>
-
-        <form class="panel" id="loginForm" autocomplete="off">
-          <div class="field-row">
-            <label for="emailInput">Email</label>
-            <div class="input-shell">
-              <input id="emailInput" type="email" value="founder@business.in" aria-label="Email" />
-            </div>
-          </div>
-
-          <div class="field-row password-row">
-            <label for="passwordInput">Password</label>
-            <div class="input-shell password-shell" id="passwordShell">
-              <input id="passwordInput" type="password" placeholder="Type anything" aria-label="Password" inputmode="text" />
-              <div class="fake-dots" id="fakeDots" aria-hidden="true"></div>
-            </div>
-          </div>
-
-          <div class="message-strip" id="messageStrip">Waiting for password drama...</div>
-
-          <button class="login-button" id="loginButton" type="submit">
-            <span class="btn-label" id="btnLabel">Enter the portal</span>
-            <span class="btn-shine"></span>
-          </button>
-        </form>
-
-        <div class="escape-world" id="escapeWorld" aria-hidden="true"></div>
-
-        <aside class="reaction-card" id="reactionCard" aria-hidden="true">
-          <span class="reaction-emoji">🏃</span>
-          <span id="reactionText">Password left the chat.</span>
-        </aside>
-
-        <section class="finish" id="finish" aria-live="polite">
-          <div class="finish-mark">✓</div>
-          <p class="finish-kicker">Micro-interaction unlocked</p>
-          <h2>Boring page? Fixed.</h2>
-          <p>If one login screen can hold attention, imagine what a custom website can do for a real business.</p>
-          <button class="restart" id="restartBtn" type="button">Replay animation</button>
-        </section>
-
-        <footer class="caption-bar">
-          <span>Built for scroll-stopping reels</span>
-          <span>Tap • Laugh • Remember</span>
-        </footer>
+    <div class="login-card" id="card">
+      <div class="card-shine"></div>
+      <div class="card-top"><div><strong>Client Portal</strong><div class="card-title">Premium login prototype</div></div><span class="live">LIVE</span></div>
+      <div class="form">
+        <div class="field"><label>Email</label><div class="input-wrap"><input value="founder@business.in" inputmode="email"></div></div>
+        <div class="field"><label>Password</label><div class="input-wrap" id="passWrap"><input id="pass" type="password" placeholder="Type anything" autocomplete="off"><div class="password-ghost" id="ghost"></div></div></div>
+        <div class="status" id="status">Waiting for password drama…</div>
+        <button class="portal" id="loginBtn">Enter the portal</button>
+        <div class="score"><div><strong id="attempts">0</strong><small>Attempts</small></div><div><strong id="mood">Calm</strong><small>Password mood</small></div><div><strong>9s</strong><small>Reel hook</small></div></div>
       </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+      <div class="scribble">Tap • Laugh • Remember</div>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast">Password left the chat.</div>
+<div id="end" class="end"><div class="end-card"><h2>Boring page? Fixed.</h2><p>If one login screen can hold attention, imagine what a custom website can do for a real business.</p><div class="cta-row"><button class="dark-btn" onclick="location.reload()">Replay animation</button><button class="light-btn">Built by Codexa</button></div></div></div>
+<script>
+const pass=document.getElementById('pass'), ghost=document.getElementById('ghost'), statusEl=document.getElementById('status'), loginBtn=document.getElementById('loginBtn'), card=document.getElementById('card'), toast=document.getElementById('toast'), attemptsEl=document.getElementById('attempts'), mood=document.getElementById('mood'), end=document.getElementById('end');
+let attempts=0, escaped=false, returned=false; const taunts=['Your password said: not today.','It saw your old website and ran.','Catch the dots first.','This login has trust issues.','Fine… they are coming back.'];
+function buildDots(n){ghost.innerHTML=''; for(let i=0;i<Math.min(n,10);i++){let d=document.createElement('span');d.className='ghost-dot';ghost.appendChild(d)}}
+function showToast(t){toast.textContent=t; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1200)}
+function escapeDots(){if(escaped)return; escaped=true; returned=false; attempts++; attemptsEl.textContent=attempts; mood.textContent='Drama'; statusEl.innerHTML='🏃 <b>Password left the chat.</b>'; showToast('Password left the chat.'); const dots=[...ghost.children]; dots.forEach((d,i)=>{const x=(Math.random()*260-130), y=-(80+Math.random()*160); d.style.transform=`translate(${x}px,${y}px) scale(${.8+Math.random()*.8})`; d.style.opacity=.9;}); if(navigator.vibrate) navigator.vibrate(30)}
+function returnDots(){returned=true; escaped=false; mood.textContent='Defeated'; statusEl.innerHTML='✅ Password came back. You win.'; [...ghost.children].forEach(d=>{d.style.transform='translate(0,0) scale(1)'; d.style.opacity=1;});}
+pass.addEventListener('input',()=>{buildDots(pass.value.length); if(pass.value.length>=2) setTimeout(escapeDots,180)});
+loginBtn.addEventListener('click',()=>{attempts++; attemptsEl.textContent=attempts; if(!pass.value){statusEl.textContent='Type a password first.'; loginBtn.classList.add('shake'); setTimeout(()=>loginBtn.classList.remove('shake'),450); return} if(escaped && !returned){statusEl.textContent=taunts[Math.min(attempts-1,taunts.length-1)]; loginBtn.classList.add('shake'); setTimeout(()=>loginBtn.classList.remove('shake'),450); if(attempts>=3){returnDots(); setTimeout(win,700)} return} win()});
+function win(){statusEl.innerHTML='✨ Micro-interaction unlocked.'; confetti(); setTimeout(()=>end.classList.add('show'),700)}
+function confetti(){for(let i=0;i<70;i++){let c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*500+'ms';c.style.transform=`rotate(${Math.random()*180}deg)`;document.body.appendChild(c);setTimeout(()=>c.remove(),1600)}}
+card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')});
+</script>
 </body>
 </html>
