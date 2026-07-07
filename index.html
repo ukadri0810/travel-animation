@@ -68,22 +68,58 @@
       justify-content: center;
     }
 
-    /* The Photorealistic Ingredients */
+    /* PREMIUM 3D CSS PLACEHOLDERS 
+      These simulate photorealistic 3D rendering directly in the browser 
+    */
     .ingredient {
       position: absolute;
-      width: 250px;
-      object-fit: contain;
-      /* This drop-shadow is the secret to making 2D images look 3D in the browser */
-      filter: drop-shadow(0px 20px 15px rgba(0, 0, 0, 0.8));
       will-change: transform;
     }
 
-    /* Starting positions for the explosion effect */
-    .top-bun { top: -20%; z-index: 5; }
-    .lettuce { top: 10%; z-index: 4; }
-    .cheese  { top: 35%; z-index: 3; }
-    .patty   { top: 55%; z-index: 2; }
-    .bot-bun { top: 80%; z-index: 1; }
+    .top-bun {
+      width: 200px;
+      height: 80px;
+      background: radial-gradient(circle at 50% 20%, #f7b77b, #c36a21);
+      border-radius: 100px 100px 20px 20px;
+      box-shadow: inset -5px -10px 20px rgba(0,0,0,0.5), 0 20px 20px rgba(0,0,0,0.6);
+      top: -20%; z-index: 5;
+    }
+
+    .lettuce {
+      width: 220px;
+      height: 15px;
+      background: linear-gradient(90deg, #4CAF50, #2E7D32, #4CAF50);
+      border-radius: 10px;
+      box-shadow: 0 15px 15px rgba(0,0,0,0.5);
+      top: 10%; z-index: 4;
+    }
+
+    .cheese {
+      width: 210px;
+      height: 12px;
+      background: #FBC02D;
+      border-radius: 5px;
+      box-shadow: 0 15px 15px rgba(0,0,0,0.5);
+      top: 35%; z-index: 3;
+    }
+
+    .patty {
+      width: 190px;
+      height: 45px;
+      background: #3E2723;
+      border-radius: 20px;
+      box-shadow: inset 0 -5px 10px #211512, 0 15px 15px rgba(0,0,0,0.6);
+      top: 55%; z-index: 2;
+    }
+
+    .bot-bun {
+      width: 200px;
+      height: 55px;
+      background: radial-gradient(circle at 50% 80%, #f7b77b, #c36a21);
+      border-radius: 20px 20px 80px 80px;
+      box-shadow: inset -5px 10px 20px rgba(0,0,0,0.3), 0 20px 20px rgba(0,0,0,0.6);
+      top: 80%; z-index: 1;
+    }
 
     /* Minimalist Loading UI */
     .loading-ui {
@@ -101,7 +137,7 @@
       font-size: 3rem;
       font-weight: 700;
       line-height: 1;
-      color: #ff471a; /* Appetizing premium orange/red */
+      color: #ff471a; 
     }
 
     .loading-text {
@@ -118,11 +154,11 @@
     <div class="spotlight" id="spotlight"></div>
     
     <div class="food-stage" id="burger-stack">
-      <img src="https://ui-assets.s3.amazonaws.com/burger/top-bun.png" alt="Top Bun" class="ingredient top-bun" id="ing-1">
-      <img src="https://ui-assets.s3.amazonaws.com/burger/lettuce.png" alt="Lettuce" class="ingredient lettuce" id="ing-2">
-      <img src="https://ui-assets.s3.amazonaws.com/burger/cheese.png" alt="Cheese" class="ingredient cheese" id="ing-3">
-      <img src="https://ui-assets.s3.amazonaws.com/burger/patty.png" alt="Patty" class="ingredient patty" id="ing-4">
-      <img src="https://ui-assets.s3.amazonaws.com/burger/bottom-bun.png" alt="Bottom Bun" class="ingredient bot-bun" id="ing-5">
+      <div class="ingredient top-bun" id="ing-1"></div>
+      <div class="ingredient lettuce" id="ing-2"></div>
+      <div class="ingredient cheese" id="ing-3"></div>
+      <div class="ingredient patty" id="ing-4"></div>
+      <div class="ingredient bot-bun" id="ing-5"></div>
     </div>
 
     <div class="loading-ui" id="ui">
@@ -138,15 +174,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   
   <script>
-    // 1. Initial State Setup
-    // Spread the ingredients out on the Y, Z, and rotate axes for the 3D explosion effect
+    // 1. Initial State Setup (The 3D Coordinates)
     gsap.set("#ing-1", { y: -150, z: 100, rotationX: 15, rotationY: -10 });
     gsap.set("#ing-2", { y: -50,  z: 50,  rotationX: -10, rotationY: 15 });
     gsap.set("#ing-3", { y: 20,   z: 25,  rotationX: 5,   rotationY: -5 });
     gsap.set("#ing-4", { y: 100,  z: 0,   rotationX: -15, rotationY: 10 });
     gsap.set("#ing-5", { y: 200,  z: -50, rotationX: 10,  rotationY: -15 });
 
-    // 2. The Slow-Motion Float (Creates the mouth-watering temptation)
+    // 2. The Slow-Motion Float 
     const floatAnim = gsap.to(".ingredient", {
       y: "+=20",
       rotationX: "+=5",
@@ -171,7 +206,7 @@
 
     tl.to(counterObj, {
       value: 100,
-      duration: 3.5, // Time it takes to load
+      duration: 3.5, 
       ease: "power1.inOut",
       onUpdate: () => {
         counterElement.innerText = Math.round(counterObj.value) + "%";
@@ -179,25 +214,22 @@
     });
 
     // 4. The Assembly (The Snap)
-    // First, fade out the UI and stop the floating
     tl.to("#ui", { opacity: 0, duration: 0.3 }, "-=0.3")
       .add(() => floatAnim.kill(), "<");
 
-    // The ingredients forcefully snap perfectly together into the center
     tl.to(".ingredient", {
       y: 0,
       z: 0,
       x: 0,
-      top: "25%", // Align them perfectly in the center of the stage
+      top: "25%", 
       rotationX: 0,
       rotationY: 0,
       rotationZ: 0,
       duration: 0.8,
-      ease: "expo.inOut" // A very aggressive, high-end cinematic snap curve
+      ease: "expo.inOut" 
     }, "+=0.1");
 
-    // 5. The Reveal
-    // The fully assembled burger pushes toward the camera (scales up) while fading out
+    // 5. The Cinematic Reveal
     tl.to("#burger-stack", {
       scale: 4,
       opacity: 0,
@@ -205,7 +237,6 @@
       ease: "power2.in"
     }, "+=0.4")
     
-    // The background spotlight flares out
     .to("#spotlight", {
       scale: 3,
       opacity: 0,
@@ -213,14 +244,12 @@
       ease: "power2.in"
     }, "<")
 
-    // The dark preloader background fades, revealing the main website underneath
     .to(".preloader-wrapper", {
       opacity: 0,
       duration: 0.8,
       ease: "power2.inOut"
     }, "-=0.4")
 
-    // The Website Hero Text fades in
     .to("#hero-title", {
       opacity: 1,
       y: -30,
