@@ -3,159 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kashmir 2025 | Cinematic Experience</title>
-  <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: #050505; color: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden; }
+  <title>Kashmir 2025 | Premium Experience</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-    /* Preloader Container */
-    .preloader {
-      position: fixed;
-      inset: 0;
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #ffffff; overflow: hidden; font-family: 'Inter', sans-serif; }
+
+    /* The Main Website Content (Hidden underneath the loader) */
+    .website-content {
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      background-color: #f8f9fa;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: #1a1a1a;
+    }
+
+    /* --- PRELOADER STYLES --- */
+    .preloader-wrapper {
+      position: fixed;
+      inset: 0;
+      background-color: #0b1219; /* Deep, premium slate blue */
       z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      will-change: transform, border-radius;
     }
 
-    /* The Loading Counter */
-    .counter {
-      position: absolute;
-      bottom: 40px;
-      right: 50px;
-      font-size: 4vw;
-      font-weight: 300;
-      letter-spacing: -2px;
-      z-index: 10;
-      mix-blend-mode: difference;
-    }
-
-    /* The Cinematic Window (Mask) */
-    .image-mask {
-      width: 2px; /* Starts as a razor-thin sliver */
-      height: 0vh; /* Will grow to indicate progress */
-      overflow: hidden;
-      position: relative;
-      will-change: width, height;
-    }
-
-    /* The Real Photography */
-    .hero-image {
+    /* The 3D Canvas Container */
+    .spline-container {
       width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1.5); /* Starts scaled up for depth */
-      filter: brightness(0.6) contrast(1.1); /* Cinematic color grading */
-      will-change: transform;
+      height: 60vh;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Optional: Add a subtle fade-in to the 3D canvas itself */
+      animation: fadeIn 2s ease-in-out;
     }
 
-    /* Hero Text Reveal */
-    .hero-title {
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Loading UI Bar */
+    .loading-ui {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 8vw;
-      font-weight: 400;
+      bottom: 10%;
+      width: 80%;
+      max-width: 600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+    }
+
+    .loading-text {
+      color: #a3b1c6;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #ffffff;
-      z-index: 5;
-      opacity: 0;
-      pointer-events: none;
-      text-align: center;
-      font-family: 'Georgia', serif;
     }
 
-    .hero-subtitle {
-      font-size: 1.2vw;
-      letter-spacing: 0.3em;
-      display: block;
-      margin-top: 20px;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
+    .counter {
+      color: #ffffff;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      line-height: 1;
     }
   </style>
 </head>
 <body>
 
-  <div class="preloader">
-    <div class="counter" id="counter">0%</div>
+  <div class="preloader-wrapper">
     
-    <div class="image-mask">
-      <!-- High-res placeholder of Dal Lake/Shikara -->
-      <img src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80" alt="Kashmir Dal Lake" class="hero-image">
+    <div class="spline-container">
+      <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.94/build/spline-viewer.js"></script>
+      
+      <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyUk-4Z0A/scene.splinecode"></spline-viewer>
     </div>
 
-    <h1 class="hero-title">
-      KASHMIR
-      <span class="hero-subtitle">Bespoke Journeys 2025</span>
-    </h1>
+    <div class="loading-ui">
+      <span class="loading-text">Loading your bespoke Kashmiri experience...</span>
+      <span class="counter" id="counter">0%</span>
+    </div>
+
   </div>
 
-  <!-- GSAP Library -->
+  <div class="website-content">
+    <h1>Welcome to Kashmir</h1>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   
   <script>
+    // Create the master timeline
     const tl = gsap.timeline({
       onComplete: () => {
-        // Unlock scroll when animation finishes
+        // Unlock website scrolling once preloader is gone
         document.body.style.overflow = "auto";
+        // Remove preloader from DOM to free up memory
+        document.querySelector('.preloader-wrapper').style.display = 'none';
       }
     });
 
-    // 1. Simulate the loading progress (Tension)
+    // 1. The Percentage Counter Logic
     let counterElement = document.getElementById("counter");
     let loadProgress = { value: 0 };
 
+    // We animate the 'value' from 0 to 100 over 4 seconds
     tl.to(loadProgress, {
       value: 100,
-      duration: 2.5,
+      duration: 4, 
       ease: "power2.inOut",
       onUpdate: () => {
+        // Update the HTML text every frame
         counterElement.innerText = Math.round(loadProgress.value) + "%";
       }
-    }, 0);
+    });
 
-    // 2. The sliver grows vertically as it "loads"
-    tl.to(".image-mask", {
-      height: "60vh",
-      duration: 2.5,
-      ease: "power2.inOut"
-    }, 0);
+    // 2. The Premium Exit Animation
+    // Fade out the UI text first
+    tl.to(".loading-ui", {
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      ease: "power2.in"
+    }, "+=0.2") // Wait 0.2s after hitting 100%
 
-    // 3. The image slowly scales down inside the sliver for a parallax feel
-    tl.to(".hero-image", {
-      scale: 1.2,
-      duration: 2.5,
-      ease: "power2.inOut"
-    }, 0);
-
-    // 4. The Grand Expansion (The Drop)
-    tl.to(".counter", { opacity: 0, duration: 0.3 }, "-=0.2") // Fade out counter
-      .to(".image-mask", {
-        width: "100vw",
-        height: "100vh",
-        duration: 1.2,
-        ease: "expo.inOut" // A sharp, cinematic snap curve
-      }, "+=0.1")
-      .to(".hero-image", {
-        scale: 1, // Settles into perfectly framed real scale
-        filter: "brightness(0.9) contrast(1.1)", // Brightens up slightly
-        duration: 1.2,
-        ease: "expo.inOut"
-      }, "<") // "<" means it runs at the exact same time as the mask expansion
-
-    // 5. Hero Typography smoothly fades in over the real image
-      .to(".hero-title", {
-        opacity: 1,
-        y: -20, // Slight float up
-        duration: 1.5,
-        ease: "power3.out"
-      }, "-=0.5");
+    // Smoothly slide the whole preloader up with the premium "peel" curve
+    .to(".preloader-wrapper", {
+      yPercent: -100,
+      duration: 1.2,
+      ease: "expo.inOut",
+      borderRadius: "0 0 40% 40%" // Adds a fluid, tactile pull effect
+    }, "-=0.2");
   </script>
 </body>
 </html>
