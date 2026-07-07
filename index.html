@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photographer Portfolio - Premium Loader</title>
+  <title>Premium Cinematic Loader</title>
   <style>
-    /* Ultra-clean sans-serif for editorial feel */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    /* High-fashion, editorial Serif */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+    /* Clean sans for metadata */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 
     * {
       margin: 0;
@@ -15,245 +17,237 @@
     }
 
     body {
-      background-color: #050505; /* Deep, neutral matte black */
-      color: #f0f0f0;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
+      background-color: #050404; /* Not pure black, a very deep warm espresso */
+      overflow: hidden;
     }
 
     /* =========================================
-       1. LOADER STAGE
+       1. THE ATMOSPHERE (BOKEH & LIGHT)
        ========================================= */
-    #viewfinder-loader {
+    #cinematic-loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #050505;
+      background-color: #050404;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      /* The exit transition: fades out gracefully */
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                  visibility 0.8s;
+      /* The final exit transition */
+      transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 1.5s ease;
     }
 
-    /* The bounding box for our camera frame */
-    .frame-container {
-      position: relative;
-      width: 300px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* The 4 Corner Brackets */
-    .bracket {
+    /* An invisible container to hold our out-of-focus lights */
+    .bokeh-container {
       position: absolute;
-      width: 30px;
-      height: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1),
-                  border-color 0.3s ease;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* Screen blend mode makes the overlapping lights blow out realistically */
+      mix-blend-mode: screen; 
+      transition: opacity 2s ease;
+      z-index: 1;
     }
 
-    .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
-    .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
-    .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
-    .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
-
-    /* Center Crosshair (Focus Point) */
-    .crosshair-container {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* Phase 1: Hunting for focus */
-      animation: focusHunt 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
-    }
-
-    .crosshair-line {
+    /* The actual light sources */
+    .light-orb {
       position: absolute;
-      background-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .crosshair-line.vertical { width: 1px; height: 100%; }
-    .crosshair-line.horizontal { width: 100%; height: 1px; }
-
-    /* The lock-on indicator dot */
-    .focus-dot {
-      width: 4px;
-      height: 4px;
-      background-color: #fff;
       border-radius: 50%;
-      opacity: 0; /* Hidden until lock */
-      transform: scale(0);
+      /* Extreme blur simulates a completely out-of-focus background */
+      filter: blur(60px); 
+      opacity: 0.6;
     }
 
-    /* Typography Reveal */
-    .studio-name {
+    /* Warm champagne light */
+    .orb-1 {
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
+      top: -10%;
+      left: -10%;
+      animation: drift 10s infinite cubic-bezier(0.4, 0, 0.2, 1) alternate;
+    }
+
+    /* Soft blush/peach light */
+    .orb-2 {
+      width: 35vw;
+      height: 35vw;
+      background: radial-gradient(circle, rgba(255, 203, 179, 0.3) 0%, transparent 70%);
+      bottom: 10%;
+      right: -5%;
+      animation: drift 12s infinite cubic-bezier(0.25, 1, 0.5, 1) alternate-reverse;
+    }
+
+    /* Crisp white highlight */
+    .orb-3 {
+      width: 25vw;
+      height: 25vw;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+      top: 40%;
+      left: 40%;
+      animation: drift 8s infinite ease-in-out alternate;
+    }
+
+    /* Subtle Film Grain Overlay */
+    .film-grain {
       position: absolute;
-      bottom: -40px;
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: #fff;
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-    /* --- Animation State Classes (Triggered by JS) --- */
-
-    /* Phase 2: Focus Locked */
-    .frame-container.is-locked .crosshair-container {
-      animation: none;
-      transform: scale(0.6);
-      transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1);
-    }
-
-    .frame-container.is-locked .crosshair-line {
-      background-color: rgba(255, 255, 255, 1);
-    }
-
-    .frame-container.is-locked .focus-dot {
-      opacity: 1;
-      transform: scale(1);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Slight pop */
-    }
-
-    .frame-container.is-locked .bracket {
-      border-color: rgba(255, 255, 255, 0.8);
-      /* Nudge inwards slightly to mimic focus grip */
-      transform: scale(0.95); 
-    }
-
-    .frame-container.is-locked .studio-name {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
-    }
-
-    /* Phase 3: Shutter Release (Exit) */
-    #viewfinder-loader.shutter-release .bracket.top-left { transform: translate(-100vw, -100vh); }
-    #viewfinder-loader.shutter-release .bracket.top-right { transform: translate(100vw, -100vh); }
-    #viewfinder-loader.shutter-release .bracket.bottom-left { transform: translate(-100vw, 100vh); }
-    #viewfinder-loader.shutter-release .bracket.bottom-right { transform: translate(100vw, 100vh); }
-    
-    #viewfinder-loader.shutter-release .crosshair-container,
-    #viewfinder-loader.shutter-release .studio-name {
-      opacity: 0;
-      transform: scale(1.5);
-      transition: all 0.4s cubic-bezier(0.86, 0, 0.07, 1);
-    }
-
-    #viewfinder-loader.shutter-release {
-      opacity: 0;
-      visibility: hidden;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      z-index: 2;
       pointer-events: none;
     }
 
-    /* --- Keyframes --- */
-    @keyframes focusHunt {
-      0% { transform: scale(0.9) rotate(0deg); }
-      100% { transform: scale(1.1) rotate(0deg); }
+    /* =========================================
+       2. TYPOGRAPHY & THE FOCUS PULL
+       ========================================= */
+    .brand-container {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      /* Starts completely blurred out and invisible */
+      opacity: 0;
+      filter: blur(15px);
+      transform: scale(1.05);
+      /* The "Focus Pull" transition */
+      transition: opacity 2s cubic-bezier(0.21, 1.04, 0.36, 1),
+                  filter 2s cubic-bezier(0.21, 1.04, 0.36, 1),
+                  transform 2s cubic-bezier(0.21, 1.04, 0.36, 1);
+    }
+
+    /* JavaScript will add this class to simulate the lens finding focus */
+    .brand-container.in-focus {
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1);
+    }
+
+    .studio-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    /* The italicized serif instantly elevates the luxury feel */
+    .studio-name i {
+      font-weight: 400;
+      color: #E6CBA8; /* Champagne accent */
+    }
+
+    .metadata {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
     }
 
     /* =========================================
-       2. MAIN PORTFOLIO (HOMEPAGE)
+       3. EXIT CHOREOGRAPHY
        ========================================= */
-    #portfolio-content {
+    .loader-exit {
       opacity: 0;
-      transform: scale(0.98);
-      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-      min-height: 100vh;
+      pointer-events: none;
+    }
+
+    /* Darken the bokeh slightly before revealing the site, 
+       ensuring the photos pop when they appear */
+    .loader-exit .bokeh-container {
+      opacity: 0;
+    }
+
+    .loader-exit .brand-container {
+      opacity: 0;
+      filter: blur(10px); /* Defocus again as it exits */
+      transform: scale(0.95);
+      transition: all 1s ease-in;
+    }
+
+    /* =========================================
+       KEYFRAMES
+       ========================================= */
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8vw, -5vw) scale(1.1); }
+    }
+
+    /* Dummy Homepage for testing */
+    #main-content {
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      opacity: 0;
+      transition: opacity 1.5s ease 0.5s;
     }
+    .content-enter { opacity: 1 !important; }
 
-    .content-enter {
-      opacity: 1 !important;
-      transform: scale(1) !important;
-    }
-
-    h1 {
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
   </style>
 </head>
 <body>
 
-  <div id="viewfinder-loader">
-    <div class="frame-container" id="camera-frame">
-      <div class="bracket top-left"></div>
-      <div class="bracket top-right"></div>
-      <div class="bracket bottom-left"></div>
-      <div class="bracket bottom-right"></div>
-      
-      <div class="crosshair-container">
-        <div class="crosshair-line vertical"></div>
-        <div class="crosshair-line horizontal"></div>
-        <div class="focus-dot"></div>
-      </div>
+  <div id="cinematic-loader">
+    <div class="film-grain"></div>
+    
+    <!-- The out-of-focus background lights -->
+    <div class="bokeh-container" id="bokeh">
+      <div class="light-orb orb-1"></div>
+      <div class="light-orb orb-2"></div>
+      <div class="light-orb orb-3"></div>
+    </div>
 
-      <div class="studio-name">Studio Arthouse</div>
+    <!-- The Typography -->
+    <div class="brand-container" id="brand">
+      <h1 class="studio-name">Studio <i>Cinématique</i></h1>
+      <div class="metadata">Capturing Timelessness</div>
     </div>
   </div>
 
-  <main id="portfolio-content">
-    <h1>Selected Works</h1>
-    <p style="color: #666; letter-spacing: 0.1em; font-size: 0.85rem;">PORTFOLIO &mdash; 2024</p>
+  <main id="main-content">
+    <h2 style="font-weight: 300; letter-spacing: 0.1em;">Portfolio Architecture Revealed</h2>
   </main>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      
-      const loader = document.getElementById('viewfinder-loader');
-      const frame = document.getElementById('camera-frame');
-      const content = document.getElementById('portfolio-content');
+      const brand = document.getElementById('brand');
+      const loader = document.getElementById('cinematic-loader');
+      const content = document.getElementById('main-content');
 
-      // Emulate the loading process. In a real environment, 
-      // you would tie this to window.onload or an image preloader.
-      window.addEventListener('load', () => {
+      // 1. Initiate the "Rack Focus" shortly after the page loads.
+      // This gives the user 300ms to appreciate the abstract bokeh before the text sharpens.
+      setTimeout(() => {
+        brand.classList.add('in-focus');
+      }, 300);
+
+      // 2. Hold the focus for the user to read, then trigger the exit.
+      // In a real build, this timeout is replaced by your window.onload or image preloader promise.
+      setTimeout(() => {
         
-        // Phase 1: Let the "hunting" animation play for a moment (1.2 seconds)
+        // Defocus and fade the loader
+        loader.classList.add('loader-exit');
+        
+        // Crossfade into the main portfolio
+        content.classList.add('content-enter');
+
+        // Remove the loader from the DOM to free memory
         setTimeout(() => {
-          
-          // Phase 2: Focus Lock!
-          // The brackets tighten, lines turn solid white, the dot pops in.
-          frame.classList.add('is-locked');
+          loader.remove();
+        }, 1500);
 
-          // Phase 3: The Shutter Release / Transition Out
-          // Wait for the lock animation to be registered by the user (1 second)
-          setTimeout(() => {
-            
-            // Fire the explosive exit animation for the loader
-            loader.classList.add('shutter-release');
-            
-            // Simultaneously scale up and fade in the portfolio content
-            content.classList.add('content-enter');
-
-            // Cleanup the DOM to ensure optimal scrolling performance
-            setTimeout(() => {
-              loader.remove();
-            }, 800); // Matches the loader's exit CSS transition time
-
-          }, 1000);
-
-        }, 1200);
-
-      });
+      }, 3500);
     });
   </script>
 
