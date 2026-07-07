@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAVE | Premium Fast Food</title>
+    <title>BURGER QUEEN | Premium Fast Food</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
@@ -90,13 +90,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 5vw 80px 5vw; /* Bottom padding leaves room for the marquee */
+            padding: 0 5vw 80px 5vw;
             position: relative;
             overflow: hidden;
             perspective: 1000px;
         }
 
-        /* Left Side: Typography */
         .hero-content {
             width: 50%;
             z-index: 2;
@@ -119,7 +118,6 @@
             text-transform: uppercase;
         }
 
-        /* Right Side: Editorial Image */
         .hero-image-wrapper {
             width: 45%;
             z-index: 1;
@@ -133,11 +131,10 @@
             max-width: 650px;
             height: 60vh;
             object-fit: cover;
-            border-radius: 2vw; /* Elegant rounded corners */
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25); /* Premium cinematic shadow */
+            border-radius: 2vw; 
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25); 
         }
 
-        /* Infinite Marquee */
         .marquee-container {
             position: absolute;
             bottom: 30px;
@@ -164,14 +161,13 @@
         .marquee-item { padding: 0 2vw; display: flex; align-items: center; }
         .marquee-item::after { content: '•'; color: #ff3b00; margin-left: 4vw; }
 
-        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .hero { flex-direction: column; justify-content: center; gap: 30px; padding-top: 20px; }
             .hero-content { width: 100%; text-align: center; }
             .hero-title { font-size: 16vw; }
             .hero-image-wrapper { width: 100%; justify-content: center; }
             .hero-image-wrapper img { height: 40vh; border-radius: 5vw; }
-            .nav-links { display: none; /* Hide links on mobile for cleaner demo */ }
+            .nav-links { display: none; }
         }
     </style>
 </head>
@@ -188,7 +184,7 @@
     <div class="main-wrapper" id="site-content">
         
         <nav>
-            <div class="logo">CRAVE.</div>
+            <div class="logo">BURGER QUEEN.</div>
             <div class="nav-links">
                 <a href="#">Menu</a>
                 <a href="#">Locations</a>
@@ -208,12 +204,12 @@
 
             <div class="marquee-container" id="marquee">
                 <div class="marquee-content" id="marquee-inner">
-                    <span class="marquee-item">100% Wagyu Beef</span>
+                    <span class="marquee-item">Signature Patty</span>
                     <span class="marquee-item">Hand-Cut Fries</span>
                     <span class="marquee-item">Artisan Buns</span>
                     <span class="marquee-item">Secret Sauce</span>
                     <span class="marquee-item">Ice Cold Coke</span>
-                    <span class="marquee-item">100% Wagyu Beef</span>
+                    <span class="marquee-item">Signature Patty</span>
                     <span class="marquee-item">Hand-Cut Fries</span>
                     <span class="marquee-item">Artisan Buns</span>
                     <span class="marquee-item">Secret Sauce</span>
@@ -227,20 +223,16 @@
     <script>
         let isExploding = false;
 
-        /**
-         * 1. TIMELINE & WEBSITE REVEAL 
-         */
         const tl = gsap.timeline({
             onComplete: () => {
                 document.getElementById('preloader-container').style.display = 'none';
                 document.body.style.overflow = 'auto'; 
                 
-                // Start continuous floating animation for the image after loading is done
                 gsap.to("#hero-img img", {
-                    y: -15, // Floats up 15 pixels
+                    y: -15, 
                     duration: 3,
                     repeat: -1,
-                    yoyo: true, // Smoothly floats back down
+                    yoyo: true, 
                     ease: "sine.inOut"
                 });
             }
@@ -249,7 +241,6 @@
         let loadState = { value: 0 };
         let counterEl = document.getElementById("counter");
 
-        // The Loading Progression
         tl.to(loadState, {
             value: 100,
             duration: 3.5, 
@@ -260,35 +251,23 @@
         })
         .add(() => { isExploding = true; })
         .to("#ui", { opacity: 0, duration: 0.2 }, "<")
-        
-        // Unveil the Site
         .to("#preloader-container", { backgroundColor: "transparent", backgroundImage: "none", duration: 1.2, ease: "power2.inOut" }, "+=0.2")
         .set("#site-content", { opacity: 1 }, "-=1.2")
-        
-        // Stagger Typography
         .from("nav", { y: -30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
         .from("#tagline", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
         .from("#main-title", { y: 40, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.7")
-        
-        // 3D Cinematic Reveal of the Food Image
         .from("#hero-img", { 
             x: 100, 
             scale: 0.85, 
-            rotationY: -15, // Swings into place like a door
+            rotationY: -15, 
             opacity: 0, 
             duration: 1.5, 
             ease: "expo.out" 
         }, "-=0.9")
-
-        // Marquee entrance
         .from("#marquee", { y: 100, rotation: 0, opacity: 0, duration: 1, ease: "back.out(1.5)" }, "-=1.2");
 
-        // Start Infinite Scrolling Marquee
         gsap.to("#marquee-inner", { xPercent: -50, repeat: -1, duration: 15, ease: "none" });
 
-        /**
-         * 2. PARTICLE PHYSICS ENGINE
-         */
         document.fonts.ready.then(() => {
             try {
                 const canvas = document.getElementById('particle-canvas');
@@ -306,11 +285,12 @@
 
                 function drawTextToCanvas() {
                     ctx.fillStyle = 'white';
-                    let fontSize = canvas.width < 768 ? 70 : 150; 
+                    // Scaled down font size specifically to accommodate the longer word "BURGER QUEEN"
+                    let fontSize = canvas.width < 768 ? 40 : 100; 
                     ctx.font = `900 ${fontSize}px Montserrat`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('CRAVE', canvas.width / 2, canvas.height / 2);
+                    ctx.fillText('BURGER QUEEN', canvas.width / 2, canvas.height / 2);
                 }
 
                 class Particle {
@@ -370,8 +350,9 @@
                     
                     const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     
-                    for (let y = 0; y < textCoordinates.height; y += 4) {
-                        for (let x = 0; x < textCoordinates.width; x += 4) {
+                    // Increased spacing (x+=5, y+=5) slightly to optimize performance for the longer word
+                    for (let y = 0; y < textCoordinates.height; y += 5) {
+                        for (let x = 0; x < textCoordinates.width; x += 5) {
                             if (textCoordinates.data[(y * 4 * textCoordinates.width) + (x * 4) + 3] > 128) {
                                 particleArray.push(new Particle(x, y));
                             }
