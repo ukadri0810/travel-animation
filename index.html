@@ -3,472 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixel by Swaraj | Editorial Photography</title>
+  <title>Kashmir 2025 | Premium Experience</title>
   <style>
-    /* Premium Font Stack: Space Mono for technical UI, Inter for Editorial */
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@200;400;600&display=swap');
+    /* Reset and Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #ffffff; /* The "website" underneath */ }
 
-    /* =========================================
-       1. GLOBAL RESET & BASE
-       ========================================= */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: #050505; /* Matte Black */
-      color: #f4f4f4;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* =========================================
-       2. REFINED METER LOADER
-       ========================================= */
-    #meter-loader {
+    /* Preloader CSS */
+    .preloader-wrapper {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      inset: 0;
+      background-color: #0b1115;
       z-index: 9999;
-      background-color: #050505;
-      transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .strobe-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #ffffff;
-      transform-origin: center;
-      transform: scaleY(0.001); 
-      z-index: 1;
-      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
-    }
-
-    .strobe-line.fire-flash { transform: scaleY(1); }
-
-    .ui-layer {
-      position: relative;
-      z-index: 2;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      pointer-events: none;
-    }
-
-    .f-stop-container {
-      display: flex;
-      align-items: baseline;
-      gap: 15px;
-      mix-blend-mode: difference;
-    }
-
-    .f-stop-value {
-      font-family: 'Space Mono', monospace;
-      font-size: 4rem;
-      font-weight: 700;
-      letter-spacing: -0.05em;
-      color: #fff;
-    }
-
-    .f-stop-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.85rem;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-    }
-
-    .ui-layer.hide-ui { opacity: 0; transition: opacity 0.1s; }
-
-    /* =========================================
-       3. SITE LAYOUT & TYPOGRAPHY
-       ========================================= */
-    #main-wrapper {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1.5s ease 0.4s, transform 1.5s ease 0.4s;
-    }
-
-    #main-wrapper.content-enter {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 2rem 4rem;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      z-index: 100;
-      mix-blend-mode: difference;
-    }
-
-    .logo {
-      font-weight: 600;
-      font-size: 1.2rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-left: 2rem;
-    }
-
-    section {
-      padding: 8rem 4rem;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    h1 {
-      font-size: 5rem;
-      font-weight: 200;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-
-    .sub-heading {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.85rem;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 2rem;
-    }
-
-    /* =========================================
-       4. PORTFOLIO GRID
-       ========================================= */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      margin-top: 4rem;
-    }
-
-    .grid-item {
-      position: relative;
-      aspect-ratio: 4 / 5;
-      background-color: #111;
       overflow: hidden;
-      cursor: crosshair;
     }
 
-    /* Placeholder for actual images */
-    .grid-image {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .grid-item:hover .grid-image {
-      transform: scale(1.05);
-    }
-
-    .grid-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 2rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .grid-item:hover .grid-overlay {
-      opacity: 1;
-    }
-
-    .grid-title {
-      font-size: 1.2rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-    }
-
-    /* =========================================
-       5. INTERACTIVE INQUIRY FORM
-       ========================================= */
-    .inquiry-section {
-      background-color: #0a0a0a;
+    .preloader-content {
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      gap: 20px;
     }
 
-    .form-container {
-      width: 100%;
-      max-width: 600px;
-      margin-top: 3rem;
+    .chinar-leaf {
+      width: 80px;
+      height: 80px;
     }
 
-    .input-group {
-      position: relative;
-      margin-bottom: 3rem;
+    .leaf-path {
+      fill: transparent;
+      stroke: #c8a97e;
+      stroke-width: 2px;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
     }
 
-    /* Custom Input Styling */
-    .input-group input,
-    .input-group textarea {
-      width: 100%;
-      padding: 10px 0;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #333;
-      color: #fff;
+    .preloader-text {
+      color: #ffffff;
+      font-family: 'Georgia', serif; /* Standard serif for testing */
       font-size: 1.2rem;
-      font-family: 'Inter', sans-serif;
-      transition: border-color 0.3s ease;
-    }
-
-    .input-group textarea {
-      resize: vertical;
-      min-height: 50px;
-    }
-
-    .input-group input:focus,
-    .input-group textarea:focus {
-      outline: none;
-      border-bottom-color: #fff;
-    }
-
-    /* Floating Label Logic */
-    .input-group label {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      color: #666;
-      font-size: 1.2rem;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    /* When input is focused, OR when input has valid text in it, shrink and move the label up */
-    .input-group input:focus ~ label,
-    .input-group input:valid ~ label,
-    .input-group textarea:focus ~ label,
-    .input-group textarea:valid ~ label {
-      top: -20px;
-      font-size: 0.75rem;
-      color: #fff;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Custom Submit Button */
-    .submit-btn {
-      background: transparent;
-      color: #fff;
-      border: 1px solid #fff;
-      padding: 1rem 3rem;
-      font-size: 0.85rem;
       letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      margin-top: 1rem;
+      display: flex;
     }
 
-    .submit-btn:hover {
-      background: #fff;
-      color: #000;
-    }
-
-    /* Reveal animations on scroll */
-    .fade-up {
+    .preloader-text .char {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(10px);
+      display: inline-block;
     }
-
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
   </style>
 </head>
 <body>
 
-  <div id="meter-loader">
-    <div class="strobe-line" id="strobe"></div>
-    <div class="ui-layer" id="ui-layer">
-      <div class="f-stop-container">
-        <span class="f-stop-label">Aperture</span>
-        <span class="f-stop-value" id="f-stop-display">f/22</span>
+  <div class="preloader-wrapper">
+    <div class="preloader-content">
+      <svg class="chinar-leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path class="leaf-path" d="M50,10 C60,30 80,40 90,60 C80,70 60,70 50,90 C40,70 20,70 10,60 C20,40 40,30 50,10 Z" />
+      </svg>
+      
+      <div class="preloader-text">
+        <span class="char">K</span><span class="char">a</span><span class="char">s</span><span class="char">h</span><span class="char">m</span><span class="char">i</span><span class="char">r</span>
+        <span class="word-space">&nbsp;</span>
+        <span class="char">2</span><span class="char">0</span><span class="char">2</span><span class="char">5</span>
       </div>
     </div>
   </div>
 
-  <div id="main-wrapper">
-    
-    <header>
-      <div class="logo">Pixel by Swaraj</div>
-      <nav class="nav-links">
-        <a href="#portfolio">Work</a>
-        <a href="#inquiry">Inquire</a>
-      </nav>
-    </header>
-
-    <section id="hero">
-      <div class="sub-heading">Visual Architecture</div>
-      <h1>Capturing Light,<br>Defining Space.</h1>
-      <p style="color: #888; max-width: 500px; line-height: 1.6;">Specializing in high-end editorial, commercial, and architectural photography. Based in the pursuit of the perfect frame.</p>
-    </section>
-
-    <section id="portfolio">
-      <div class="sub-heading fade-up">Selected Works — 2024</div>
-      
-      <div class="portfolio-grid">
-        <div class="grid-item fade-up">
-          <div class="grid-image"></div>
-          <div class="grid-overlay">
-            <div class="grid-title">Editorial Campaign</div>
-          </div>
-        </div>
-        <div class="grid-item fade-up" style="transition-delay: 0.1s;">
-          <div class="grid-image"></div>
-          <div class="grid-overlay">
-            <div class="grid-title">Architectural Study</div>
-          </div>
-        </div>
-        <div class="grid-item fade-up" style="transition-delay: 0.2s;">
-          <div class="grid-image"></div>
-          <div class="grid-overlay">
-            <div class="grid-title">Commercial Portraiture</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="inquiry" class="inquiry-section">
-      <div style="text-align: center;" class="fade-up">
-        <h2 style="font-size: 3rem; font-weight: 200; margin-bottom: 1rem;">Let's create.</h2>
-        <div class="sub-heading">Project Inquiries</div>
-      </div>
-
-      <div class="form-container fade-up">
-        <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Inquiry Sent. Swaraj will be in touch.');">
-          
-          <div class="input-group">
-            <input type="text" id="name" required autocomplete="off">
-            <label for="name">Your Name</label>
-          </div>
-
-          <div class="input-group">
-            <input type="email" id="email" required autocomplete="off">
-            <label for="email">Email Address</label>
-          </div>
-
-          <div class="input-group">
-            <textarea id="details" required autocomplete="off"></textarea>
-            <label for="details">Project Details & Timeline</label>
-          </div>
-
-          <div style="text-align: center;">
-            <button type="submit" class="submit-btn">Send Inquiry</button>
-          </div>
-
-        </form>
-      </div>
-    </section>
-
-  </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      
-      /* --- 1. LOADER LOGIC --- */
-      const fStopDisplay = document.getElementById('f-stop-display');
-      const strobe = document.getElementById('strobe');
-      const uiLayer = document.getElementById('ui-layer');
-      const loader = document.getElementById('meter-loader');
-      const wrapper = document.getElementById('main-wrapper');
+    document.body.style.overflow = "hidden";
 
-      const apertures = ['f/22', 'f/16', 'f/11', 'f/8', 'f/5.6', 'f/4.0', 'f/2.8', 'f/2.0', 'f/1.4', 'f/1.2'];
-      let currentStep = 0;
-
-      // Start the sequence after a brief pause
-      setTimeout(() => {
-        
-        // SLOWED DOWN: Now ticks every 250ms so the human eye can read it
-        const tickInterval = setInterval(() => {
-          currentStep++;
-          
-          if (currentStep < apertures.length) {
-            fStopDisplay.innerText = apertures[currentStep];
-          } else {
-            clearInterval(tickInterval);
-            
-            // SLOWED DOWN: Hold on f/1.2 for 1.2 seconds to build anticipation
-            setTimeout(() => {
-              strobe.classList.add('fire-flash');
-              uiLayer.classList.add('hide-ui');
-
-              setTimeout(() => {
-                loader.style.opacity = '0';
-                wrapper.classList.add('content-enter');
-
-                setTimeout(() => loader.remove(), 1500);
-              }, 400);
-
-            }, 1200); // The critical UX hold
-          }
-        }, 250); 
-
-      }, 500);
-
-
-      /* --- 2. SCROLL ANIMATION LOGIC (Intersection Observer) --- */
-      // This creates the premium fade-up effect as the user scrolls
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target); // Only animate once
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.fade-up').forEach(element => {
-        observer.observe(element);
-      });
-
+    const tl = gsap.timeline({
+      onComplete: () => {
+        document.body.style.overflow = "auto";
+        // To prevent blocking clicks after it fades out:
+        document.querySelector('.preloader-wrapper').style.pointerEvents = 'none';
+      }
     });
+
+    // Draw the leaf
+    tl.to(".leaf-path", { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" })
+      .to(".leaf-path", { fill: "rgba(200, 169, 126, 0.4)", duration: 0.5, ease: "power1.out" }, "-=0.5")
+
+    // Stagger text
+      .to(".preloader-text .char", { opacity: 1, y: 0, stagger: 0.05, duration: 0.8, ease: "power3.out" }, "-=0.8")
+      .to(".preloader-text", { letterSpacing: "0.05em", duration: 1.5, ease: "power2.out" }, "-=1.2")
+
+    // The Unveiling
+      .to(".preloader-content", { y: -50, opacity: 0, duration: 0.6, ease: "power2.in" }, "+=0.3")
+      .to(".preloader-wrapper", { yPercent: -100, duration: 1, ease: "expo.inOut", borderRadius: "0 0 50% 50%" }, "-=0.2");
   </script>
 </body>
 </html>
