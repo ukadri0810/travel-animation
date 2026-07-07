@@ -468,6 +468,93 @@
                 console.warn("Canvas physics running in fallback mode.");
             }
         });
+                /**
+         * ==========================================
+         * --- PHASE 2: PHYSICS & MICRO-INTERACTIONS ---
+         * ==========================================
+         */
+
+        // 1. MAGNETIC BUTTON PHYSICS
+        // Select all navigation links and the logo
+        const magneticElements = document.querySelectorAll('.nav-links a, .logo');
+
+        magneticElements.forEach(elem => {
+            elem.addEventListener('mousemove', (e) => {
+                const rect = elem.getBoundingClientRect();
+                const hCenter = rect.width / 2;
+                const vCenter = rect.height / 2;
+                
+                // Calculate distance from center of the button
+                const x = e.clientX - rect.left - hCenter;
+                const y = e.clientY - rect.top - vCenter;
+                
+                // Use GSAP to pull the element toward the mouse
+                gsap.to(elem, {
+                    x: x * 0.4, // 0.4 is the magnetic strength
+                    y: y * 0.4,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            });
+
+            // When the mouse leaves, snap it back with a spring effect
+            elem.addEventListener('mouseleave', () => {
+                gsap.to(elem, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.9,
+                    ease: "elastic.out(1, 0.3)" // Premium rubber-band snap
+                });
+            });
+        });
+
+
+        // 2. 3D IMAGE PARALLAX TRACKING
+        const heroImgWrapper = document.getElementById('hero-img');
+        const heroImg = heroImgWrapper.querySelector('img');
+
+        // Stop the default floating animation when the user hovers over the image
+        heroImgWrapper.addEventListener('mouseenter', () => {
+            gsap.killTweensOf(heroImg); // Kills the yoyo float
+        });
+
+        // Track the mouse to tilt the image
+        heroImgWrapper.addEventListener('mousemove', (e) => {
+            const rect = heroImgWrapper.getBoundingClientRect();
+            
+            // Calculate mouse position as a percentage (-1 to 1) from the center
+            const xPct = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+            const yPct = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+            gsap.to(heroImg, {
+                rotationY: xPct * 15,  // Tilts up to 15 degrees horizontally
+                rotationX: -yPct * 15, // Tilts up to 15 degrees vertically
+                transformPerspective: 1000,
+                duration: 0.6,
+                ease: "power3.out"
+            });
+        });
+
+        // When the mouse leaves, snap the image back and restart the float
+        heroImgWrapper.addEventListener('mouseleave', () => {
+            gsap.to(heroImg, {
+                rotationY: 0,
+                rotationX: 0,
+                duration: 1,
+                ease: "elastic.out(1, 0.4)",
+                onComplete: () => {
+                    // Restart the continuous breathing/floating animation
+                    gsap.to(heroImg, {
+                        y: -15, 
+                        duration: 3,
+                        repeat: -1,
+                        yoyo: true, 
+                        ease: "sine.inOut"
+                    });
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
