@@ -3,133 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fast Food Cafe | Loading</title>
+  <title>Premium Cafe | Agency Build</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   
   <style>
     /* Reset & Base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { overflow: hidden; font-family: 'Montserrat', sans-serif; background-color: #fafafa; }
+    body { overflow: hidden; background-color: #050505; font-family: 'Helvetica Neue', Arial, sans-serif; }
 
     /* The Main Website Content (Hidden underneath) */
     .website-content {
-      height: 100vh;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: #ffffff;
-      color: #111;
-      font-size: 3rem;
-      font-weight: 900;
-      text-transform: uppercase;
+      color: #ffffff;
+      /* The video from the preloader will seamlessly become the background for this */
     }
 
-    /* --- PRELOADER STYLES --- */
+    .website-content h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      opacity: 0; /* Hidden initially */
+    }
+
+    /* --- AGENCY PRELOADER STYLES --- */
     .preloader-wrapper {
       position: fixed;
       inset: 0;
-      background-color: #E63946; /* Appetizing, punchy Red */
       z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* 1. The Cinematic Background Video */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 2;
+    }
+
+    /* 2. The Text Mask Overlay (The Magic Trick) */
+    /* Black background with white text. mix-blend-mode: multiply makes the white transparent, showing the video, while keeping the black solid. */
+    .mask-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: #050505;
+      color: #ffffff;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 30px;
-    }
-
-    /* Burger Container */
-    .burger-container {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    /* Burger Ingredients */
-    .ingredient {
-      width: 100%;
-      position: absolute;
+      mix-blend-mode: multiply;
       will-change: transform;
     }
 
-    /* Specific SVG Layers */
-    .top-bun { bottom: 85px; z-index: 5; }
-    .lettuce { bottom: 70px; z-index: 4; }
-    .cheese  { bottom: 55px; z-index: 3; }
-    .patty   { bottom: 35px; z-index: 2; }
-    .bot-bun { bottom: 0px;  z-index: 1; }
+    .mask-text {
+      font-family: 'Anton', sans-serif;
+      font-size: 22vw; /* Massive viewport-based typography */
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 5vh;
+      transform-origin: center center;
+    }
 
-    /* Typography */
-    .loading-text {
-      color: #F1FAEE;
-      font-size: 2rem;
-      font-style: italic;
+    /* 3. The Minimalist UI */
+    .loading-ui {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      right: 40px;
+      z-index: 4; /* Sits above the mask */
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .loading-header {
+      display: flex;
+      justify-content: space-between;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 500;
       letter-spacing: 2px;
       text-transform: uppercase;
-      display: flex;
-      gap: 5px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.2);
+      position: relative;
       overflow: hidden;
     }
 
-    .loading-text .letter {
-      display: inline-block;
-      transform: translateY(100%);
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background-color: #ffffff;
     }
   </style>
 </head>
 <body>
 
-  <div class="preloader-wrapper">
+  <video class="hero-video" autoplay loop muted playsinline>
+    <source src="https://cdn.coverr.co/videos/coverr-grilling-meat-on-a-barbecue-3343/1080p.mp4" type="video/mp4">
+  </video>
+
+  <div class="preloader-wrapper" id="preloader">
     
-    <div class="burger-container" id="burger">
-      
-      <svg class="ingredient top-bun" viewBox="0 0 100 40">
-        <path d="M 5 40 Q 5 5 50 5 Q 95 5 95 40 Z" fill="#F4A261" />
-        <ellipse cx="30" cy="20" rx="2" ry="1" fill="#FFF3E0" transform="rotate(-20 30 20)"/>
-        <ellipse cx="50" cy="15" rx="2" ry="1" fill="#FFF3E0" />
-        <ellipse cx="70" cy="22" rx="2" ry="1" fill="#FFF3E0" transform="rotate(20 70 22)"/>
-      </svg>
-
-      <svg class="ingredient lettuce" viewBox="0 0 100 20">
-        <path d="M 5 10 Q 15 0 25 10 T 45 10 T 65 10 T 85 10 Q 95 20 95 10 L 95 15 L 5 15 Z" fill="#2A9D8F" />
-      </svg>
-
-      <svg class="ingredient cheese" viewBox="0 0 100 25">
-        <path d="M 10 5 L 90 5 L 80 20 L 50 5 L 20 25 Z" fill="#E9C46A" />
-      </svg>
-
-      <svg class="ingredient patty" viewBox="0 0 100 30">
-        <rect x="10" y="5" width="80" height="20" rx="8" fill="#5C4033" />
-      </svg>
-
-      <svg class="ingredient bot-bun" viewBox="0 0 100 35">
-        <path d="M 10 5 L 90 5 Q 95 30 50 30 Q 5 30 10 5 Z" fill="#F4A261" />
-      </svg>
+    <div class="mask-overlay" id="mask">
+      <div class="mask-text" id="mask-text">CRAVE</div>
     </div>
 
-    <div class="loading-text">
-      <span class="letter">F</span>
-      <span class="letter">I</span>
-      <span class="letter">R</span>
-      <span class="letter">I</span>
-      <span class="letter">N</span>
-      <span class="letter">G</span>
-      <span class="letter">&nbsp;</span>
-      <span class="letter">U</span>
-      <span class="letter">P</span>
-      <span class="letter">.</span>
-      <span class="letter">.</span>
-      <span class="letter">.</span>
+    <div class="loading-ui" id="ui">
+      <div class="loading-header">
+        <span>Curating Menu</span>
+        <span id="counter">00%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="bar"></div>
+      </div>
     </div>
 
   </div>
 
   <div class="website-content">
-    <h1>Order Up!</h1>
+    <h1 id="hero-title">Experience Flavour</h1>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -137,69 +150,58 @@
   <script>
     const tl = gsap.timeline({
       onComplete: () => {
-        document.body.style.overflow = "auto";
-        document.querySelector('.preloader-wrapper').style.pointerEvents = 'none';
+        // Remove preloader UI entirely so it doesn't block clicks
+        document.getElementById('preloader').style.display = 'none';
       }
     });
 
-    // 1. Initial Setup: Move ingredients high above the screen
-    gsap.set(".ingredient", { y: -300, opacity: 0 });
+    let counterObj = { value: 0 };
+    let counterElement = document.getElementById("counter");
 
-    // 2. The Burger Drop (Staggered bouncy animation)
-    // We reverse the array so the bottom bun drops first
-    tl.to(gsap.utils.toArray(".ingredient").reverse(), {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      stagger: 0.15, // Delay between each ingredient dropping
-      ease: "back.out(1.7)" // Gives it that cartoonish 'pop' and bounce
-    })
-
-    // 3. The Burger "Squish" Impact
-    .to(".burger-container", {
-      scaleY: 0.8,
-      scaleX: 1.1,
-      transformOrigin: "bottom center",
-      duration: 0.15,
-      yoyo: true,
-      repeat: 1,
-      ease: "power1.inOut"
-    }, "-=0.2") // Triggers just as the top bun lands
-
-    // 4. Punchy Typography Reveal
-    .to(".loading-text .letter", {
-      y: 0,
-      duration: 0.4,
-      stagger: 0.04,
-      ease: "back.out(2)"
-    }, "-=0.5")
-
-    // Hold the fully built burger on screen for a moment
-    .to({}, { duration: 1 })
-
-    // 5. The Fast Food Exit (Speed is key here)
-    // Burger speeds off to the right like it's being served
-    .to(".burger-container", {
-      x: "100vw",
-      rotation: 15,
-      duration: 0.5,
-      ease: "power3.in"
-    })
+    // 1. The Loading Tension (Simulated load time)
+    tl.to(counterObj, {
+      value: 100,
+      duration: 3,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        // Pad with leading zero for premium aesthetic (e.g., 05%, 99%)
+        let val = Math.round(counterObj.value);
+        counterElement.innerText = (val < 10 ? "0" + val : val) + "%";
+      }
+    }, 0)
     
-    // Text scales down and fades
-    .to(".loading-text", {
-      scale: 0.8,
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.in"
-    }, "<")
+    // Bar grows in sync with the counter
+    .to("#bar", {
+      width: "100%",
+      duration: 3,
+      ease: "power2.inOut"
+    }, 0)
 
-    // The Red background sharply wipes up (like a curtain, very fast)
-    .to(".preloader-wrapper", {
-      yPercent: -100,
-      duration: 0.6,
-      ease: "expo.inOut"
-    }, "-=0.1");
+    // 2. The Fade Out of the UI
+    .to("#ui", {
+      opacity: 0,
+      duration: 0.4,
+      y: 10,
+      ease: "power2.in"
+    }, "+=0.2") // Triggers right after hitting 100%
+
+    // 3. THE 1.5 LAKH TRANSITION: The Text Expansion
+    // The text scales up massively so the transparent window overtakes the screen
+    .to("#mask-text", {
+      scale: 60, // Scale it up so the hole in the letter 'R' or 'A' fills the screen
+      opacity: 0, // Fades out the black completely at the end of the scale
+      duration: 1.5,
+      ease: "expo.inOut" // A sharp, cinematic camera-lens ease
+    }, "+=0.1")
+
+    // 4. Reveal the Website
+    // The video is now the background of the actual website, we fade in the real hero text
+    .to("#hero-title", {
+      opacity: 1,
+      y: -20,
+      duration: 1,
+      ease: "power3.out"
+    }, "-=0.5");
   </script>
 </body>
 </html>
