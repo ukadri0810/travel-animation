@@ -3,26 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Technical Portfolio</title>
+  <title>Pixel by Swaraj | Editorial Photography</title>
   <style>
-    /* Monospace for the technical readout, Clean Sans for branding */
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;500&display=swap');
+    /* Premium Font Stack: Space Mono for technical UI, Inter for Editorial */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@200;400;600&display=swap');
 
+    /* =========================================
+       1. GLOBAL RESET & BASE
+       ========================================= */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: #030303; /* Near-absolute black for contrast */
-      color: #ffffff;
-      overflow: hidden;
+      background-color: #050505; /* Matte Black */
+      color: #f4f4f4;
       font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* =========================================
-       1. THE LOADER INTERFACE
+       2. REFINED METER LOADER
        ========================================= */
     #meter-loader {
       position: fixed;
@@ -35,15 +43,10 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      background-color: #030303;
-      /* The final exit transition */
-      transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      background-color: #050505;
+      transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* THE STROBE LINE:
-       This is a full-height white block scaled down to 0.1% height.
-       This makes the final "flash" buttery smooth because we only animate transform.
-    */
     .strobe-line {
       position: absolute;
       top: 0;
@@ -54,167 +57,418 @@
       transform-origin: center;
       transform: scaleY(0.001); 
       z-index: 1;
-      /* Slow breathing effect initially, explosive pop at the end */
-      transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1);
+      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
     }
 
-    /* The Flash state triggered by JS */
-    .strobe-line.fire-flash {
-      transform: scaleY(1); /* Expands to fill the screen */
-    }
+    .strobe-line.fire-flash { transform: scaleY(1); }
 
-    /* Typography Container */
     .ui-layer {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
       justify-content: center;
-      width: 100%;
       pointer-events: none;
     }
 
-    /* The F-Stop Readout */
     .f-stop-container {
-      position: absolute;
-      /* Positioned precisely above the strobe line */
-      top: calc(50% - 60px); 
       display: flex;
       align-items: baseline;
-      gap: 10px;
-      mix-blend-mode: difference; /* Ensures text stays visible if it overlaps white */
+      gap: 15px;
+      mix-blend-mode: difference;
     }
 
     .f-stop-value {
       font-family: 'Space Mono', monospace;
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: 700;
       letter-spacing: -0.05em;
+      color: #fff;
     }
 
     .f-stop-label {
       font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #888;
       text-transform: uppercase;
       letter-spacing: 0.2em;
     }
 
-    /* Metadata below the line */
-    .studio-branding {
-      position: absolute;
-      top: calc(50% + 30px);
-      font-size: 0.75rem;
-      font-weight: 300;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.5);
+    .ui-layer.hide-ui { opacity: 0; transition: opacity 0.1s; }
+
+    /* =========================================
+       3. SITE LAYOUT & TYPOGRAPHY
+       ========================================= */
+    #main-wrapper {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.5s ease 0.4s, transform 1.5s ease 0.4s;
+    }
+
+    #main-wrapper.content-enter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
       mix-blend-mode: difference;
     }
 
-    /* When the flash fires, hide the UI text */
-    .ui-layer.hide-ui {
-      opacity: 0;
-      transition: opacity 0.1s; /* Instant hide during the flash */
+    .logo {
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    /* =========================================
-       2. MAIN PORTFOLIO CONTENT
-       ========================================= */
-    #main-content {
-      height: 100vh;
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 2rem;
+    }
+
+    section {
+      padding: 8rem 4rem;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      opacity: 0;
-      background-color: #f4f4f4; /* A light portfolio background to match the flash */
-      color: #111;
-      transform: scale(0.98);
-      transition: opacity 1.5s ease 0.2s, transform 1.5s ease 0.2s;
     }
 
-    .content-enter {
-      opacity: 1 !important;
-      transform: scale(1) !important;
+    h1 {
+      font-size: 5rem;
+      font-weight: 200;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
     }
+
+    .sub-heading {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 2rem;
+    }
+
+    /* =========================================
+       4. PORTFOLIO GRID
+       ========================================= */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      margin-top: 4rem;
+    }
+
+    .grid-item {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background-color: #111;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    /* Placeholder for actual images */
+    .grid-image {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .grid-item:hover .grid-image {
+      transform: scale(1.05);
+    }
+
+    .grid-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .grid-item:hover .grid-overlay {
+      opacity: 1;
+    }
+
+    .grid-title {
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================
+       5. INTERACTIVE INQUIRY FORM
+       ========================================= */
+    .inquiry-section {
+      background-color: #0a0a0a;
+      align-items: center;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 3rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    /* Custom Input Styling */
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 10px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #333;
+      color: #fff;
+      font-size: 1.2rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group textarea {
+      resize: vertical;
+      min-height: 50px;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      outline: none;
+      border-bottom-color: #fff;
+    }
+
+    /* Floating Label Logic */
+    .input-group label {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      color: #666;
+      font-size: 1.2rem;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* When input is focused, OR when input has valid text in it, shrink and move the label up */
+    .input-group input:focus ~ label,
+    .input-group input:valid ~ label,
+    .input-group textarea:focus ~ label,
+    .input-group textarea:valid ~ label {
+      top: -20px;
+      font-size: 0.75rem;
+      color: #fff;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Custom Submit Button */
+    .submit-btn {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 1rem 3rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Reveal animations on scroll */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
   </style>
 </head>
 <body>
 
   <div id="meter-loader">
     <div class="strobe-line" id="strobe"></div>
-    
     <div class="ui-layer" id="ui-layer">
       <div class="f-stop-container">
         <span class="f-stop-label">Aperture</span>
         <span class="f-stop-value" id="f-stop-display">f/22</span>
       </div>
-      <div class="studio-branding">Exposure Locked</div>
     </div>
   </div>
 
-  <main id="main-content">
-    <h1 style="font-weight: 300; letter-spacing: 0.1em;">Studio Architecture</h1>
-    <p style="color: #666; margin-top: 10px; font-size: 0.85rem; letter-spacing: 0.1em;">SCROLL TO EXPLORE</p>
-  </main>
+  <div id="main-wrapper">
+    
+    <header>
+      <div class="logo">Pixel by Swaraj</div>
+      <nav class="nav-links">
+        <a href="#portfolio">Work</a>
+        <a href="#inquiry">Inquire</a>
+      </nav>
+    </header>
+
+    <section id="hero">
+      <div class="sub-heading">Visual Architecture</div>
+      <h1>Capturing Light,<br>Defining Space.</h1>
+      <p style="color: #888; max-width: 500px; line-height: 1.6;">Specializing in high-end editorial, commercial, and architectural photography. Based in the pursuit of the perfect frame.</p>
+    </section>
+
+    <section id="portfolio">
+      <div class="sub-heading fade-up">Selected Works — 2024</div>
+      
+      <div class="portfolio-grid">
+        <div class="grid-item fade-up">
+          <div class="grid-image"></div>
+          <div class="grid-overlay">
+            <div class="grid-title">Editorial Campaign</div>
+          </div>
+        </div>
+        <div class="grid-item fade-up" style="transition-delay: 0.1s;">
+          <div class="grid-image"></div>
+          <div class="grid-overlay">
+            <div class="grid-title">Architectural Study</div>
+          </div>
+        </div>
+        <div class="grid-item fade-up" style="transition-delay: 0.2s;">
+          <div class="grid-image"></div>
+          <div class="grid-overlay">
+            <div class="grid-title">Commercial Portraiture</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="inquiry" class="inquiry-section">
+      <div style="text-align: center;" class="fade-up">
+        <h2 style="font-size: 3rem; font-weight: 200; margin-bottom: 1rem;">Let's create.</h2>
+        <div class="sub-heading">Project Inquiries</div>
+      </div>
+
+      <div class="form-container fade-up">
+        <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Inquiry Sent. Swaraj will be in touch.');">
+          
+          <div class="input-group">
+            <input type="text" id="name" required autocomplete="off">
+            <label for="name">Your Name</label>
+          </div>
+
+          <div class="input-group">
+            <input type="email" id="email" required autocomplete="off">
+            <label for="email">Email Address</label>
+          </div>
+
+          <div class="input-group">
+            <textarea id="details" required autocomplete="off"></textarea>
+            <label for="details">Project Details & Timeline</label>
+          </div>
+
+          <div style="text-align: center;">
+            <button type="submit" class="submit-btn">Send Inquiry</button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       
+      /* --- 1. LOADER LOGIC --- */
       const fStopDisplay = document.getElementById('f-stop-display');
       const strobe = document.getElementById('strobe');
       const uiLayer = document.getElementById('ui-layer');
       const loader = document.getElementById('meter-loader');
-      const content = document.getElementById('main-content');
+      const wrapper = document.getElementById('main-wrapper');
 
-      // The sequence of F-stops opening up the lens
       const apertures = ['f/22', 'f/16', 'f/11', 'f/8', 'f/5.6', 'f/4.0', 'f/2.8', 'f/2.0', 'f/1.4', 'f/1.2'];
       let currentStep = 0;
 
-      // 1. Start the rapid ticking sequence
+      // Start the sequence after a brief pause
       setTimeout(() => {
         
+        // SLOWED DOWN: Now ticks every 250ms so the human eye can read it
         const tickInterval = setInterval(() => {
           currentStep++;
           
           if (currentStep < apertures.length) {
-            // Update the text to the next F-Stop
             fStopDisplay.innerText = apertures[currentStep];
           } else {
-            // We reached f/1.2 (Wide Open / Maximum Light)
             clearInterval(tickInterval);
             
-            // 2. Lock the exposure for a split second, then FIRE THE FLASH
+            // SLOWED DOWN: Hold on f/1.2 for 1.2 seconds to build anticipation
             setTimeout(() => {
-              
-              // Trigger the violent white screen expansion
               strobe.classList.add('fire-flash');
-              // Instantly hide the technical text
               uiLayer.classList.add('hide-ui');
 
-              // 3. Fade out the loader completely to reveal the main site
               setTimeout(() => {
                 loader.style.opacity = '0';
-                content.classList.add('content-enter');
+                wrapper.classList.add('content-enter');
 
-                // Garbage collection
-                setTimeout(() => {
-                  loader.remove();
-                }, 1200);
+                setTimeout(() => loader.remove(), 1500);
+              }, 400);
 
-              }, 400); // Trigger fade slightly before the flash finishes expanding
-
-            }, 500); // The "Lock" pause duration
+            }, 1200); // The critical UX hold
           }
-        }, 100); // Tick speed (100ms creates a mechanical, rapid feel)
+        }, 250); 
 
-      }, 400); // Initial delay before sequence starts
+      }, 500);
+
+
+      /* --- 2. SCROLL ANIMATION LOGIC (Intersection Observer) --- */
+      // This creates the premium fade-up effect as the user scrolls
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Only animate once
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-up').forEach(element => {
+        observer.observe(element);
+      });
 
     });
   </script>
-
 </body>
 </html>
