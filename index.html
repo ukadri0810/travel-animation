@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Cafe | Zero Gravity</title>
+  <title>Premium Cafe | Zero Gravity Assembly</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400&display=swap" rel="stylesheet">
   
@@ -42,7 +42,6 @@
       overflow: hidden;
     }
 
-    /* Premium Spotlight Background */
     .spotlight {
       position: absolute;
       width: 60vw;
@@ -55,76 +54,91 @@
       pointer-events: none;
     }
 
-    /* 3D Zero-Gravity Stage */
-    .food-stage {
+    /* Responsive Wrapper:
+      This guarantees the entire animation scales down on mobile phones 
+      so the buns never float off the screen.
+    */
+    .stage-wrapper {
       position: relative;
-      width: 300px;
-      height: 500px;
       z-index: 2;
-      perspective: 1000px;
+      width: 100%;
+      height: 100%;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      perspective: 1000px;
     }
 
-    /* PREMIUM 3D CSS PLACEHOLDERS 
-      These simulate photorealistic 3D rendering directly in the browser 
-    */
+    @media (max-width: 768px) {
+      .stage-wrapper {
+        transform: scale(0.6); /* Shrinks the animation by 40% on mobile */
+      }
+    }
+
+    /* The Burger Canvas */
+    .food-stage {
+      position: relative;
+      width: 220px;
+      height: 190px; /* Exact height of the assembled burger */
+    }
+
     .ingredient {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       will-change: transform;
     }
 
+    /* PERFECT STACKING COORDINATES:
+      These fixed pixel 'top' values ensure the burger builds perfectly 
+      when GSAP snaps them back to y: 0.
+    */
     .top-bun {
-      width: 200px;
-      height: 80px;
+      width: 200px; height: 80px;
       background: radial-gradient(circle at 50% 20%, #f7b77b, #c36a21);
       border-radius: 100px 100px 20px 20px;
-      box-shadow: inset -5px -10px 20px rgba(0,0,0,0.5), 0 20px 20px rgba(0,0,0,0.6);
-      top: -20%; z-index: 5;
+      box-shadow: inset -5px -10px 20px rgba(0,0,0,0.5), 0 15px 15px rgba(0,0,0,0.4);
+      top: 0px; z-index: 5;
     }
 
     .lettuce {
-      width: 220px;
-      height: 15px;
+      width: 220px; height: 15px;
       background: linear-gradient(90deg, #4CAF50, #2E7D32, #4CAF50);
       border-radius: 10px;
-      box-shadow: 0 15px 15px rgba(0,0,0,0.5);
-      top: 10%; z-index: 4;
+      box-shadow: 0 10px 10px rgba(0,0,0,0.3);
+      top: 70px; z-index: 4;
     }
 
     .cheese {
-      width: 210px;
-      height: 12px;
+      width: 210px; height: 12px;
       background: #FBC02D;
       border-radius: 5px;
-      box-shadow: 0 15px 15px rgba(0,0,0,0.5);
-      top: 35%; z-index: 3;
+      box-shadow: 0 10px 10px rgba(0,0,0,0.3);
+      top: 80px; z-index: 3;
     }
 
     .patty {
-      width: 190px;
-      height: 45px;
+      width: 190px; height: 45px;
       background: #3E2723;
       border-radius: 20px;
-      box-shadow: inset 0 -5px 10px #211512, 0 15px 15px rgba(0,0,0,0.6);
-      top: 55%; z-index: 2;
+      box-shadow: inset 0 -5px 10px #211512, 0 15px 15px rgba(0,0,0,0.5);
+      top: 90px; z-index: 2;
     }
 
     .bot-bun {
-      width: 200px;
-      height: 55px;
+      width: 200px; height: 55px;
       background: radial-gradient(circle at 50% 80%, #f7b77b, #c36a21);
       border-radius: 20px 20px 80px 80px;
       box-shadow: inset -5px 10px 20px rgba(0,0,0,0.3), 0 20px 20px rgba(0,0,0,0.6);
-      top: 80%; z-index: 1;
+      top: 125px; z-index: 1;
     }
 
     /* Minimalist Loading UI */
     .loading-ui {
       position: absolute;
       bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -145,6 +159,7 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       color: #888;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -153,12 +168,14 @@
   <div class="preloader-wrapper" id="preloader">
     <div class="spotlight" id="spotlight"></div>
     
-    <div class="food-stage" id="burger-stack">
-      <div class="ingredient top-bun" id="ing-1"></div>
-      <div class="ingredient lettuce" id="ing-2"></div>
-      <div class="ingredient cheese" id="ing-3"></div>
-      <div class="ingredient patty" id="ing-4"></div>
-      <div class="ingredient bot-bun" id="ing-5"></div>
+    <div class="stage-wrapper">
+      <div class="food-stage" id="burger-stack">
+        <div class="ingredient top-bun" id="ing-1"></div>
+        <div class="ingredient lettuce" id="ing-2"></div>
+        <div class="ingredient cheese" id="ing-3"></div>
+        <div class="ingredient patty" id="ing-4"></div>
+        <div class="ingredient bot-bun" id="ing-5"></div>
+      </div>
     </div>
 
     <div class="loading-ui" id="ui">
@@ -174,12 +191,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   
   <script>
-    // 1. Initial State Setup (The 3D Coordinates)
-    gsap.set("#ing-1", { y: -150, z: 100, rotationX: 15, rotationY: -10 });
-    gsap.set("#ing-2", { y: -50,  z: 50,  rotationX: -10, rotationY: 15 });
-    gsap.set("#ing-3", { y: 20,   z: 25,  rotationX: 5,   rotationY: -5 });
-    gsap.set("#ing-4", { y: 100,  z: 0,   rotationX: -15, rotationY: 10 });
-    gsap.set("#ing-5", { y: 200,  z: -50, rotationX: 10,  rotationY: -15 });
+    // 1. Initial State Setup (The 3D Zero-Gravity Scatter)
+    // All transforms are applied on top of their perfect CSS positions
+    gsap.set("#ing-1", { x: "-50%", y: -160, z: 100, rotationX: 15, rotationY: -10 });
+    gsap.set("#ing-2", { x: "-50%", y: -80,  z: 50,  rotationX: -10, rotationY: 15 });
+    gsap.set("#ing-3", { x: "-50%", y: -30,  z: 25,  rotationX: 5,   rotationY: -5 });
+    gsap.set("#ing-4", { x: "-50%", y: 40,   z: 0,   rotationX: -15, rotationY: 10 });
+    gsap.set("#ing-5", { x: "-50%", y: 120,  z: -50, rotationX: 10,  rotationY: -15 });
 
     // 2. The Slow-Motion Float 
     const floatAnim = gsap.to(".ingredient", {
@@ -213,15 +231,16 @@
       }
     });
 
-    // 4. The Assembly (The Snap)
+    // 4. The Perfect Assembly (The Snap)
     tl.to("#ui", { opacity: 0, duration: 0.3 }, "-=0.3")
       .add(() => floatAnim.kill(), "<");
 
+    // BUG FIX: By only animating x, y, z, and rotations to 0, 
+    // the ingredients seamlessly snap back to their exact CSS 'top' coordinates.
     tl.to(".ingredient", {
       y: 0,
+      x: "-50%", // Keep horizontal centering
       z: 0,
-      x: 0,
-      top: "25%", 
       rotationX: 0,
       rotationY: 0,
       rotationZ: 0,
@@ -230,8 +249,8 @@
     }, "+=0.1");
 
     // 5. The Cinematic Reveal
-    tl.to("#burger-stack", {
-      scale: 4,
+    tl.to(".stage-wrapper", {
+      scale: 3, // Scales the entire assembled burger toward the camera
       opacity: 0,
       duration: 1,
       ease: "power2.in"
