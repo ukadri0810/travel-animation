@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BURGER QUEEN | Premium Fast Food</title>
+    <title>CRAVE | Premium Fast Food</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
@@ -81,17 +81,25 @@
 
         .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; text-transform: uppercase; }
         .nav-links { display: flex; gap: 30px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; }
-        .nav-links a { color: #111; text-decoration: none; }
+        .nav-links a { color: #111; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: #ff3b00; }
         .order-btn { background-color: #ff3b00; color: white !important; padding: 10px 20px; border-radius: 50px; }
 
         .hero {
             flex-grow: 1;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 5vw;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5vw 80px 5vw; /* Bottom padding leaves room for the marquee */
             position: relative;
             overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* Left Side: Typography */
+        .hero-content {
+            width: 50%;
+            z-index: 2;
         }
 
         .hero-tagline {
@@ -104,14 +112,32 @@
         }
 
         .hero-title {
-            font-size: 11vw;
+            font-size: 9.5vw;
             font-weight: 900;
             line-height: 0.85;
             letter-spacing: -4px;
             text-transform: uppercase;
-            max-width: 800px;
         }
 
+        /* Right Side: Editorial Image */
+        .hero-image-wrapper {
+            width: 45%;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-end;
+            will-change: transform;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            max-width: 650px;
+            height: 60vh;
+            object-fit: cover;
+            border-radius: 2vw; /* Elegant rounded corners */
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25); /* Premium cinematic shadow */
+        }
+
+        /* Infinite Marquee */
         .marquee-container {
             position: absolute;
             bottom: 30px;
@@ -137,6 +163,16 @@
 
         .marquee-item { padding: 0 2vw; display: flex; align-items: center; }
         .marquee-item::after { content: '•'; color: #ff3b00; margin-left: 4vw; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; justify-content: center; gap: 30px; padding-top: 20px; }
+            .hero-content { width: 100%; text-align: center; }
+            .hero-title { font-size: 16vw; }
+            .hero-image-wrapper { width: 100%; justify-content: center; }
+            .hero-image-wrapper img { height: 40vh; border-radius: 5vw; }
+            .nav-links { display: none; /* Hide links on mobile for cleaner demo */ }
+        }
     </style>
 </head>
 <body>
@@ -150,6 +186,7 @@
     </div>
 
     <div class="main-wrapper" id="site-content">
+        
         <nav>
             <div class="logo">CRAVE.</div>
             <div class="nav-links">
@@ -160,8 +197,14 @@
         </nav>
 
         <div class="hero">
-            <div class="hero-tagline" id="tagline">No Compromise. Just Flavor.</div>
-            <h1 class="hero-title" id="main-title">Smash.<br>Sizzle.<br>Serve.</h1>
+            <div class="hero-content">
+                <div class="hero-tagline" id="tagline">No Compromise. Just Flavor.</div>
+                <h1 class="hero-title" id="main-title">Smash.<br>Sizzle.<br>Serve.</h1>
+            </div>
+
+            <div class="hero-image-wrapper" id="hero-img">
+                <img src="https://b.zmtcdn.com/data/dish_photos/488/9616591eff8c54c0778c907617c14488.jpg" alt="Signature Burger Combo">
+            </div>
 
             <div class="marquee-container" id="marquee">
                 <div class="marquee-content" id="marquee-inner">
@@ -169,10 +212,12 @@
                     <span class="marquee-item">Hand-Cut Fries</span>
                     <span class="marquee-item">Artisan Buns</span>
                     <span class="marquee-item">Secret Sauce</span>
+                    <span class="marquee-item">Ice Cold Coke</span>
                     <span class="marquee-item">100% Wagyu Beef</span>
                     <span class="marquee-item">Hand-Cut Fries</span>
                     <span class="marquee-item">Artisan Buns</span>
                     <span class="marquee-item">Secret Sauce</span>
+                    <span class="marquee-item">Ice Cold Coke</span>
                 </div>
             </div>
         </div>
@@ -180,23 +225,31 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // Global boolean to trigger the physics explosion
         let isExploding = false;
 
         /**
          * 1. TIMELINE & WEBSITE REVEAL 
-         * We run this immediately so the counter never gets stuck, regardless of canvas errors.
          */
         const tl = gsap.timeline({
             onComplete: () => {
                 document.getElementById('preloader-container').style.display = 'none';
                 document.body.style.overflow = 'auto'; 
+                
+                // Start continuous floating animation for the image after loading is done
+                gsap.to("#hero-img img", {
+                    y: -15, // Floats up 15 pixels
+                    duration: 3,
+                    repeat: -1,
+                    yoyo: true, // Smoothly floats back down
+                    ease: "sine.inOut"
+                });
             }
         });
 
         let loadState = { value: 0 };
         let counterEl = document.getElementById("counter");
 
+        // The Loading Progression
         tl.to(loadState, {
             value: 100,
             duration: 3.5, 
@@ -207,18 +260,34 @@
         })
         .add(() => { isExploding = true; })
         .to("#ui", { opacity: 0, duration: 0.2 }, "<")
+        
+        // Unveil the Site
         .to("#preloader-container", { backgroundColor: "transparent", backgroundImage: "none", duration: 1.2, ease: "power2.inOut" }, "+=0.2")
         .set("#site-content", { opacity: 1 }, "-=1.2")
+        
+        // Stagger Typography
         .from("nav", { y: -30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
         .from("#tagline", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
         .from("#main-title", { y: 40, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.7")
-        .from("#marquee", { y: 100, rotation: 0, opacity: 0, duration: 1, ease: "back.out(1.5)" }, "-=0.8");
+        
+        // 3D Cinematic Reveal of the Food Image
+        .from("#hero-img", { 
+            x: 100, 
+            scale: 0.85, 
+            rotationY: -15, // Swings into place like a door
+            opacity: 0, 
+            duration: 1.5, 
+            ease: "expo.out" 
+        }, "-=0.9")
 
+        // Marquee entrance
+        .from("#marquee", { y: 100, rotation: 0, opacity: 0, duration: 1, ease: "back.out(1.5)" }, "-=1.2");
+
+        // Start Infinite Scrolling Marquee
         gsap.to("#marquee-inner", { xPercent: -50, repeat: -1, duration: 15, ease: "none" });
 
         /**
          * 2. PARTICLE PHYSICS ENGINE
-         * We wait for the web fonts to load, then safely wrap the Canvas in a try/catch.
          */
         document.fonts.ready.then(() => {
             try {
@@ -326,7 +395,7 @@
                 });
 
             } catch (error) {
-                console.warn("Canvas disabled due to local file security restrictions. The website loading sequence will still run normally.");
+                console.warn("Canvas physics running in fallback mode.");
             }
         });
     </script>
