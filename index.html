@@ -1,63 +1,261 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arc Dental — Porcelain Entrance Phase 2</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photographer Portfolio - Premium Loader</title>
+  <style>
+    /* Ultra-clean sans-serif for editorial feel */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #050505; /* Deep, neutral matte black */
+      color: #f0f0f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================================
+       1. LOADER STAGE
+       ========================================= */
+    #viewfinder-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #050505;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      /* The exit transition: fades out gracefully */
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.8s;
+    }
+
+    /* The bounding box for our camera frame */
+    .frame-container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* The 4 Corner Brackets */
+    .bracket {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1),
+                  border-color 0.3s ease;
+    }
+
+    .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+    .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+    .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+    .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+    /* Center Crosshair (Focus Point) */
+    .crosshair-container {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Phase 1: Hunting for focus */
+      animation: focusHunt 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+    }
+
+    .crosshair-line {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .crosshair-line.vertical { width: 1px; height: 100%; }
+    .crosshair-line.horizontal { width: 100%; height: 1px; }
+
+    /* The lock-on indicator dot */
+    .focus-dot {
+      width: 4px;
+      height: 4px;
+      background-color: #fff;
+      border-radius: 50%;
+      opacity: 0; /* Hidden until lock */
+      transform: scale(0);
+    }
+
+    /* Typography Reveal */
+    .studio-name {
+      position: absolute;
+      bottom: -40px;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    /* --- Animation State Classes (Triggered by JS) --- */
+
+    /* Phase 2: Focus Locked */
+    .frame-container.is-locked .crosshair-container {
+      animation: none;
+      transform: scale(0.6);
+      transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .frame-container.is-locked .crosshair-line {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .frame-container.is-locked .focus-dot {
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Slight pop */
+    }
+
+    .frame-container.is-locked .bracket {
+      border-color: rgba(255, 255, 255, 0.8);
+      /* Nudge inwards slightly to mimic focus grip */
+      transform: scale(0.95); 
+    }
+
+    .frame-container.is-locked .studio-name {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    }
+
+    /* Phase 3: Shutter Release (Exit) */
+    #viewfinder-loader.shutter-release .bracket.top-left { transform: translate(-100vw, -100vh); }
+    #viewfinder-loader.shutter-release .bracket.top-right { transform: translate(100vw, -100vh); }
+    #viewfinder-loader.shutter-release .bracket.bottom-left { transform: translate(-100vw, 100vh); }
+    #viewfinder-loader.shutter-release .bracket.bottom-right { transform: translate(100vw, 100vh); }
+    
+    #viewfinder-loader.shutter-release .crosshair-container,
+    #viewfinder-loader.shutter-release .studio-name {
+      opacity: 0;
+      transform: scale(1.5);
+      transition: all 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    #viewfinder-loader.shutter-release {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* --- Keyframes --- */
+    @keyframes focusHunt {
+      0% { transform: scale(0.9) rotate(0deg); }
+      100% { transform: scale(1.1) rotate(0deg); }
+    }
+
+    /* =========================================
+       2. MAIN PORTFOLIO (HOMEPAGE)
+       ========================================= */
+    #portfolio-content {
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-enter {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+
+    h1 {
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <main class="clinic-page" aria-label="Arc Dental homepage preview">
-    <nav class="nav-shell">
-      <a class="brand" href="#" aria-label="Arc Dental home">
-        <span class="brand-mark">A</span>
-        <span>Arc Dental</span>
-      </a>
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="#care">Care</a>
-        <a href="#comfort">Comfort</a>
-        <a href="#book">Book Visit</a>
-      </div>
-    </nav>
 
-    <section class="hero-stage">
-      <div class="hero-copy">
-        <p class="eyebrow">Modern cosmetic & restorative dentistry</p>
-        <h1>A calmer way<br><span>to smile.</span></h1>
-        <p class="lead">A warm, precision-led dental experience designed around comfort, clarity, and confidence.</p>
-        <div class="hero-actions">
-          <a href="#book" class="primary-btn">Book a visit</a>
-          <a href="#care" class="ghost-btn">Explore care</a>
-        </div>
+  <div id="viewfinder-loader">
+    <div class="frame-container" id="camera-frame">
+      <div class="bracket top-left"></div>
+      <div class="bracket top-right"></div>
+      <div class="bracket bottom-left"></div>
+      <div class="bracket bottom-right"></div>
+      
+      <div class="crosshair-container">
+        <div class="crosshair-line vertical"></div>
+        <div class="crosshair-line horizontal"></div>
+        <div class="focus-dot"></div>
       </div>
-      <div class="hero-card" aria-hidden="true">
-        <div class="glass-panel">
-          <div class="soft-smile"></div>
-          <p>Gentle dentistry,<br>beautifully delivered.</p>
-        </div>
-      </div>
-    </section>
+
+      <div class="studio-name">Studio Arthouse</div>
+    </div>
+  </div>
+
+  <main id="portfolio-content">
+    <h1>Selected Works</h1>
+    <p style="color: #666; letter-spacing: 0.1em; font-size: 0.85rem;">PORTFOLIO &mdash; 2024</p>
   </main>
 
-  <section class="loader-shell" aria-label="Porcelain entrance loader concept">
-    <div class="porcelain-grain"></div>
-    <div class="porcelain-panel panel-left"></div>
-    <div class="porcelain-panel panel-right"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      const loader = document.getElementById('viewfinder-loader');
+      const frame = document.getElementById('camera-frame');
+      const content = document.getElementById('portfolio-content');
 
-    <div class="loader-center">
-      <div class="embossed-badge">
-        <span class="badge-letter">A</span>
-      </div>
-      <h2>Arc Dental</h2>
-      <div class="smile-line" aria-hidden="true"></div>
-      <p>Gentle dentistry, beautifully delivered.</p>
-    </div>
+      // Emulate the loading process. In a real environment, 
+      // you would tie this to window.onload or an image preloader.
+      window.addEventListener('load', () => {
+        
+        // Phase 1: Let the "hunting" animation play for a moment (1.2 seconds)
+        setTimeout(() => {
+          
+          // Phase 2: Focus Lock!
+          // The brackets tighten, lines turn solid white, the dot pops in.
+          frame.classList.add('is-locked');
 
-    <div class="reflection-band" aria-hidden="true"></div>
-    <div class="phase-note">Phase 2 · Static structure</div>
-  </section>
+          // Phase 3: The Shutter Release / Transition Out
+          // Wait for the lock animation to be registered by the user (1 second)
+          setTimeout(() => {
+            
+            // Fire the explosive exit animation for the loader
+            loader.classList.add('shutter-release');
+            
+            // Simultaneously scale up and fade in the portfolio content
+            content.classList.add('content-enter');
+
+            // Cleanup the DOM to ensure optimal scrolling performance
+            setTimeout(() => {
+              loader.remove();
+            }, 800); // Matches the loader's exit CSS transition time
+
+          }, 1000);
+
+        }, 1200);
+
+      });
+    });
+  </script>
+
 </body>
 </html>
