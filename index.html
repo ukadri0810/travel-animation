@@ -10,12 +10,48 @@
     <style>
         /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             overflow: hidden; 
             background-color: #f4f4f0; 
             font-family: 'Montserrat', sans-serif; 
             color: #111;
+            cursor: none; /* Hides default system cursor for premium feel */
         }
+
+        /* --- PREMIUM NOISE OVERLAY --- */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.08"/%3E%3C/svg%3E');
+        }
+
+        /* --- MAGNETIC CUSTOM CURSOR --- */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: #ff3b00;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            will-change: transform, width, height;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        .custom-cursor.hover-active {
+            width: 80px;
+            height: 80px;
+            background-color: #ffffff;
+        }
+
+        a, button { cursor: none; }
 
         /* --- AGENCY PRELOADER (CANVAS ENGINE) --- */
         #preloader-container {
@@ -173,6 +209,11 @@
 </head>
 <body>
 
+    <!-- Premium Overlays -->
+    <div class="noise-overlay"></div>
+    <div class="custom-cursor" id="custom-cursor"></div>
+
+    <!-- Preloader UI -->
     <div id="preloader-container">
         <canvas id="particle-canvas"></canvas>
         <div class="loading-ui" id="ui">
@@ -181,6 +222,7 @@
         </div>
     </div>
 
+    <!-- Website UI -->
     <div class="main-wrapper" id="site-content">
         <nav>
             <div class="logo">BURGER QUEEN.</div>
@@ -220,14 +262,51 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
+        // --- CUSTOM MAGNETIC CURSOR LOGIC ---
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX;
+        let cursorY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Smooth Lerp animation for heavy, expensive feel
+        function animateCursor() {
+            let speed = 0.15;
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+            
+            cursor.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover states for interactive elements
+        const interactives = document.querySelectorAll('a, .hero-image-wrapper img, .marquee-container, .logo');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
+        });
+
+        // Disable custom cursor on mobile devices
+        if (window.innerWidth < 768) {
+            cursor.style.display = 'none';
+            document.body.style.cursor = 'auto'; 
+        }
+
+        // --- PRELOADER & REVEAL TIMELINE ---
         let isExploding = false;
 
-        // GSAP Timeline for Loading and Reveal
         const tl = gsap.timeline({
             onComplete: () => {
                 document.getElementById('preloader-container').style.display = 'none';
                 document.body.style.overflow = 'auto'; 
                 
+                // Continuous floating animation for image
                 gsap.to("#hero-img img", {
                     y: -15, 
                     duration: 3,
@@ -268,7 +347,7 @@
 
         gsap.to("#marquee-inner", { xPercent: -50, repeat: -1, duration: 15, ease: "none" });
 
-        // --- UPGRADED PARTICLE PHYSICS ENGINE ---
+        // --- PARTICLE PHYSICS ENGINE ---
         document.fonts.ready.then(() => {
             try {
                 const canvas = document.getElementById('particle-canvas');
@@ -280,7 +359,8 @@
                 let particleArray = [];
                 const mouse = { x: null, y: null, radius: 100 };
 
-                window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+                // Reuse mouseX/mouseY from cursor logic to interact with canvas
+                window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
                 window.addEventListener('touchmove', (e) => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
                 window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
 
@@ -289,13 +369,12 @@
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    // UX FIX: Stack text on mobile for massively improved legibility
                     if (canvas.width < 768) {
-                        ctx.font = `900 65px Montserrat`; // Huge mobile font
+                        ctx.font = `900 65px Montserrat`; 
                         ctx.fillText('BURGER', canvas.width / 2, canvas.height / 2 - 40);
                         ctx.fillText('QUEEN', canvas.width / 2, canvas.height / 2 + 40);
                     } else {
-                        ctx.font = `900 120px Montserrat`; // Large desktop font
+                        ctx.font = `900 120px Montserrat`; 
                         ctx.fillText('BURGER QUEEN', canvas.width / 2, canvas.height / 2);
                     }
                 }
@@ -305,12 +384,10 @@
                         this.baseX = x;
                         this.baseY = y;
                         
-                        // ENGINEERING FIX: Ignite from the letter itself, preventing stray edge dots
                         this.x = x + (Math.random() * 20 - 10);
                         this.y = y + (Math.random() * 20 - 10);
                         
                         this.density = (Math.random() * 40) + 5;
-                        // Smaller particles allow for higher detail/sharpness
                         this.size = Math.random() * 1.5 + 0.8; 
                         
                         const colors = ['#ff3b00', '#ff5500', '#ff9900', '#ffcc00'];
@@ -361,8 +438,6 @@
                     drawTextToCanvas();
                     
                     const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    
-                    // HIGHER RESOLUTION: Scans every 3 pixels instead of 5 for extreme sharpness
                     let step = canvas.width < 768 ? 2 : 3; 
                     
                     for (let y = 0; y < textCoordinates.height; y += step) {
