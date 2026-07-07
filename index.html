@@ -1,280 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Cafe | Zero Gravity Assembly</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Reset & Base */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { overflow: hidden; background-color: #050505; color: #fff; font-family: 'Inter', sans-serif; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Fast Food | Custom Canvas Engine</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; background-color: #050505; font-family: 'Montserrat', sans-serif; }
 
-    /* The Main Website Content */
-    .website-content {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #111;
-      background-image: radial-gradient(circle at center, #2a0a0a 0%, #111 70%);
-    }
+        /* The Preloader Canvas Container */
+        #preloader-container {
+            position: fixed;
+            inset: 0;
+            background-color: #050505;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Subtle radial gradient for depth */
+            background-image: radial-gradient(circle at center, #1a0500 0%, #050505 80%);
+        }
 
-    .website-content h1 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 5vw;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      opacity: 0;
-    }
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-    /* --- PRELOADER STYLES --- */
-    .preloader-wrapper {
-      position: fixed;
-      inset: 0;
-      background-color: #030303;
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+        /* Loading UI */
+        .loading-ui {
+            position: absolute;
+            bottom: 40px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+        }
 
-    .spotlight {
-      position: absolute;
-      width: 60vw;
-      height: 60vw;
-      background: radial-gradient(circle, rgba(255, 60, 0, 0.15) 0%, transparent 60%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      pointer-events: none;
-    }
+        .counter {
+            color: #ff3b00; /* Grill Fire Red */
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(255, 59, 0, 0.4);
+        }
 
-    /* Responsive Wrapper:
-      This guarantees the entire animation scales down on mobile phones 
-      so the buns never float off the screen.
-    */
-    .stage-wrapper {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1000px;
-    }
+        .loading-text {
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
 
-    @media (max-width: 768px) {
-      .stage-wrapper {
-        transform: scale(0.6); /* Shrinks the animation by 40% on mobile */
-      }
-    }
+        /* Main Website Content (Hidden initially) */
+        .website-content {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            color: #111;
+        }
 
-    /* The Burger Canvas */
-    .food-stage {
-      position: relative;
-      width: 220px;
-      height: 190px; /* Exact height of the assembled burger */
-    }
-
-    .ingredient {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      will-change: transform;
-    }
-
-    /* PERFECT STACKING COORDINATES:
-      These fixed pixel 'top' values ensure the burger builds perfectly 
-      when GSAP snaps them back to y: 0.
-    */
-    .top-bun {
-      width: 200px; height: 80px;
-      background: radial-gradient(circle at 50% 20%, #f7b77b, #c36a21);
-      border-radius: 100px 100px 20px 20px;
-      box-shadow: inset -5px -10px 20px rgba(0,0,0,0.5), 0 15px 15px rgba(0,0,0,0.4);
-      top: 0px; z-index: 5;
-    }
-
-    .lettuce {
-      width: 220px; height: 15px;
-      background: linear-gradient(90deg, #4CAF50, #2E7D32, #4CAF50);
-      border-radius: 10px;
-      box-shadow: 0 10px 10px rgba(0,0,0,0.3);
-      top: 70px; z-index: 4;
-    }
-
-    .cheese {
-      width: 210px; height: 12px;
-      background: #FBC02D;
-      border-radius: 5px;
-      box-shadow: 0 10px 10px rgba(0,0,0,0.3);
-      top: 80px; z-index: 3;
-    }
-
-    .patty {
-      width: 190px; height: 45px;
-      background: #3E2723;
-      border-radius: 20px;
-      box-shadow: inset 0 -5px 10px #211512, 0 15px 15px rgba(0,0,0,0.5);
-      top: 90px; z-index: 2;
-    }
-
-    .bot-bun {
-      width: 200px; height: 55px;
-      background: radial-gradient(circle at 50% 80%, #f7b77b, #c36a21);
-      border-radius: 20px 20px 80px 80px;
-      box-shadow: inset -5px 10px 20px rgba(0,0,0,0.3), 0 20px 20px rgba(0,0,0,0.6);
-      top: 125px; z-index: 1;
-    }
-
-    /* Minimalist Loading UI */
-    .loading-ui {
-      position: absolute;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    .counter {
-      font-family: 'Oswald', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1;
-      color: #ff471a; 
-    }
-
-    .loading-text {
-      font-size: 0.8rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #888;
-      white-space: nowrap;
-    }
-  </style>
+        .website-content h1 {
+            font-size: 6vw;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
 </head>
 <body>
 
-  <div class="preloader-wrapper" id="preloader">
-    <div class="spotlight" id="spotlight"></div>
-    
-    <div class="stage-wrapper">
-      <div class="food-stage" id="burger-stack">
-        <div class="ingredient top-bun" id="ing-1"></div>
-        <div class="ingredient lettuce" id="ing-2"></div>
-        <div class="ingredient cheese" id="ing-3"></div>
-        <div class="ingredient patty" id="ing-4"></div>
-        <div class="ingredient bot-bun" id="ing-5"></div>
-      </div>
+    <!-- Agency Level Physics Preloader -->
+    <div id="preloader-container">
+        <canvas id="particle-canvas"></canvas>
+        <div class="loading-ui" id="ui">
+            <div class="counter" id="counter">0%</div>
+            <div class="loading-text">Firing Up The Grill</div>
+        </div>
     </div>
 
-    <div class="loading-ui" id="ui">
-      <div class="counter" id="counter">0%</div>
-      <div class="loading-text">Preparing Order</div>
+    <!-- Website Content -->
+    <div class="website-content">
+        <h1 id="hero-text">Order Ready.</h1>
     </div>
-  </div>
 
-  <div class="website-content">
-    <h1 id="hero-title">Taste the Extraordinary</h1>
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        /**
+         * SENIOR ENGINEERING: CUSTOM CANVAS PARTICLE PHYSICS ENGINE
+         */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  
-  <script>
-    // 1. Initial State Setup (The 3D Zero-Gravity Scatter)
-    // All transforms are applied on top of their perfect CSS positions
-    gsap.set("#ing-1", { x: "-50%", y: -160, z: 100, rotationX: 15, rotationY: -10 });
-    gsap.set("#ing-2", { x: "-50%", y: -80,  z: 50,  rotationX: -10, rotationY: 15 });
-    gsap.set("#ing-3", { x: "-50%", y: -30,  z: 25,  rotationX: 5,   rotationY: -5 });
-    gsap.set("#ing-4", { x: "-50%", y: 40,   z: 0,   rotationX: -15, rotationY: 10 });
-    gsap.set("#ing-5", { x: "-50%", y: 120,  z: -50, rotationX: 10,  rotationY: -15 });
+        let particleArray = [];
+        let adjustX = 0;
+        let adjustY = 0;
+        let isExploding = false; // Triggered when loading hits 100%
 
-    // 2. The Slow-Motion Float 
-    const floatAnim = gsap.to(".ingredient", {
-      y: "+=20",
-      rotationX: "+=5",
-      rotationY: "+=5",
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: { amount: 1.5, from: "center" }
-    });
+        // Handle Mouse / Touch Interaction
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 120 // How far the mouse pushes the particles
+        }
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        document.getElementById('preloader').style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
 
-    // 3. Loading Counter Logic
-    let counterObj = { value: 0 };
-    let counterElement = document.getElementById("counter");
+        window.addEventListener('touchmove', (e) => {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        });
 
-    tl.to(counterObj, {
-      value: 100,
-      duration: 3.5, 
-      ease: "power1.inOut",
-      onUpdate: () => {
-        counterElement.innerText = Math.round(counterObj.value) + "%";
-      }
-    });
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
 
-    // 4. The Perfect Assembly (The Snap)
-    tl.to("#ui", { opacity: 0, duration: 0.3 }, "-=0.3")
-      .add(() => floatAnim.kill(), "<");
+        // Setup the Text we want to turn into particles
+        ctx.fillStyle = 'white';
+        // Responsive font sizing based on screen width
+        let fontSize = canvas.width < 768 ? 60 : 130; 
+        ctx.font = `900 ${fontSize}px Montserrat`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        // Draw the text in the center
+        ctx.fillText('CRAVE', canvas.width / 2, canvas.height / 2);
 
-    // BUG FIX: By only animating x, y, z, and rotations to 0, 
-    // the ingredients seamlessly snap back to their exact CSS 'top' coordinates.
-    tl.to(".ingredient", {
-      y: 0,
-      x: "-50%", // Keep horizontal centering
-      z: 0,
-      rotationX: 0,
-      rotationY: 0,
-      rotationZ: 0,
-      duration: 0.8,
-      ease: "expo.inOut" 
-    }, "+=0.1");
+        // Scan the canvas and create particles where the text is
+        const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-    // 5. The Cinematic Reveal
-    tl.to(".stage-wrapper", {
-      scale: 3, // Scales the entire assembled burger toward the camera
-      opacity: 0,
-      duration: 1,
-      ease: "power2.in"
-    }, "+=0.4")
-    
-    .to("#spotlight", {
-      scale: 3,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.in"
-    }, "<")
+        class Particle {
+            constructor(x, y) {
+                // Current position
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Target position (where it forms the letter)
+                this.baseX = x;
+                this.baseY = y;
+                // Physics weight
+                this.density = (Math.random() * 30) + 1;
+                this.size = Math.random() * 2.5 + 1;
+                // Fast food fire colors (Reds, Oranges, Yellows)
+                const colors = ['#ff3b00', '#ff9900', '#ffc107', '#ff6a00'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // For the final explosion
+                this.explodeVelX = (Math.random() - 0.5) * 50;
+                this.explodeVelY = (Math.random() - 0.5) * 50;
+            }
 
-    .to(".preloader-wrapper", {
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.inOut"
-    }, "-=0.4")
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
 
-    .to("#hero-title", {
-      opacity: 1,
-      y: -30,
-      duration: 1.2,
-      ease: "power3.out"
-    }, "-=0.5");
-  </script>
+            update() {
+                if (isExploding) {
+                    // Final transition: Blast outward
+                    this.x += this.explodeVelX;
+                    this.y += this.explodeVelY;
+                    this.draw();
+                    return;
+                }
+
+                // Interactive Physics: Mouse Repulsion
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = mouse.radius;
+                
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < mouse.radius) {
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    // Spring Physics: Snap back to original position
+                    if (this.x !== this.baseX) {
+                        let dx = this.x - this.baseX;
+                        this.x -= dx / 10;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.y - this.baseY;
+                        this.y -= dy / 10;
+                    }
+                }
+                this.draw();
+            }
+        }
+
+        function init() {
+            particleArray = [];
+            // Map the pixels to particles (skip every 4 pixels for performance and stylization)
+            for (let y = 0, y2 = textCoordinates.height; y < y2; y += 4) {
+                for (let x = 0, x2 = textCoordinates.width; x < x2; x += 4) {
+                    // Check if the pixel has opacity (meaning it's part of the text)
+                    if (textCoordinates.data[(y * 4 * textCoordinates.width) + (x * 4) + 3] > 128) {
+                        let positionX = x;
+                        let positionY = y;
+                        particleArray.push(new Particle(positionX, positionY));
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particleArray.length; i++) {
+                particleArray[i].update();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        // Handle Window Resize properly
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Re-render text on resize
+            ctx.fillStyle = 'white';
+            let newFontSize = canvas.width < 768 ? 60 : 130;
+            ctx.font = `900 ${newFontSize}px Montserrat`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('CRAVE', canvas.width / 2, canvas.height / 2);
+            init();
+        });
+
+        /**
+         * THE LOADING SEQUENCE & EXIT ANIMATION
+         */
+        const tl = gsap.timeline({
+            onComplete: () => {
+                document.getElementById('preloader-container').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        let loadState = { value: 0 };
+        let counterEl = document.getElementById("counter");
+
+        tl.to(loadState, {
+            value: 100,
+            duration: 4, // 4 seconds of simulated loading
+            ease: "power1.inOut",
+            onUpdate: () => {
+                counterEl.innerText = Math.round(loadState.value) + "%";
+            }
+        })
+        
+        // When hitting 100%, trigger the physics explosion
+        .add(() => {
+            isExploding = true;
+        })
+
+        // Fade out the UI elements instantly
+        .to("#ui", { opacity: 0, duration: 0.2 }, "<")
+
+        // Fade out the black background to reveal the site underneath
+        .to("#preloader-container", {
+            backgroundColor: "transparent",
+            backgroundImage: "none",
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, "+=0.2")
+
+        // The final text smoothly fades and scales in
+        .to("#hero-text", {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out"
+        }, "-=1");
+
+    </script>
 </body>
 </html>
