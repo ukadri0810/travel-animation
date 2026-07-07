@@ -182,7 +182,6 @@
     </div>
 
     <div class="main-wrapper" id="site-content">
-        
         <nav>
             <div class="logo">BURGER QUEEN.</div>
             <div class="nav-links">
@@ -223,6 +222,7 @@
     <script>
         let isExploding = false;
 
+        // GSAP Timeline for Loading and Reveal
         const tl = gsap.timeline({
             onComplete: () => {
                 document.getElementById('preloader-container').style.display = 'none';
@@ -268,6 +268,7 @@
 
         gsap.to("#marquee-inner", { xPercent: -50, repeat: -1, duration: 15, ease: "none" });
 
+        // --- UPGRADED PARTICLE PHYSICS ENGINE ---
         document.fonts.ready.then(() => {
             try {
                 const canvas = document.getElementById('particle-canvas');
@@ -277,7 +278,7 @@
                 canvas.height = window.innerHeight;
 
                 let particleArray = [];
-                const mouse = { x: null, y: null, radius: 120 };
+                const mouse = { x: null, y: null, radius: 100 };
 
                 window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
                 window.addEventListener('touchmove', (e) => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
@@ -285,27 +286,38 @@
 
                 function drawTextToCanvas() {
                     ctx.fillStyle = 'white';
-                    // Scaled down font size specifically to accommodate the longer word "BURGER QUEEN"
-                    let fontSize = canvas.width < 768 ? 40 : 100; 
-                    ctx.font = `900 ${fontSize}px Montserrat`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('BURGER QUEEN', canvas.width / 2, canvas.height / 2);
+                    
+                    // UX FIX: Stack text on mobile for massively improved legibility
+                    if (canvas.width < 768) {
+                        ctx.font = `900 65px Montserrat`; // Huge mobile font
+                        ctx.fillText('BURGER', canvas.width / 2, canvas.height / 2 - 40);
+                        ctx.fillText('QUEEN', canvas.width / 2, canvas.height / 2 + 40);
+                    } else {
+                        ctx.font = `900 120px Montserrat`; // Large desktop font
+                        ctx.fillText('BURGER QUEEN', canvas.width / 2, canvas.height / 2);
+                    }
                 }
 
                 class Particle {
                     constructor(x, y) {
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
                         this.baseX = x;
                         this.baseY = y;
-                        this.density = (Math.random() * 30) + 1;
-                        this.size = Math.random() * 2.5 + 1;
-                        const colors = ['#ff3b00', '#ff9900', '#ffc107', '#ff6a00'];
+                        
+                        // ENGINEERING FIX: Ignite from the letter itself, preventing stray edge dots
+                        this.x = x + (Math.random() * 20 - 10);
+                        this.y = y + (Math.random() * 20 - 10);
+                        
+                        this.density = (Math.random() * 40) + 5;
+                        // Smaller particles allow for higher detail/sharpness
+                        this.size = Math.random() * 1.5 + 0.8; 
+                        
+                        const colors = ['#ff3b00', '#ff5500', '#ff9900', '#ffcc00'];
                         this.color = colors[Math.floor(Math.random() * colors.length)];
                         
-                        this.explodeVelX = (Math.random() - 0.5) * 50;
-                        this.explodeVelY = (Math.random() - 0.5) * 50;
+                        this.explodeVelX = (Math.random() - 0.5) * 60;
+                        this.explodeVelY = (Math.random() - 0.5) * 60;
                     }
 
                     draw() {
@@ -350,9 +362,11 @@
                     
                     const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     
-                    // Increased spacing (x+=5, y+=5) slightly to optimize performance for the longer word
-                    for (let y = 0; y < textCoordinates.height; y += 5) {
-                        for (let x = 0; x < textCoordinates.width; x += 5) {
+                    // HIGHER RESOLUTION: Scans every 3 pixels instead of 5 for extreme sharpness
+                    let step = canvas.width < 768 ? 2 : 3; 
+                    
+                    for (let y = 0; y < textCoordinates.height; y += step) {
+                        for (let x = 0; x < textCoordinates.width; x += step) {
                             if (textCoordinates.data[(y * 4 * textCoordinates.width) + (x * 4) + 3] > 128) {
                                 particleArray.push(new Particle(x, y));
                             }
