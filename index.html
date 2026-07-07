@@ -3,197 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kashmir 2025 | Premium Experience</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <title>Fast Food Cafe | Loading</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,800&display=swap" rel="stylesheet">
   
   <style>
+    /* Reset & Base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: #f8f9fa; overflow: hidden; font-family: 'Inter', sans-serif; }
+    body { overflow: hidden; font-family: 'Montserrat', sans-serif; background-color: #fafafa; }
 
-    /* The Main Website Content */
+    /* The Main Website Content (Hidden underneath) */
     .website-content {
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Playfair Display', serif;
+      background-color: #ffffff;
+      color: #111;
       font-size: 3rem;
-      color: #1a1a1a;
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
     /* --- PRELOADER STYLES --- */
     .preloader-wrapper {
       position: fixed;
       inset: 0;
-      background-color: #0b1219; /* Deep slate background */
+      background-color: #E63946; /* Appetizing, punchy Red */
       z-index: 9999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      will-change: transform, border-radius;
+      gap: 30px;
+    }
+
+    /* Burger Container */
+    .burger-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    /* Burger Ingredients */
+    .ingredient {
+      width: 100%;
+      position: absolute;
+      will-change: transform;
+    }
+
+    /* Specific SVG Layers */
+    .top-bun { bottom: 85px; z-index: 5; }
+    .lettuce { bottom: 70px; z-index: 4; }
+    .cheese  { bottom: 55px; z-index: 3; }
+    .patty   { bottom: 35px; z-index: 2; }
+    .bot-bun { bottom: 0px;  z-index: 1; }
+
+    /* Typography */
+    .loading-text {
+      color: #F1FAEE;
+      font-size: 2rem;
+      font-style: italic;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      gap: 5px;
       overflow: hidden;
     }
 
-    /* The Art Canvas */
-    .scene-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 40px;
-    }
-
-    /* Soft Glowing Sun */
-    .sun-glow {
-      position: absolute;
-      top: 20%;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, #ff9d00 0%, #ff5e00 100%);
-      border-radius: 50%;
-      filter: blur(8px);
-      box-shadow: 0 0 40px 10px rgba(255, 157, 0, 0.4);
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    /* The SVG Scene (Mountains & Boat) */
-    .layered-svg {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      z-index: 2;
-      /* This is the secret to the premium tactile look */
-      filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.5));
-    }
-
-    /* Drifting Mist / Clouds */
-    .mist {
-      position: absolute;
-      bottom: 10%;
-      width: 200%;
-      height: 60px;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);
-      filter: blur(15px);
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .mist-1 { left: -100%; bottom: 20%; }
-    .mist-2 { left: -50%; bottom: 10%; opacity: 0.7; }
-
-    /* Loading UI Bar */
-    .loading-ui {
-      position: absolute;
-      bottom: 10%;
-      width: 80%;
-      max-width: 600px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      padding-bottom: 10px;
-    }
-
-    .loading-text {
-      color: #8b9fb6;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .counter {
-      color: #ffffff;
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 400;
-      line-height: 1;
+    .loading-text .letter {
+      display: inline-block;
+      transform: translateY(100%);
     }
   </style>
 </head>
 <body>
 
-  <!-- Preloader -->
   <div class="preloader-wrapper">
     
-    <div class="scene-container">
-      <!-- Soft Sun -->
-      <div class="sun-glow" id="sun"></div>
+    <div class="burger-container" id="burger">
       
-      <!-- Tactile SVG Elements -->
-      <svg class="layered-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        
-        <!-- Defs for Premium Gradients -->
-        <defs>
-          <!-- Back Mountain Gradient -->
-          <linearGradient id="mnt-back" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#2a3d52" />
-            <stop offset="100%" stop-color="#0b1219" />
-          </linearGradient>
-          <!-- Front Mountain Gradient -->
-          <linearGradient id="mnt-front" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#3b526b" />
-            <stop offset="100%" stop-color="#15212c" />
-          </linearGradient>
-          <!-- Wood Gradient for Shikara -->
-          <linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#c88c51" />
-            <stop offset="50%" stop-color="#e0a96d" />
-            <stop offset="100%" stop-color="#8a5a2b" />
-          </linearGradient>
-          <!-- Canopy Gradient -->
-          <linearGradient id="canopy" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#d35400" />
-            <stop offset="100%" stop-color="#a04000" />
-          </linearGradient>
-        </defs>
-
-        <!-- Back Mountains -->
-        <path class="mountain back" d="M 20 130 L 70 60 L 120 130 Z" fill="url(#mnt-back)" />
-        
-        <!-- Front Mountains (Rounded peaks for 'cute' factor) -->
-        <path class="mountain front" d="M 60 140 Q 110 50 140 140 Z" fill="url(#mnt-front)" />
-        
-        <!-- The Water Line -->
-        <ellipse cx="100" cy="145" rx="80" ry="10" fill="#141e28" opacity="0.8" />
-
-        <!-- The Shikara (Grouped for animation) -->
-        <g id="shikara-group">
-          <!-- The Hull -->
-          <path d="M 50 140 Q 100 160 150 140 L 135 130 Q 100 145 65 130 Z" fill="url(#wood)" />
-          <!-- The Roof / Canopy -->
-          <rect x="85" y="110" width="30" height="22" rx="4" fill="url(#canopy)" />
-          <!-- Small window cutouts (adds scale and detail) -->
-          <rect x="90" y="115" width="6" height="10" rx="2" fill="#0b1219" />
-          <rect x="104" y="115" width="6" height="10" rx="2" fill="#0b1219" />
-        </g>
+      <svg class="ingredient top-bun" viewBox="0 0 100 40">
+        <path d="M 5 40 Q 5 5 50 5 Q 95 5 95 40 Z" fill="#F4A261" />
+        <ellipse cx="30" cy="20" rx="2" ry="1" fill="#FFF3E0" transform="rotate(-20 30 20)"/>
+        <ellipse cx="50" cy="15" rx="2" ry="1" fill="#FFF3E0" />
+        <ellipse cx="70" cy="22" rx="2" ry="1" fill="#FFF3E0" transform="rotate(20 70 22)"/>
       </svg>
 
-      <!-- Soft CSS Mist Layers -->
-      <div class="mist mist-1" id="mist1"></div>
-      <div class="mist mist-2" id="mist2"></div>
+      <svg class="ingredient lettuce" viewBox="0 0 100 20">
+        <path d="M 5 10 Q 15 0 25 10 T 45 10 T 65 10 T 85 10 Q 95 20 95 10 L 95 15 L 5 15 Z" fill="#2A9D8F" />
+      </svg>
+
+      <svg class="ingredient cheese" viewBox="0 0 100 25">
+        <path d="M 10 5 L 90 5 L 80 20 L 50 5 L 20 25 Z" fill="#E9C46A" />
+      </svg>
+
+      <svg class="ingredient patty" viewBox="0 0 100 30">
+        <rect x="10" y="5" width="80" height="20" rx="8" fill="#5C4033" />
+      </svg>
+
+      <svg class="ingredient bot-bun" viewBox="0 0 100 35">
+        <path d="M 10 5 L 90 5 Q 95 30 50 30 Q 5 30 10 5 Z" fill="#F4A261" />
+      </svg>
     </div>
 
-    <!-- The Percentage UI -->
-    <div class="loading-ui">
-      <span class="loading-text">Crafting your itinerary...</span>
-      <span class="counter" id="counter">0%</span>
+    <div class="loading-text">
+      <span class="letter">F</span>
+      <span class="letter">I</span>
+      <span class="letter">R</span>
+      <span class="letter">I</span>
+      <span class="letter">N</span>
+      <span class="letter">G</span>
+      <span class="letter">&nbsp;</span>
+      <span class="letter">U</span>
+      <span class="letter">P</span>
+      <span class="letter">.</span>
+      <span class="letter">.</span>
+      <span class="letter">.</span>
     </div>
 
   </div>
 
   <div class="website-content">
-    <h1>Welcome to Kashmir</h1>
+    <h1>Order Up!</h1>
   </div>
 
-  <!-- GSAP Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   
   <script>
-    // Master Timeline
     const tl = gsap.timeline({
       onComplete: () => {
         document.body.style.overflow = "auto";
@@ -201,59 +142,64 @@
       }
     });
 
-    // 1. Atmosphere Animation (Looping)
-    // The Shikara smoothly bobs up and down like it is on gentle water
-    gsap.to("#shikara-group", {
-      y: -6,
-      rotation: 1,
-      transformOrigin: "center center",
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
+    // 1. Initial Setup: Move ingredients high above the screen
+    gsap.set(".ingredient", { y: -300, opacity: 0 });
 
-    // The mist slowly drifts infinitely to the right
-    gsap.to("#mist1", { x: "150%", duration: 15, repeat: -1, ease: "none" });
-    gsap.to("#mist2", { x: "120%", duration: 12, repeat: -1, ease: "none", delay: 2 });
-
-    // 2. Loading Sequence
-    // Sun rises softly at the beginning
-    tl.to("#sun", {
-      opacity: 1,
+    // 2. The Burger Drop (Staggered bouncy animation)
+    // We reverse the array so the bottom bun drops first
+    tl.to(gsap.utils.toArray(".ingredient").reverse(), {
       y: 0,
-      duration: 2,
-      ease: "power2.out"
-    });
-
-    // Percentage Counter Logic
-    let counterElement = document.getElementById("counter");
-    let loadProgress = { value: 0 };
-
-    tl.to(loadProgress, {
-      value: 100,
-      duration: 3.5, // Total loading time
-      ease: "power1.inOut",
-      onUpdate: () => {
-        counterElement.innerText = Math.round(loadProgress.value) + "%";
-      }
-    }, "-=1.5");
-
-    // 3. The Premium Exit
-    tl.to(".loading-ui", {
-      opacity: 0,
-      y: 20,
+      opacity: 1,
       duration: 0.6,
-      ease: "power2.in"
-    }, "+=0.2")
+      stagger: 0.15, // Delay between each ingredient dropping
+      ease: "back.out(1.7)" // Gives it that cartoonish 'pop' and bounce
+    })
 
-    // The entire screen slides up smoothly, peeling away to reveal the site
+    // 3. The Burger "Squish" Impact
+    .to(".burger-container", {
+      scaleY: 0.8,
+      scaleX: 1.1,
+      transformOrigin: "bottom center",
+      duration: 0.15,
+      yoyo: true,
+      repeat: 1,
+      ease: "power1.inOut"
+    }, "-=0.2") // Triggers just as the top bun lands
+
+    // 4. Punchy Typography Reveal
+    .to(".loading-text .letter", {
+      y: 0,
+      duration: 0.4,
+      stagger: 0.04,
+      ease: "back.out(2)"
+    }, "-=0.5")
+
+    // Hold the fully built burger on screen for a moment
+    .to({}, { duration: 1 })
+
+    // 5. The Fast Food Exit (Speed is key here)
+    // Burger speeds off to the right like it's being served
+    .to(".burger-container", {
+      x: "100vw",
+      rotation: 15,
+      duration: 0.5,
+      ease: "power3.in"
+    })
+    
+    // Text scales down and fades
+    .to(".loading-text", {
+      scale: 0.8,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.in"
+    }, "<")
+
+    // The Red background sharply wipes up (like a curtain, very fast)
     .to(".preloader-wrapper", {
       yPercent: -100,
-      duration: 1.2,
-      ease: "expo.inOut",
-      borderRadius: "0 0 40% 40%" 
-    }, "-=0.2");
+      duration: 0.6,
+      ease: "expo.inOut"
+    }, "-=0.1");
   </script>
 </body>
 </html>
