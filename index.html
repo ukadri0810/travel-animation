@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Cinematic Loader</title>
+  <title>Premium Technical Portfolio</title>
   <style>
-    /* High-fashion, editorial Serif */
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-    /* Clean sans for metadata */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+    /* Monospace for the technical readout, Clean Sans for branding */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;500&display=swap');
 
     * {
       margin: 0;
@@ -17,237 +15,204 @@
     }
 
     body {
-      background-color: #050404; /* Not pure black, a very deep warm espresso */
+      background-color: #030303; /* Near-absolute black for contrast */
+      color: #ffffff;
       overflow: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
     /* =========================================
-       1. THE ATMOSPHERE (BOKEH & LIGHT)
+       1. THE LOADER INTERFACE
        ========================================= */
-    #cinematic-loader {
+    #meter-loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #050404;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
+      background-color: #030303;
       /* The final exit transition */
-      transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
-                  background-color 1.5s ease;
+      transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* An invisible container to hold our out-of-focus lights */
-    .bokeh-container {
+    /* THE STROBE LINE:
+       This is a full-height white block scaled down to 0.1% height.
+       This makes the final "flash" buttery smooth because we only animate transform.
+    */
+    .strobe-line {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      /* Screen blend mode makes the overlapping lights blow out realistically */
-      mix-blend-mode: screen; 
-      transition: opacity 2s ease;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      transform-origin: center;
+      transform: scaleY(0.001); 
       z-index: 1;
+      /* Slow breathing effect initially, explosive pop at the end */
+      transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1);
     }
 
-    /* The actual light sources */
-    .light-orb {
-      position: absolute;
-      border-radius: 50%;
-      /* Extreme blur simulates a completely out-of-focus background */
-      filter: blur(60px); 
-      opacity: 0.6;
+    /* The Flash state triggered by JS */
+    .strobe-line.fire-flash {
+      transform: scaleY(1); /* Expands to fill the screen */
     }
 
-    /* Warm champagne light */
-    .orb-1 {
-      width: 40vw;
-      height: 40vw;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
-      top: -10%;
-      left: -10%;
-      animation: drift 10s infinite cubic-bezier(0.4, 0, 0.2, 1) alternate;
-    }
-
-    /* Soft blush/peach light */
-    .orb-2 {
-      width: 35vw;
-      height: 35vw;
-      background: radial-gradient(circle, rgba(255, 203, 179, 0.3) 0%, transparent 70%);
-      bottom: 10%;
-      right: -5%;
-      animation: drift 12s infinite cubic-bezier(0.25, 1, 0.5, 1) alternate-reverse;
-    }
-
-    /* Crisp white highlight */
-    .orb-3 {
-      width: 25vw;
-      height: 25vw;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-      top: 40%;
-      left: 40%;
-      animation: drift 8s infinite ease-in-out alternate;
-    }
-
-    /* Subtle Film Grain Overlay */
-    .film-grain {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    /* Typography Container */
+    .ui-layer {
+      position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      justify-content: center;
+      width: 100%;
       pointer-events: none;
     }
 
-    /* =========================================
-       2. TYPOGRAPHY & THE FOCUS PULL
-       ========================================= */
-    .brand-container {
-      position: relative;
-      z-index: 3;
-      text-align: center;
-      /* Starts completely blurred out and invisible */
-      opacity: 0;
-      filter: blur(15px);
-      transform: scale(1.05);
-      /* The "Focus Pull" transition */
-      transition: opacity 2s cubic-bezier(0.21, 1.04, 0.36, 1),
-                  filter 2s cubic-bezier(0.21, 1.04, 0.36, 1),
-                  transform 2s cubic-bezier(0.21, 1.04, 0.36, 1);
+    /* The F-Stop Readout */
+    .f-stop-container {
+      position: absolute;
+      /* Positioned precisely above the strobe line */
+      top: calc(50% - 60px); 
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      mix-blend-mode: difference; /* Ensures text stays visible if it overlaps white */
     }
 
-    /* JavaScript will add this class to simulate the lens finding focus */
-    .brand-container.in-focus {
-      opacity: 1;
-      filter: blur(0px);
-      transform: scale(1);
+    .f-stop-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.05em;
     }
 
-    .studio-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 400;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+    .f-stop-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
     }
 
-    /* The italicized serif instantly elevates the luxury feel */
-    .studio-name i {
-      font-weight: 400;
-      color: #E6CBA8; /* Champagne accent */
-    }
-
-    .metadata {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.7rem;
+    /* Metadata below the line */
+    .studio-branding {
+      position: absolute;
+      top: calc(50% + 30px);
+      font-size: 0.75rem;
       font-weight: 300;
-      color: rgba(255, 255, 255, 0.5);
       letter-spacing: 0.4em;
       text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      mix-blend-mode: difference;
+    }
+
+    /* When the flash fires, hide the UI text */
+    .ui-layer.hide-ui {
+      opacity: 0;
+      transition: opacity 0.1s; /* Instant hide during the flash */
     }
 
     /* =========================================
-       3. EXIT CHOREOGRAPHY
+       2. MAIN PORTFOLIO CONTENT
        ========================================= */
-    .loader-exit {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Darken the bokeh slightly before revealing the site, 
-       ensuring the photos pop when they appear */
-    .loader-exit .bokeh-container {
-      opacity: 0;
-    }
-
-    .loader-exit .brand-container {
-      opacity: 0;
-      filter: blur(10px); /* Defocus again as it exits */
-      transform: scale(0.95);
-      transition: all 1s ease-in;
-    }
-
-    /* =========================================
-       KEYFRAMES
-       ========================================= */
-    @keyframes drift {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(8vw, -5vw) scale(1.1); }
-    }
-
-    /* Dummy Homepage for testing */
     #main-content {
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: white;
-      font-family: 'Inter', sans-serif;
       opacity: 0;
-      transition: opacity 1.5s ease 0.5s;
+      background-color: #f4f4f4; /* A light portfolio background to match the flash */
+      color: #111;
+      transform: scale(0.98);
+      transition: opacity 1.5s ease 0.2s, transform 1.5s ease 0.2s;
     }
-    .content-enter { opacity: 1 !important; }
 
+    .content-enter {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
   </style>
 </head>
 <body>
 
-  <div id="cinematic-loader">
-    <div class="film-grain"></div>
+  <div id="meter-loader">
+    <div class="strobe-line" id="strobe"></div>
     
-    <!-- The out-of-focus background lights -->
-    <div class="bokeh-container" id="bokeh">
-      <div class="light-orb orb-1"></div>
-      <div class="light-orb orb-2"></div>
-      <div class="light-orb orb-3"></div>
-    </div>
-
-    <!-- The Typography -->
-    <div class="brand-container" id="brand">
-      <h1 class="studio-name">Studio <i>Cinématique</i></h1>
-      <div class="metadata">Capturing Timelessness</div>
+    <div class="ui-layer" id="ui-layer">
+      <div class="f-stop-container">
+        <span class="f-stop-label">Aperture</span>
+        <span class="f-stop-value" id="f-stop-display">f/22</span>
+      </div>
+      <div class="studio-branding">Exposure Locked</div>
     </div>
   </div>
 
   <main id="main-content">
-    <h2 style="font-weight: 300; letter-spacing: 0.1em;">Portfolio Architecture Revealed</h2>
+    <h1 style="font-weight: 300; letter-spacing: 0.1em;">Studio Architecture</h1>
+    <p style="color: #666; margin-top: 10px; font-size: 0.85rem; letter-spacing: 0.1em;">SCROLL TO EXPLORE</p>
   </main>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const brand = document.getElementById('brand');
-      const loader = document.getElementById('cinematic-loader');
+      
+      const fStopDisplay = document.getElementById('f-stop-display');
+      const strobe = document.getElementById('strobe');
+      const uiLayer = document.getElementById('ui-layer');
+      const loader = document.getElementById('meter-loader');
       const content = document.getElementById('main-content');
 
-      // 1. Initiate the "Rack Focus" shortly after the page loads.
-      // This gives the user 300ms to appreciate the abstract bokeh before the text sharpens.
-      setTimeout(() => {
-        brand.classList.add('in-focus');
-      }, 300);
+      // The sequence of F-stops opening up the lens
+      const apertures = ['f/22', 'f/16', 'f/11', 'f/8', 'f/5.6', 'f/4.0', 'f/2.8', 'f/2.0', 'f/1.4', 'f/1.2'];
+      let currentStep = 0;
 
-      // 2. Hold the focus for the user to read, then trigger the exit.
-      // In a real build, this timeout is replaced by your window.onload or image preloader promise.
+      // 1. Start the rapid ticking sequence
       setTimeout(() => {
         
-        // Defocus and fade the loader
-        loader.classList.add('loader-exit');
-        
-        // Crossfade into the main portfolio
-        content.classList.add('content-enter');
+        const tickInterval = setInterval(() => {
+          currentStep++;
+          
+          if (currentStep < apertures.length) {
+            // Update the text to the next F-Stop
+            fStopDisplay.innerText = apertures[currentStep];
+          } else {
+            // We reached f/1.2 (Wide Open / Maximum Light)
+            clearInterval(tickInterval);
+            
+            // 2. Lock the exposure for a split second, then FIRE THE FLASH
+            setTimeout(() => {
+              
+              // Trigger the violent white screen expansion
+              strobe.classList.add('fire-flash');
+              // Instantly hide the technical text
+              uiLayer.classList.add('hide-ui');
 
-        // Remove the loader from the DOM to free memory
-        setTimeout(() => {
-          loader.remove();
-        }, 1500);
+              // 3. Fade out the loader completely to reveal the main site
+              setTimeout(() => {
+                loader.style.opacity = '0';
+                content.classList.add('content-enter');
 
-      }, 3500);
+                // Garbage collection
+                setTimeout(() => {
+                  loader.remove();
+                }, 1200);
+
+              }, 400); // Trigger fade slightly before the flash finishes expanding
+
+            }, 500); // The "Lock" pause duration
+          }
+        }, 100); // Tick speed (100ms creates a mechanical, rapid feel)
+
+      }, 400); // Initial delay before sequence starts
+
     });
   </script>
 
